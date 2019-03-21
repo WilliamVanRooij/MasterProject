@@ -1,0 +1,43 @@
+\section{Situation}
+We want to estimate the relationship between Single Nucleotide Polymorphisms (SNPs) and phenotypes. For one phenotype $t$, we have:
+
+\begin{equation}
+y_{n \times 1} = x_{n\times p} \beta_{p\times 1} + \epsilon_{n \times 1},  \epsilon \sim N \left( 0, \sigma_{\epsilon}^2I_n \right)
+\label{eq:model}
+\end{equation}
+where $\beta$ represents the relation between SNP $s$ and phenotype $t$. $\beta_{st} = 0$ if there is no link between SNP $s$ and phenotype $t$.\\
+\newline
+The situation is complicated because it is a\textit{ small n - large p }situation, \textit{i.e.} $p \gg n$. Which means that when one wants to fit the parameters to the data, the estimation is not suitable. We first need to diminish the number of parameters to estimate in the model by making assumptions.\\
+\newline
+We define $\gamma_{st}$ as a indicator for $\beta_{st}$:
+
+\begin{equation}
+\gamma_{st} = \left\lbrace \begin{array}{ll}
+1 & \text{if } \beta_{st} \neq 0,\\
+0 & \text{if } \beta_{st}  = 0\\
+\end{array}\right.
+\label{eq:gamma}
+\end{equation}
+
+So there we can say that there is a relation between SNP $s$ and phenotype $t$ if and only if $\gamma_{st} = 1$.\\
+We have some properties on $\gamma_{st}$ and $\beta_{st}$:
+\begin{equation}
+\gamma_{st} = \text{arg} \max_{\gamma \in \left\lbrace0,1\right\rbrace^p}p(M_\gamma|y)
+\end{equation}
+where $M_\gamma$ is the model including/excluding each $p$ candidates according to $\gamma$. \\
+Now, to calculate this optimum, one must go through $2^p$ models. In our situation (\textit{small n - large p}), the computation cost gets really high and it is preferable to reduce the parameters dimensions before trying to find the optimum.\\
+\newline
+We now define $\omega_s$ such that:
+\begin{equation}
+\gamma_{st} | \omega_s \sim \text{Bern}(\omega_s)
+\label{eq:omega}
+\end{equation}
+where $\omega_s\sim $ Beta$(a_s,b_s)$, with $a_s$, $b_s$ to be defined. We can now see that there was $n*p$ $\beta_st$ \\
+\newline
+We also have:
+\begin{equation}
+\beta_{st} | \gamma_{st} \sim \gamma_{st} g_{\beta} + (1-\gamma_{st})\delta_0
+\label{eq:spikenslab}
+\end{equation}
+
+Now, let's denote $z$ all our parameters that are unknown and that we want to estimate, and $x$ the observed data. We want to determine the density function $p(z|x)$.

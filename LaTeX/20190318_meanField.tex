@@ -1,0 +1,31 @@
+\section{Mean-Field Approximation}
+When approximating the density of the parameters $q(z)$, keeping in perspective the goal to diminish the complexity of the problem. One can assume that the parameters are independent and governed by a distinct factor in variable density. The goal is to simplify the complexity of the calculations and diminish the time for computation. This is called the mean-field approximation.
+\begin{equation}
+q(z) = \prod_{j=1}^m q_j(z_j)
+\label{eq:meanField}
+\end{equation}
+The mean-field approximation does not compute the correlations between two parameters and the marginal variances of approximations under represents those of the targets. If we approximate $p$ with $q$, the mean-field approximation penalizes more placing mass in $q$ where $p$ has less mass and penalizes less the inverse.
+
+\subsection{Coordinate Ascent Mean-Field Variable Inference (CAVI)}
+The complete conditional of $z_j$ is $p(z_j|z_{-j},x)$. If we fix $q(z_l)$, $\forall l \neq j$ we have:
+\begin{align}
+q^*_j(z_j) &\propto \exp\left[\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right]\\
+&\propto \exp\left[\mathbb{E}_{-j}\left[\log p(z_j,z_{-j},x)\right]\right]
+\label{eq:CAVI}
+\end{align}
+as we supposed the parameters are independent.\\
+\newline
+
+\begin{text}
+IN: $p(x,z)$, data set $x$\\
+(OUT: $q(z) = \prod q_j(z_j)$\\
+INIT: $q_j(z_j)$\\
+WHILE: $ELBO$ not converging:\\
+	FOR: $j \in \left\lbrace1, \dots, m\right\rbrace$\\
+		SET: $q_j(z_j) \propto \exp\left[\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right]$\\
+	COMPUTE: $ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E\left[\log q(z)\right]}$\\
+RETURN: $q(z)$
+\end{text}
+\\
+\newline
+This algorithm yields a local optimum, not necessarily a global optimum. However, we suppose that a global optimum exists and we can reach it through the previous algorithm. We will use Bayesian Model Averaging to try to find the global optimum.
