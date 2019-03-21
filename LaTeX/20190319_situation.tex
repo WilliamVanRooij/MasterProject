@@ -1,5 +1,5 @@
 \section{Situation}
-We want to estimate the relationship between Single Nucleotide Polymorphisms (SNPs) and phenotypes. For one phenotype $t$, we have:
+We are looking to estimate the relationship between Single Nucleotide Polymorphisms (SNPs) and phenotypes. For one phenotype $t$, we have:
 
 \begin{equation}
 y_{n \times 1} = x_{n\times p} \beta_{p\times 1} + \epsilon_{n \times 1},  \epsilon \sim N \left( 0, \sigma_{\epsilon}^2I_n \right)
@@ -7,7 +7,7 @@ y_{n \times 1} = x_{n\times p} \beta_{p\times 1} + \epsilon_{n \times 1},  \epsi
 \end{equation}
 where $\beta$ represents the relation between SNP $s$ and phenotype $t$. $\beta_{st} = 0$ if there is no link between SNP $s$ and phenotype $t$.\\
 \newline
-The situation is complicated because it is a\textit{ small n - large p }situation, \textit{i.e.} $p \gg n$. Which means that when one wants to fit the parameters to the data, the estimation is not suitable. We first need to diminish the number of parameters to estimate in the model by making assumptions.\\
+The fitting problem is complicated because it is a\textit{ small n - large p }situation, \textit{i.e.} $p \gg n$. Which means that when one wants to fit the parameters to the data, the estimation is not suitable. We first need to diminish the number of parameters to estimate in the model by making assumptions.\\
 \newline
 We define $\gamma_{st}$ as a indicator for $\beta_{st}$:
 
@@ -40,4 +40,4 @@ We also have:
 \label{eq:spikenslab}
 \end{equation}
 
-Now, let's denote $z$ all our parameters that are unknown and that we want to estimate, and $x$ the observed data. We want to determine the density function $p(z|x)$.
+Now, let's denote $z$ all our parameters that are unknown and that we want to estimate, and $x$ the observed data. We want to determine the density function $p(z|x)$. Depending on the number of parameters, the density function $p(z|x)$ can be really hard to determine.

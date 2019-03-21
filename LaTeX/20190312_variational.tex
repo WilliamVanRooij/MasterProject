@@ -1,6 +1,6 @@
 \section{Variational Inference}
-When working with Bayesian variable selection, one usually wants to compute the posterior marginal distributions, \textit{i.e.} the inference. To approximate some complicated to compute densities, one of the options is to use variational inference. It is a way to approximate by a more tractable distribution the conditional density of latent variables given observed variables.\\
-We suppose we have $n$ observations $x$ and $m$ parameters $z$, we are looking for the conditional distribution $p(z|x)$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the Kullback-Leiber divergence. \\
+When computing the posterior density of parameters according to observed data, we may want to simplify the computation by approximating the posterior density by a simpler density that does not involve the observed data. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes an measure of "closeness".\\
+We suppose we have observations $x$ and parameters $z$, we are looking for the posterior conditional distribution $p(z|x)$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the Kullback-Leiber divergence. \\
 
 \begin{equation}
 KL(p||q) := \int q(\theta)\log\left(\frac{q(\theta)}{p(\theta|y)}\right) d\theta
@@ -22,9 +22,9 @@ KL(q(z)||p(z|x)) &= \mathbb{E}\left[\log q(z)\right] - \mathbb{E}\left[\log p(z|
 &= \mathbb{E}\left[\log q(z)\right] - \mathbb{E}\left[\log p(z,x)\right] + \log p(x)
 \label{eq:KL_to_logP}
 \end{align} 
-We define the evidence lower bound (ELBO) :
+We call the evidence lower bound (ELBO) :
 \begin{equation}
-ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E}\left[\log q\right]
+ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E}\left[\log q(z)\right]
 \label{eq:ELBO}
 \end{equation}
 We have :
