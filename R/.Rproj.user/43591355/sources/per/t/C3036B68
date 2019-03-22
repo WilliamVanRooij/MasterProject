@@ -5,13 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3829041698",
+    "hash" : "952655675",
     "id" : "C3036B68",
-    "lastKnownWriteTime" : 1553176373,
-    "last_content_update" : 1553176373,
+    "lastKnownWriteTime" : 1553262684,
+    "last_content_update" : 1553262684245,
     "path" : "~/Documents/MasterProject/R/20190321_test_mlocus.R",
     "project_path" : "20190321_test_mlocus.R",
     "properties" : {
+        "cursorPosition" : "44,29",
+        "scrollLine" : "14"
     },
     "relative_order" : 1,
     "source_on_save" : false,
