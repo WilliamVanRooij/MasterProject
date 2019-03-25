@@ -39,5 +39,8 @@ We also have:
 \beta_{st} | \gamma_{st} \sim \gamma_{st} g_{\beta} + (1-\gamma_{st})\delta_0
 \label{eq:spikenslab}
 \end{equation}
-
+where $g_{\beta}$ is an absolute continue density on $\mathbb{R}$ and $\delta_0$ is the Dirac distribution.\\
+\newline
+This is called a \textit{spike-and-slab} prior, the "spike" $\delta_0$ represents the null effects at zero and the "slab" $g_{\beta}$, the non-null effects.\\
+\newline
 Now, let's denote $z$ all our parameters that are unknown and that we want to estimate, and $x$ the observed data. We want to determine the density function $p(z|x)$. Depending on the number of parameters, the density function $p(z|x)$ can be really hard to determine. That is why our goal is to diminish the number of parameters to estimate without losing the accuracy of our predictions.

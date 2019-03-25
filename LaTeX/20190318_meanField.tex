@@ -17,15 +17,17 @@ as we supposed the parameters are independent.\\
 \newline
 
 \begin{text}
-IN: $p(x,z)$, data set $x$\\
+IN: $p(x,z)$, data set $x$, tolerance $tol$\\
 OUT: $q(z) = \prod q_j(z_j)$\\
-INIT: $q_j(z_j)$\\
-WHILE: $ELBO$ not converging:\\
+INIT: $ELBO(q) \leftarrow - \infty $, \\
+REPEAT:\\
 	FOR: $j \in \left\lbrace1, \dots, m\right\rbrace$\\
 		SET: $q_j(z_j) \propto \exp\left[\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right]$\\
-	COMPUTE: $ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E\left[\log q(z)\right]}$\\
+	COMPUTE: $ELBO^{old}(q) \leftarrow ELBO(q)$\\
+		$ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E}\left[\log q(z) \right] $\\
+UNTIL: $|ELBO(q)-ELBO^{old}(q)|<tol$\\
 RETURN: $q(z)$
 \end{text}
 \\
 \newline
-This algorithm yields a local optimum, not necessarily a global optimum. However, we suppose that a global optimum exists and we can reach it through the previous algorithm. We will use Bayesian Model Averaging to try to find the global optimum.
+This algorithm yields a local optimum, not necessarily a global optimum. However, we suppose that a global optimum exists and we can reach it through the previous algorithm from a particular initialisation. We will use Bayesian Model Averaging to try to find the global optimum.
