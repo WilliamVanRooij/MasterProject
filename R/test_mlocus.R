@@ -78,7 +78,7 @@ params <- list(Y = dat_g$phenos, X = dat_g$snps, p0_av = 100, link = "identity",
 
 mlocus <- function(fseed) {
   vb_g <- locus(Y = params$Y, X=params$X, p0_av = params$p0_av, link = params$link, user_seed = fseed,list_init = params$list_init)
-  return(vb_g$gam_vb[,1]) # if d>1 and ind_d0 sampled randomly, this response may be inactive (i.e. no SNP associated with it, so there will be nothing to see...)
+  return(vb_g$gam_vb) # if d>1 and ind_d0 sampled randomly, this response may be inactive (i.e. no SNP associated with it, so there will be nothing to see...)
 }
 
 mac = (Sys.info()['sysname'] != "Windows")
@@ -110,6 +110,7 @@ if(mac) {
 # plot(m_vb_g[[id]], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
 # points(ind_p0, out[ind_p0], col = "red")
 # Next steps:
+# implement weights in average
 # compare with results from a single seed
 # assess the performance with ROC curves, e.g., using the ROCR package
 # think of a 2D example where we can visualize the local modes, e.g., 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  25 MAR 2019 10:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  25 MAR 2019 14:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -335,7 +335,7 @@ e
 ))
 \Gin@req@height=\dimen126
 \Gin@req@width=\dimen127
-) (./20190319_situation.tex
+) (./20190319_mixup.tex
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 2.
 
 (/usr/local/texlive/2018basic/texmf-dist/tex/latex/lm/omllmm.fd
@@ -367,6 +367,18 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 2.
 (/usr/local/texlive/2018basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+Overfull \hbox (1.19482pt too wide) in paragraph at lines 4--5
+[]\OT1/lmr/m/n/10 We want to to find $\OML/lmm/m/it/10 q\OT1/lmr/m/n/10 (\OML/l
+mm/m/it/10 z\OT1/lmr/m/n/10 )$ that mi-ni-mizes $\OML/lmm/m/it/10 KL\OT1/lmr/m/
+n/10 (\OML/lmm/m/it/10 q\OMS/lmsy/m/n/10 jj\OML/lmm/m/it/10 p\OT1/lmr/m/n/10 )$
+, hence maxi-mizes $\OML/lmm/m/it/10 ELBO\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 q\OT
+1/lmr/m/n/10 )$. 
+ []
+
+) [1
+
+{/usr/local/texlive/2018basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (.
+/20190319_situation.tex
 Underfull \hbox (badness 10000) in paragraph at lines 7--13
 
  []
@@ -387,19 +399,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--38
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 41--12
+Underfull \hbox (badness 10000) in paragraph at lines 41--14
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--12
+Underfull \hbox (badness 10000) in paragraph at lines 41--14
 
  []
 
-[1
-
-{/usr/local/texlive/2018basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (./20190312_variational.tex
+[2] [3] (./20190312_variational.tex
 Underfull \hbox (badness 10000) in paragraph at lines 2--7
 
  []
@@ -419,12 +428,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--14
 
  []
 
-[3]
+[4]
 Underfull \hbox (badness 10000) in paragraph at lines 37--41
 
  []
 
-) [4] (./20190318_meanField.tex
+) [5] (./20190318_meanField.tex
 Overfull \hbox (21.02074pt too wide) in paragraph at lines 9--9
 []\OT1/lmr/bx/n/12 Coordinate Ascent Mean-Field Va-riable In-fe-rence (CAVI) 
  []
@@ -440,11 +449,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 15--18
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 20--16
+Underfull \hbox (badness 10000) in paragraph at lines 20--18
 
  []
 
-[5] (./20190318_BayesianModelAveraging.tex
+[6] (./20190318_BayesianModelAveraging.tex
 Underfull \hbox (badness 10000) in paragraph at lines 14--20
 
  []
@@ -454,62 +463,56 @@ Underfull \hbox (badness 10000) in paragraph at lines 23--27
 
  []
 
-<images/localOptimum.png, id=29, 470.75874pt x 243.91125pt>
+<images/localOptimum.png, id=32, 470.75874pt x 243.91125pt>
 File: images/localOptimum.png Graphic file (type png)
 <use images/localOptimum.png>
 Package pdftex.def Info: images/localOptimum.png  used on input line 41.
 (pdftex.def)             Requested size: 289.07999pt x 149.77934pt.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 35--18
+Underfull \hbox (badness 10000) in paragraph at lines 35--20
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--18
+Underfull \hbox (badness 10000) in paragraph at lines 35--20
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--18
+Underfull \hbox (badness 10000) in paragraph at lines 35--20
 
  []
 
-[6] [7 <./images/localOptimum.png>] (./20190319_mixup.tex
-<images/linkProba.jpeg, id=38, 1003.75pt x 602.25pt>
-File: images/linkProba.jpeg Graphic file (type jpg)
-<use images/linkProba.jpeg>
-Package pdftex.def Info: images/linkProba.jpeg  used on input line 4.
-(pdftex.def)             Requested size: 325.215pt x 195.1316pt.
-) [8 <./images/linkProba.jpeg>] (./20190315_main.aux) ) 
+[7] [8 <./images/localOptimum.png>] (./20190315_main.aux) ) 
 Here is how much of TeX's memory you used:
- 4045 strings out of 494091
- 60599 string characters out of 6163523
- 136704 words of memory out of 5000000
- 7620 multiletter control sequences out of 15000+600000
+ 4038 strings out of 494091
+ 60463 string characters out of 6163523
+ 136694 words of memory out of 5000000
+ 7615 multiletter control sequences out of 15000+600000
  34649 words of font info for 36 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  55i,10n,31p,656b,423s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2018
-basic/texmf-dist/fonts/enc/dvips/lm/lm-rmsc.enc}{/usr/local/texlive/2018basic/t
-exmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2018basic/texmf-
-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018basic/texmf-dist/font
-s/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018basic/texmf-dist/fonts/enc
-/dvips/lm/lm-mathsy.enc}</usr/local/texlive/2018basic/texmf-dist/fonts/type1/pu
-blic/lm/lmbx12.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/
-lm/lmcsc10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/l
-mex10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmi10
-.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><
-/usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/l
-ocal/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/t
-exlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/
-2018basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2018b
-asic/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018basic/
-texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018basic/texmf-
-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 20190315_main.pdf (8 pages, 234592 bytes).
+{/usr/local/texlive/
+2018basic/texmf-dist/fonts/enc/dvips/lm/lm-rmsc.enc}{/usr/local/texlive/2018bas
+ic/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2018basic/te
+xmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018basic/texmf-dist/
+fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2018basic/texmf-dist/fonts
+/enc/dvips/lm/lm-mathex.enc}</usr/local/texlive/2018basic/texmf-dist/fonts/type
+1/public/lm/lmbx12.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/pub
+lic/lm/lmcsc10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/
+lm/lmex10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lm
+mi10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmi5.p
+fb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></u
+sr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/loc
+al/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texl
+ive/2018basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2
+018basic/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018ba
+sic/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018basic/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 20190315_main.pdf (8 pages, 186217 bytes).
 PDF statistics:
- 86 PDF objects out of 1000 (max. 8388607)
+ 85 PDF objects out of 1000 (max. 8388607)
  61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
