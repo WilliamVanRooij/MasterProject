@@ -1,7 +1,7 @@
-R/.Rproj.user
-R/.Rhistory
-R/.RData
-R/.Ruserdata
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
 .DS_Store
 
 # temporary files emacs
