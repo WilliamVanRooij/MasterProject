@@ -1,10 +1,30 @@
 \section{Mean-Field Approximation}
-When approximating the density of the parameters $q(z)$, keeping in perspective the goal to diminish the complexity of the problem. One can assume that the parameters are independent and governed by a distinct factor in variable density. The goal is to simplify the complexity of the calculations and diminish the time for computation. This is called the mean-field approximation.
+When approximating the density of the parameters $q(z)$, the complexity of the density family $\mathcal{D}$ containing $q(z)$ has a relevant effect on the complexity of the optimization problem. One of the density families that are possible to choose is considering the mean-field variational family. One can assume that the parameters are independent and governed by a distinct factor in variable density. The goal is to simplify the complexity of the calculations and diminish the time for computation. This is called the mean-field approximation.
 \begin{equation}
 q(z) = \prod_{j=1}^m q_j(z_j)
 \label{eq:meanField}
 \end{equation}
-The mean-field approximation does not compute the correlations between two parameters and the marginal variances of approximations under represents those of the targets. If we approximate $p$ with $q$, the mean-field approximation penalizes more placing mass in $q$ where $p$ has less mass and penalizes less the inverse.
+The mean-field approximation does not compute the correlations between two parameters and the marginal variances of approximations under represents those of the targets. If we approximate $p$ with $q$, the mean-field approximation penalizes more placing mass in $q$ where $p$ has less mass and penalizes less the inverse. \\
+\newline
+Figure \ref{fig:p_q_repartition} represents the solution of the optimization problem with $ELBO(q)$ as objective function, compared to the real posterior distribution $p(z|x)$. We can see that the mean-field approximation keeps the same mean as the real posterior, but the covariance between the variables is completely omitted.\\
+\newline
+\begin{figure}[h]
+\centering
+
+\begin{tikzpicture}
+
+\draw[thick, ->] (0,-2) -- (0,2);
+\draw[thick, ->] (-2,0) -- (2,0);
+\fill[pattern=north west lines,opacity=.6,draw] (0,0) circle (1cm);
+\draw[rotate=-45] (0,0) ellipse (0.65cm and 2cm);
+\node (p) at (1.6,1.6) {p};
+\node (q) at (0.9,-0.9) {q};
+\node (x1) at (-0.3,2) {$x_1$};
+\node (x2) at (2,-0.3) {$x_2$};
+\end{tikzpicture}
+
+\caption{\label{fig:p_q_repartition}The clear ellipse represent the exact posterior $p(z|x)$ of a two-dimensional Gaussian whereas the hashed circle represents the mean-field approximation $q(z) = \prod q_j(z_j)$ of said posterior.}
+\end{figure}
 
 \subsection{Coordinate Ascent Mean-Field Variable Inference (CAVI)}
 The complete conditional of $z_j$ is $p(z_j|z_{-j},x)$. If we fix $q(z_l)$, $\forall l \neq j$ we have:
@@ -19,7 +39,7 @@ as we supposed the parameters are independent.\\
 \begin{text}
 IN: $p(x,z)$, data set $x$, tolerance $tol$\\
 OUT: $q(z) = \prod q_j(z_j)$\\
-INIT: $ELBO(q) \leftarrow - \infty $, \\
+INIT: $q_j(z_j)$, \\
 REPEAT:\\
 	FOR: $j \in \left\lbrace1, \dots, m\right\rbrace$\\
 		SET: $q_j(z_j) \propto \exp\left[\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right]$\\
@@ -30,4 +50,4 @@ RETURN: $q(z)$
 \end{text}
 \\
 \newline
-This algorithm yields a local optimum, not necessarily a global optimum. However, we suppose that a global optimum exists and we can reach it through the previous algorithm from a particular initialisation. We will use Bayesian Model Averaging to try to find the global optimum.
+This algorithm yields a local optimum, not necessarily a global optimum. However, we suppose that a global optimum exists and we can reach it through the previous algorithm from a particular starting parameters initialisation. We will use a variant of Bayesian Model Averaging to try to find the global optimum.
