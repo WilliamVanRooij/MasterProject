@@ -2,6 +2,11 @@ library(parallel)
 require(echoseq)
 require(locus)
 
+rm(list= ls())
+
+RNGkind("L'Ecuyer-CMRG")
+set.seed(123);
+
 # ================================================================================================================================================ #
 #                                                                                                                                                  #
 #                                                                     TO DO                                                                        #
@@ -16,13 +21,20 @@ require(locus)
 #                                                                                                                                                  #
 # ================================================================================================================================================ #
 
-seed <- 123; 
-set.seed(seed);
-
 n <- 200; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 25; 
 d <- 1; d0 <- 1
 
+# plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
+
+auc = c()
+
+for (k in c(1:50)){
+
+set.seed(k)  
+
+seed <-  k;
+  
 cor_type <- "autocorrelated"; 
 
 vec_rho <- runif(floor(p/20), min = 0.95, max = 0.99)
@@ -39,12 +51,6 @@ vec_prob_sh <-  0.05 # proba that each SNP will be associated with another activ
 
 max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
 
-gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
-
-mu_beta_vb_init <- matrix(rnorm(p * d), nrow = p)
-
-
-
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed)
 
@@ -55,20 +61,6 @@ dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
                              family = "gaussian", max_tot_pve = max_tot_pve, 
                              block_phenos = TRUE, user_seed = seed)
 
-
-
-tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
-
-sig2_beta_vb_init <- 1 / rgamma(d, shape = 2, rate = 1 / tau_vb_init)
-
-
-
-list_init <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
-                       sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
-
-params <- list(Y = dat_g$phenos, X = dat_g$snps, p0_av = 100, link = "identity", list_init <- list_init);
-
-
 # ================================================================================================================================================ #
 #                                                                                                                                                  #
 #                                                                  FUNCTIONS                                                                       #
@@ -77,8 +69,20 @@ params <- list(Y = dat_g$phenos, X = dat_g$snps, p0_av = 100, link = "identity",
 
 
 mlocus <- function(fseed) {
-  vb_g <- locus(Y = params$Y, X=params$X, p0_av = params$p0_av, link = params$link, user_seed = fseed,list_init = params$list_init)
-  return(vb_g$gam_vb) # if d>1 and ind_d0 sampled randomly, this response may be inactive (i.e. no SNP associated with it, so there will be nothing to see...)
+
+  tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
+  
+  sig2_beta_vb_init <- 1 / rgamma(d, shape = 2, rate = 1 / tau_vb_init)
+  
+  gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
+  
+  mu_beta_vb_init <- matrix(rnorm(n = p * d,sd = 100), nrow = p)
+  
+  list_init <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
+                         sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
+  
+  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = fseed, list_init = list_init)
+  return(vb_g)
 }
 
 mac = (Sys.info()['sysname'] != "Windows")
@@ -94,25 +98,56 @@ if(!mac) {
   }
 
 # MAC
+
 if(mac) {
   
-  m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus) 
+  m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
   
-  out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
-  plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
-  points(ind_p0, out[ind_p0], col = "red")
+  out <- 0
+  lb_exp <- 0
+  
+  for(i in c(1:length(user_seed))) {
+    out <- out + m_vb_g[[i]]$gam_vb*exp(m_vb_g[[i]]$lb_opt)
+    lb_exp <- lb_exp + exp(m_vb_g[[i]]$lb_opt)
+    
+  }
+  
+  out <- out / lb_exp
+  
+  
+  #out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
+  # plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
+  # points(ind_p0, out[ind_p0], col = "red")
   # sum <- 0*(1:p)
   
 }
+pred <- prediction(out, as.numeric(c(1:500) %in% ind_p0))
+
+perf1 <- performance(pred, "auc")
+auc <- append(auc,perf1@y.values)
+
+# perf1 <- performance(pred, "tpr","fpr")
+# lines(perf1@x.values[[1]],perf1@y.values[[1]])
+
+}
 
 
-# id <- 1
-# plot(m_vb_g[[id]], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
-# points(ind_p0, out[ind_p0], col = "red")
+plot((1:50), auc, ylim=c(0,1), pch = 19, main = "AUC of 50 iterations of the algorithm", xlab = "Iterations", ylab="AUC")
+
+
+# single_vb_g <-locus(Y = params$Y, X=params$X, p0_av = params$p0_av, link = params$link, user_seed = seed, list_init = params$list_init, verbose = FALSE)
+# points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
+
+
+
+
+
+
+
 # Next steps:
-# implement weights in average
-# compare with results from a single seed
-# assess the performance with ROC curves, e.g., using the ROCR package
+# implement weights in average - (DONE 27.03.19)
+# compare with results from a single seed - (DONE 27.03.19)
+# assess the performance with ROC curves, e.g., using the ROCR package (DONE - 27.03.19)
 # think of a 2D example where we can visualize the local modes, e.g., 
 # with two highly correlated predictors. See if the multiple-seed algorithm 
 # is about to explore all the local modes (inspiration in simulation of Rockova et al. papers).
