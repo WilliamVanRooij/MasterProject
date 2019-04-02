@@ -1,6 +1,8 @@
 library(parallel)
+
 require(echoseq)
 require(locus)
+require(ROCR)
 
 rm(list= ls())
 
@@ -21,15 +23,19 @@ set.seed(123);
 #                                                                                                                                                  #
 # ================================================================================================================================================ #
 
-n <- 200; 
-p <- 500; p0 <- 25; 
+n <- 300; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
 
-auc = c()
+auc = NULL
+c_pred <- NULL
+c_lab <- NULL
+iter <- 10
 
-for (k in c(1:50)){
+
+for (k in c(1:iter)){
 
 set.seed(k)  
 
@@ -116,29 +122,36 @@ if(mac) {
   
   
   #out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
-  # plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
-  # points(ind_p0, out[ind_p0], col = "red")
-  # sum <- 0*(1:p)
-  
-}
-pred <- prediction(out, as.numeric(c(1:500) %in% ind_p0))
-
-perf1 <- performance(pred, "auc")
-auc <- append(auc,perf1@y.values)
-
-# perf1 <- performance(pred, "tpr","fpr")
-# lines(perf1@x.values[[1]],perf1@y.values[[1]])
-
+  if(FALSE) {
+  jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
+  plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=1,lend=1, ylim = c(0,1))
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
+  points(ind_p0,single_vb_g$gam_vb[ind_p0], col='black', pch=4)
+  points(ind_p0, out[ind_p0], col = "red")
+  dev.off()
+  }
+  c_pred <- cbind(c_pred, out)
+  c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
 }
 
+pred <- prediction(c_pred, c_lab)
 
-plot((1:50), auc, ylim=c(0,1), pch = 19, main = "AUC of 50 iterations of the algorithm", xlab = "Iterations", ylab="AUC")
+# perf1 <- performance(pred, "auc")
+# auc <- append(auc,perf1@y.values)
 
 
-# single_vb_g <-locus(Y = params$Y, X=params$X, p0_av = params$p0_av, link = params$link, user_seed = seed, list_init = params$list_init, verbose = FALSE)
+
+}
+
+
+# plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
+
+
+# single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
 # points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
 
-
+perf1 <- performance(pred, "tpr","fpr")
+plot(perf1,avg="vertical",spread.estimate="stderror",spread.scale=2)
 
 
 

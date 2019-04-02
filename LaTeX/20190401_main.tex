@@ -17,9 +17,14 @@
 
 \begin{document}
 \section{Bayesian Inference}
-When using Bayesian statistics, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming.
+When using Bayesian statistics, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.\\
+\newline
+%
+When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is impossible when their number is really high.\\
+\newline
+% ==========================================================================================
 \subsection{Variational Inference}
-When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, one obstacle can be the complexity of the problem. We may want to simplify the computation by approximating the posterior density with a simpler density. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.\\
+When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.\\
 \newline
 %
 We suppose we have observations $y$ and parameters $\boldsymbol{\theta}$, we are looking to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the "closeness" measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.\\
@@ -68,8 +73,20 @@ Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower 
 
 \subsection{Mean-Field Approximation}
 
+
 % =========================================
 \newpage
-\bibliography{references}
-\bibliographystyle{plain}
+\section{Results}
+\begin{figure}
+\includegraphics[width=5in]{images/multipleProba1.jpg}
+\includegraphics[width=5in]{images/multipleProba2.jpg}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=5in]{images/AUC_100_iter.jpeg}
+\end{figure}
+% =========================================
+\newpage
+%\bibliography{references}
+%\bibliographystyle{plain}
 \end{document}
