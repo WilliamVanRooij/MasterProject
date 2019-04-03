@@ -20,8 +20,9 @@
 When using Bayesian statistics, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.\\
 \newline
 %
-When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is impossible when their number is really high.\\
+When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is close to impossible when their number is really high.\\
 \newline
+Another way to perform Bayesian inference is using deterministic methods. It consists in turning the inference problem into an optimization problem. Variational inference belongs to these kind of methods.
 % ==========================================================================================
 \subsection{Variational Inference}
 When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.\\
@@ -49,7 +50,7 @@ Minimizing the KL divergence can be complicated depending on the density $p$ we 
 \KL\left(q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right) &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right],\\
 &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right] + \log p(\boldsymbol{y}).
 \end{align*}
-We introduce the evidence lower bound (ELBO):
+We introduce the evidence lower bound (\small{ELBO}):
 \begin{align*}
 \mathcal{L}(q) &= \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right],\\
 &=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
@@ -70,10 +71,15 @@ Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound fo
 &= \mathcal{L}(q).
 \end{align*}
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower bound" for $\mathcal{L}(q)$.
-
+%
 \subsection{Mean-Field Approximation}
-
-
+The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ we want $q(\boldsymbol{\theta})$ to be apart of. We introduce the mean-field variational family, where the parameters are mutually independent and are governed by a distinct factor in the variational density.\\
+\newline
+Let's call $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then:
+\begin{equation*}
+q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)
+\end{equation*}
+We determine the variational factors $q_j(z_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.
 % =========================================
 \newpage
 \section{Results}
@@ -84,6 +90,15 @@ Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower 
 
 \begin{figure}
 \includegraphics[width=5in]{images/AUC_100_iter.jpeg}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
+\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
+\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
+\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
+\caption{Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
+Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
 \end{figure}
 % =========================================
 \newpage

@@ -24,15 +24,20 @@ set.seed(123);
 # ================================================================================================================================================ #
 
 n <- 300; 
-p <- 500; p0 <- 15; 
+p <- 500; p0 <- 5; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
 
 auc = NULL
+
 c_pred <- NULL
 c_lab <- NULL
-iter <- 10
+
+single_pred <-  NULL
+single_lab <-  NULL
+
+iter <- 1
 
 
 for (k in c(1:iter)){
@@ -49,7 +54,7 @@ nb_cpus <- 4;
 
 ind_d0 <-  sample(1:d, d0)
 
-ind_p0 <- sample(1:p, p0)
+ind_p0 <- sample(1:50, p0)
 
 user_seed <- sample(1:1e3, 100)
 
@@ -60,7 +65,7 @@ max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the act
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed)
 
-list_phenos <- generate_phenos(n, d, user_seed = seed)
+list_phenos <- generate_phenos(n, d,  user_seed = seed)
 
 dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
                              ind_p0 = ind_p0, vec_prob_sh = vec_prob_sh,
@@ -73,6 +78,21 @@ dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
 #                                                                                                                                                  #
 # ================================================================================================================================================ #
 
+make_ld_plot <- function(X, meas) {
+  
+  stopifnot(meas %in% c("r", "D'"))
+  
+  require(LDheatmap)
+  require(chopsticks)
+  
+  colnames(X)<- paste(1:ncol(X), "  ", sep="")
+  require(snpStats)
+  gX <- as(X, "SnpMatrix")
+  
+  cat("LD plot display:\n")
+  ld <- LDheatmap(gX, flip=TRUE, name="", title=NULL, LDmeasure = meas,
+                  add.map= T, geneMapLocation = 0.01, geneMapLabelX=1000)
+}
 
 mlocus <- function(fseed) {
 
@@ -122,36 +142,54 @@ if(mac) {
   
   
   #out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
-  if(FALSE) {
-  jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
-  plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=1,lend=1, ylim = c(0,1))
+  if(TRUE) {
+  # jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
+  plot(out[1:50], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=3,lend=1, ylim = c(0,1))
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
   points(ind_p0,single_vb_g$gam_vb[ind_p0], col='black', pch=4)
   points(ind_p0, out[ind_p0], col = "red")
-  dev.off()
+  # dev.off()
   }
-  c_pred <- cbind(c_pred, out)
-  c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
+  
 }
 
-pred <- prediction(c_pred, c_lab)
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
+  
+  single_pred <- cbind(single_pred, single_vb_g$gam_vb)
+  single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
+
+  c_pred <- cbind(c_pred, out)
+  c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
+
+}
+
+pred_m_locus <- prediction(c_pred, c_lab)
+pred_s_locus <- prediction(single_pred, single_lab)
 
 # perf1 <- performance(pred, "auc")
 # auc <- append(auc,perf1@y.values)
 
+perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
+perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
 
-
+if(FALSE){
+  
+par(pty="s")
+# jpeg(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".jpeg",sep=""))
+plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main="ROC Curves comparaison")
+plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=TRUE)
+legend(0.6,0.2, c("Multiple Locus","Single Locus"), col=c('orange', 'blue'),lwd=2)
+# dev.off()
 }
-
-
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
+make_ld_plot(out,"r")
 
 # single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
+
 # points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
 
-perf1 <- performance(pred, "tpr","fpr")
-plot(perf1,avg="vertical",spread.estimate="stderror",spread.scale=2)
+
 
 
 
