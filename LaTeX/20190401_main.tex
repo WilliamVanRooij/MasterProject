@@ -16,7 +16,7 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\section{Bayesian Inference}
+\section{Bayesian inference}
 When using Bayesian statistics, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.\\
 \newline
 %
@@ -24,7 +24,7 @@ When performing MCMC inference, likelihoods and sometimes gradients need to be c
 \newline
 Another way to perform Bayesian inference is using deterministic methods. It consists in turning the inference problem into an optimization problem. Variational inference belongs to these kind of methods.
 % ==========================================================================================
-\subsection{Variational Inference}
+\subsection{Variational inference}
 When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.\\
 \newline
 %
@@ -72,14 +72,40 @@ Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound fo
 \end{align*}
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower bound" for $\mathcal{L}(q)$.
 %
-\subsection{Mean-Field Approximation}
+\subsection{Mean-field approximation}
 The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ we want $q(\boldsymbol{\theta})$ to be apart of. We introduce the mean-field variational family, where the parameters are mutually independent and are governed by a distinct factor in the variational density.\\
 \newline
 Let's call $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then:
 \begin{equation*}
 q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)
 \end{equation*}
-We determine the variational factors $q_j(z_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.
+We determine the variational factors $q_j(z_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.\\
+\newline
+%
+To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We can see that the mean of the approximation is the same as the real mean, but the covariance doesn't match the covariance of the real posterior.\\
+\newline
+%
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\draw[thick, ->] (0,-2) -- (0,2);
+\draw[thick, ->] (-2,0) -- (2,0);
+\fill[pattern=north west lines,opacity=.6,draw] (0,0) circle (1cm);
+\draw[rotate=-45] (0,0) ellipse (0.65cm and 2cm);
+\node (p) at (2,1.7) {Real posterior};
+\node (q) at (2.7,-0.9) {Mean-field approximation};
+\node (x1) at (-0.3,2) {$x_1$};
+\node (x2) at (2,-0.3) {$x_2$};
+\end{tikzpicture}
+\caption{\label{fig:mean_field}Visualisation of mean-field approximation to a two-dimensional Gaussian posterior. The correlations in the mean-field approximation do not represent the correlations of the real posterior.}
+\end{figure}
+%
+We have transformed, using the \small{ELBO} and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we will be looking at the coordinate ascend mean-field variational inference.
+% =========================================
+\subsection{Coordinate ascent mean-field variational inference \small{(CAVI)}}
+The coordinate ascent mean-field variational inference (\small{CAVI}) is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the \small{ELBO}.\\
+\newline
+The \small{ELBO} is based on the following result:
 % =========================================
 \newpage
 \section{Results}

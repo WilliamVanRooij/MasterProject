@@ -37,7 +37,7 @@ c_lab <- NULL
 single_pred <-  NULL
 single_lab <-  NULL
 
-iter <- 1
+iter <- 10
 
 
 for (k in c(1:iter)){
@@ -172,7 +172,7 @@ pred_s_locus <- prediction(single_pred, single_lab)
 perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
 perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
 
-if(FALSE){
+if(TRUE){
   
 par(pty="s")
 # jpeg(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".jpeg",sep=""))
@@ -183,7 +183,7 @@ legend(0.6,0.2, c("Multiple Locus","Single Locus"), col=c('orange', 'blue'),lwd=
 }
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
-make_ld_plot(out,"r")
+# make_ld_plot(out,"r")
 
 # single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
 

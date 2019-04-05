@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  3 APR 2019 16:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  5 APR 2019 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -699,68 +699,94 @@ Underfull \hbox (badness 10000) in paragraph at lines 76--79
 
  []
 
-[2] [3]
-<images/multipleProba1.jpg, id=33, 803.0pt x 602.25pt>
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 81--105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--105
+
+ []
+
+
+Overfull \hbox (13.99196pt too wide) in paragraph at lines 105--105
+[]\OT1/lmr/bx/n/12 Coordinate as-cent mean-field vari-ational in-fer-ence \OT1/
+lmr/bx/n/9 (CAVI) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--109
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--109
+
+ []
+
+[3]
+<images/multipleProba1.jpg, id=35, 803.0pt x 602.25pt>
 File: images/multipleProba1.jpg Graphic file (type jpg)
 <use images/multipleProba1.jpg>
-Package pdftex.def Info: images/multipleProba1.jpg  used on input line 87.
+Package pdftex.def Info: images/multipleProba1.jpg  used on input line 112.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
-<images/multipleProba2.jpg, id=34, 803.0pt x 602.25pt>
+<images/multipleProba2.jpg, id=36, 803.0pt x 602.25pt>
 File: images/multipleProba2.jpg Graphic file (type jpg)
 <use images/multipleProba2.jpg>
-Package pdftex.def Info: images/multipleProba2.jpg  used on input line 88.
+Package pdftex.def Info: images/multipleProba2.jpg  used on input line 113.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 87--89
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 112--114
 [][]
  []
 
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 87--89
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 112--114
 [] 
  []
 
-<images/AUC_100_iter.jpeg, id=35, 803.0pt x 602.25pt>
+<images/AUC_100_iter.jpeg, id=37, 803.0pt x 602.25pt>
 File: images/AUC_100_iter.jpeg Graphic file (type jpg)
 <use images/AUC_100_iter.jpeg>
-Package pdftex.def Info: images/AUC_100_iter.jpeg  used on input line 92.
+Package pdftex.def Info: images/AUC_100_iter.jpeg  used on input line 117.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 92--93
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 117--118
 [][] 
  []
 
-<images/ROC_Comp_p0_15_var_0_5.jpeg, id=36, 481.8pt x 481.8pt>
+<images/ROC_Comp_p0_15_var_0_5.jpeg, id=38, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_15_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.jpeg  used on input line
- 96.
+ 121.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
-<images/ROC_Comp_p0_15_var_0_8.jpeg, id=37, 481.8pt x 481.8pt>
+<images/ROC_Comp_p0_15_var_0_8.jpeg, id=39, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_15_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.jpeg  used on input line
- 97.
+ 122.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
-<images/ROC_Comp_p0_50_var_0_5.jpeg, id=38, 481.8pt x 481.8pt>
+<images/ROC_Comp_p0_50_var_0_5.jpeg, id=40, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_50_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.jpeg  used on input line
- 98.
+ 123.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
-<images/ROC_Comp_p0_50_var_0_8.jpeg, id=39, 481.8pt x 481.8pt>
+<images/ROC_Comp_p0_50_var_0_8.jpeg, id=41, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_50_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.jpeg  used on input line
- 99.
+ 124.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 96--101
+Overfull \hbox (47.47975pt too wide) in paragraph at lines 121--126
 [][] []
  []
 
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 96--101
+Overfull \hbox (47.47975pt too wide) in paragraph at lines 121--126
 [] [] 
  []
 
@@ -773,38 +799,39 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 13295 strings out of 494091
- 265383 string characters out of 6163523
- 315929 words of memory out of 5000000
- 16654 multiletter control sequences out of 15000+600000
+ 13369 strings out of 494091
+ 266880 string characters out of 6163523
+ 315937 words of memory out of 5000000
+ 16728 multiletter control sequences out of 15000+600000
  57912 words of font info for 60 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 55i,14n,59p,631b,237s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,14n,59p,631b,629s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018basic/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/l
 ocal/texlive/2018basic/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/
 texlive/2018basic/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texli
 ve/2018basic/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}</usr/local/texlive/20
 18basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2018bas
 ic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2018basic/te
-xmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2018basic/texmf-d
-ist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2018basic/texmf-dist/f
-onts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/t
-ype1/public/lm/lmmi7.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/p
-ublic/lm/lmmi9.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/
-lm/lmmib10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/l
-mmib7.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr10.
-pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></u
-sr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/loca
-l/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texli
-ve/2018basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/20
-18basic/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018bas
-ic/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018basic/tex
-mf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2018basic/texmf-dis
-t/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (7 pages, 437727 bytes).
+xmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/local/texlive/2018basic/texmf-di
+st/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2018basic/texmf-dist/fo
+nts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/t
+ype1/public/lm/lmmi6.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/p
+ublic/lm/lmmi7.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/
+lm/lmmi9.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmm
+ib10.pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmmib7.
+pfb></usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></
+usr/local/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/loc
+al/texlive/2018basic/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texl
+ive/2018basic/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/201
+8basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2018basi
+c/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018basic/tex
+mf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018basic/texmf-dis
+t/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2018basic/texmf-dist/font
+s/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 20190401_main.pdf (7 pages, 466797 bytes).
 PDF statistics:
- 114 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 119 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 52 words of extra memory for PDF output out of 10000 (max. 10000000)
 
