@@ -33,7 +33,7 @@ We suppose we have observations $y$ and parameters $\boldsymbol{\theta}$, we are
 %
 Variational inference minimizes the Kullback-Leibler divergence as a "closeness" measure. Introduced in 1951 by Kullback and Leibler\cite{kl51}, it is the most common divergence measure used in statistics and machine learning. It is described as such:
 \begin{equation*}
-\KL(p\parallel q) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
+\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
 \end{equation*} 
 It is described as a "directed divergence" as it is asymmetric, \textit{i.e.} $\KL(p\parallel q) \neq \KL(q \parallel p)$.\\
 \newline
@@ -105,7 +105,17 @@ We have transformed, using the \small{ELBO} and the mean-field approximation our
 \subsection{Coordinate ascent mean-field variational inference \small{(CAVI)}}
 The coordinate ascent mean-field variational inference (\small{CAVI}) is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the \small{ELBO}.\\
 \newline
-The \small{ELBO} is based on the following result:
+The \small{ELBO} is based on the following result:\\
+If we fix $q_l(z_l)$, $l\neq j$, then the optimal $q_j(z_j)$
+\begin{equation*}
+hi
+\end{equation*}
+%
+%
+%
+%
+%
+%
 % =========================================
 \newpage
 \section{Results}

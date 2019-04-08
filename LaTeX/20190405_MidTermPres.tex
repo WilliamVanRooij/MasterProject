@@ -16,9 +16,91 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\title{Mid-term presentation}
+\title{Mid-term presentation
+\newline
+\\
+\small{William van Rooij - EPFL}}
 \maketitle
 \begin{frame}
-Bienvenue
+\begin{itemize}
+\item Introduction
+\item Variational inference
+\item Mean-field approximation
+\item LOCUS R
+\item Results
+\item Future
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+\item Estimate the association between SNP $s$ and trait $t$,
+
+$s = 1,\ldots,p$, $t=1,\ldots ,q$
+\item $y_{n\times q} = x_{n\times p}\beta_{p \times q} + \epsilon_{n\times q}\text{, }\epsilon \sim \mathcal{N}(0,\tau_t^{-1}I_n)$
+\item $y$ is response matrix, $x$ are candidate predictors.
+
+\item Each response $y_t$ is linearly related with the predictors and has a residual precision $\tau_t \sim $ Gamma$(\eta_t, \kappa_t)$.
+
+\item $p$ and $q$ really large compared $n$.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Introduction II}
+\begin{itemize}
+
+\item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t \sim \gamma_{st}\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\delta_0$,
+
+(spike and slab)
+
+\item $\gamma_{st} \mid \omega_{s} \sim $ Bernoulli$(\omega_s)$,
+
+\item $\omega_s \sim $ Beta$(a_s,b_s)$,
+
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Variational inference}
+\begin{itemize}
+\item Observed data $\boldsymbol{y}$, parameters $\boldsymbol{\theta}$, posterior distribution of parameters $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
+\item Approximate posterior density with a simpler density $q$, minimizing a "closeness" measure: the Kullback-Leibler divergence.
+\item $\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\dfrac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}$.
+\item Evidence lower bound (ELBO): $\mathcal{L}(q) = \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]$.
+\item $\KL(q\parallel p) = \log(p) - \mathcal{L}(q)$.
+\item Minimizing KL is equivalent to maximizing ELBO.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mean-field approximation}
+\begin{itemize}
+\item We assume $q(\boldsymbol{\theta}) = \prod_{j=1}^Jq_j(\theta_j)$, where $\boldsymbol{\theta}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.5$}
+\begin{figure}
+\includegraphics[width=3in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.8$}
+\begin{figure}
+\includegraphics[width=3in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{ROC curves comparison, $p_0 = 50$, max var.$=0.5$}
+\begin{figure}
+\includegraphics[width=3in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{ROC curves comparison, $p_0 = 50$, max var.$=0.8$}
+\begin{figure}
+\includegraphics[width=3in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
+\end{figure}
 \end{frame}
 \end{document}

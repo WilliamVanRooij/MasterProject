@@ -1,0 +1,33 @@
+Order of presentation:
+
+Introduction:
+
+Model:
+
+Explain model, y = xB + e, B|g = spike and slab, g|w = Bern(w), w = Beta(a,b)
+
+Process:
+
+    Variationnal inférence:
+
+       Approx. p by q by minimizing KL div.
+
+    Mean-field approximation:
+
+	q(z) = π q_j(z_j)
+
+	CAVI gives local optimum
+	
+	different optimums depending on initialisation of the parameters
+
+    BAM on the different starting points:
+	
+	“BAM” basically weighted averaging depending on the prior probe of parameters
+	with respect to data.
+	
+	
+
+R implementation:
+
+
+

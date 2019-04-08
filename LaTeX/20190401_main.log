@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  5 APR 2019 17:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.21)  8 APR 2019 15:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -716,12 +716,7 @@ lmr/bx/n/9 (CAVI)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--109
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 106--109
+Underfull \hbox (badness 10000) in paragraph at lines 106--110
 
  []
 
@@ -729,30 +724,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--109
 <images/multipleProba1.jpg, id=35, 803.0pt x 602.25pt>
 File: images/multipleProba1.jpg Graphic file (type jpg)
 <use images/multipleProba1.jpg>
-Package pdftex.def Info: images/multipleProba1.jpg  used on input line 112.
+Package pdftex.def Info: images/multipleProba1.jpg  used on input line 123.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
 <images/multipleProba2.jpg, id=36, 803.0pt x 602.25pt>
 File: images/multipleProba2.jpg Graphic file (type jpg)
 <use images/multipleProba2.jpg>
-Package pdftex.def Info: images/multipleProba2.jpg  used on input line 113.
+Package pdftex.def Info: images/multipleProba2.jpg  used on input line 124.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 112--114
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 123--125
 [][]
  []
 
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 112--114
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 123--125
 [] 
  []
 
 <images/AUC_100_iter.jpeg, id=37, 803.0pt x 602.25pt>
 File: images/AUC_100_iter.jpeg Graphic file (type jpg)
 <use images/AUC_100_iter.jpeg>
-Package pdftex.def Info: images/AUC_100_iter.jpeg  used on input line 117.
+Package pdftex.def Info: images/AUC_100_iter.jpeg  used on input line 128.
 (pdftex.def)             Requested size: 361.34999pt x 271.01918pt.
 
-Overfull \hbox (16.34999pt too wide) in paragraph at lines 117--118
+Overfull \hbox (16.34999pt too wide) in paragraph at lines 128--129
 [][] 
  []
 
@@ -760,33 +755,33 @@ Overfull \hbox (16.34999pt too wide) in paragraph at lines 117--118
 File: images/ROC_Comp_p0_15_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.jpeg  used on input line
- 121.
+ 132.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
 <images/ROC_Comp_p0_15_var_0_8.jpeg, id=39, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_15_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.jpeg  used on input line
- 122.
+ 133.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
 <images/ROC_Comp_p0_50_var_0_5.jpeg, id=40, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_50_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.jpeg  used on input line
- 123.
+ 134.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
 <images/ROC_Comp_p0_50_var_0_8.jpeg, id=41, 481.8pt x 481.8pt>
 File: images/ROC_Comp_p0_50_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.jpeg  used on input line
- 124.
+ 135.
 (pdftex.def)             Requested size: 195.12877pt x 195.12793pt.
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 121--126
+Overfull \hbox (47.47975pt too wide) in paragraph at lines 132--137
 [][] []
  []
 
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 121--126
+Overfull \hbox (47.47975pt too wide) in paragraph at lines 132--137
 [] [] 
  []
 
@@ -828,7 +823,7 @@ c/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018basic/tex
 mf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018basic/texmf-dis
 t/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2018basic/texmf-dist/font
 s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (7 pages, 466797 bytes).
+Output written on 20190401_main.pdf (7 pages, 468524 bytes).
 PDF statistics:
  119 PDF objects out of 1000 (max. 8388607)
  82 compressed objects within 1 object stream
