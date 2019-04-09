@@ -7,6 +7,7 @@
 \usepackage{verbatim}
 \usepackage{lmodern}
 \usepackage{tikz}
+%\usepackage{algorithm}
 \usetikzlibrary{patterns}
 
 
@@ -16,10 +17,11 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\title{Mid-term presentation
-\newline
-\\
-\small{William van Rooij - EPFL}}
+\title{Mid-term presentation}
+\author{William van Rooij}
+\institute{EPFL}
+\date{12.04.19}
+\logo{\includegraphics[width=30px]{images/EPFL_Logo.png}}
 \maketitle
 \begin{frame}
 \begin{itemize}
@@ -75,9 +77,76 @@ $s = 1,\ldots,p$, $t=1,\ldots ,q$
 \begin{frame}
 \frametitle{Mean-field approximation}
 \begin{itemize}
-\item We assume $q(\boldsymbol{\theta}) = \prod_{j=1}^Jq_j(\theta_j)$, where $\boldsymbol{\theta}$.
+\item We assume $q(\boldsymbol{\theta}) = \prod_{j=1}^Jq_j(\theta_j)$, where $\left\lbrace\theta_j\right\rbrace$, $j=1,\ldots,J$ is a decomposition of $\boldsymbol{\theta}$.
+\item The mean-field approximation does not compute the correlations between parameters.
+\end{itemize}
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\draw[thick, ->] (0,-2) -- (0,2);
+\draw[thick, ->] (-2,0) -- (2,0);
+\fill[pattern=north west lines,opacity=.6,draw] (0,0) circle (1cm);
+\draw[rotate=-45] (0,0) ellipse (0.65cm and 2cm);
+\node (p) at (2,1.7) {Real posterior};
+\node (q) at (2.7,-0.9) {Mean-field approximation};
+\node (x1) at (-0.3,2) {$x_1$};
+\node (x2) at (2,-0.3) {$x_2$};
+\end{tikzpicture}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coordinate ascent variational inference - CAVI}
+\begin{itemize}
+\item If we fix $q_l(\theta_l)$, $l \neq j$, the optimal for $q_j(\theta_j)$ verifies: $q^*_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j},\boldsymbol{y}\right]\right\rbrace$
+\item \begin{text}
+IN: $p(x,z)$, data set $x$, tolerance $tol$,\\
+OUT: $q(z) = \prod q_j(z_j)$.\\
+INIT: $q_j(z_j)$, \\
+REPEAT:\\
+\quad FOR: $j \in \left\lbrace1, \dots, m\right\rbrace$,\\
+\quad \quad SET: $q_j(z_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right\rbrace$.\\
+\quad COMPUTE:\\
+\quad \quad $ELBO^{old}(q) \leftarrow ELBO(q)$.\\
+\quad \quad $ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E}\left[\log q(z) \right] $.\\
+UNTIL: $|ELBO(q)-ELBO^{old}(q)|<tol$.\\
+RETURN: $q(z).$
+\end{text}
 \end{itemize}
 \end{frame}
+
+\begin{frame}
+\frametitle{Coordinate ascent variational inference - CAVI II}
+\begin{itemize}
+\item $\mathcal{L}(q)$ is guaranteed to augment at every iteration.
+\item CAVI yields a local optimum, depending on the initialization of the parameters.
+\begin{figure}
+\includegraphics[width=3in]{images/localOptimum.png}
+\end{figure}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bayesian model averaging}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{frame}
 \frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.5$}
