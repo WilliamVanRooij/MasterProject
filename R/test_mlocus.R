@@ -24,7 +24,7 @@ set.seed(123);
 # ================================================================================================================================================ #
 
 n <- 300; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
@@ -48,7 +48,7 @@ seed <-  k;
   
 cor_type <- "autocorrelated"; 
 
-vec_rho <- runif(floor(p/20), min = 0.95, max = 0.99)
+vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
 
 nb_cpus <- 4;
 
@@ -60,7 +60,7 @@ user_seed <- sample(1:1e3, 100)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
-max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed)
@@ -131,18 +131,25 @@ if(mac) {
   
   out <- 0
   lb_exp <- 0
+  if(TRUE){
+    for(i in c(1:length(user_seed))) {
+      out <- out + m_vb_g[[i]]$gam_vb
+      lb_exp <- lb_exp + 1
+    }
+  }
   
-  for(i in c(1:length(user_seed))) {
-    out <- out + m_vb_g[[i]]$gam_vb*exp(m_vb_g[[i]]$lb_opt)
-    lb_exp <- lb_exp + exp(m_vb_g[[i]]$lb_opt)
-    
+  if(FALSE){
+    for(i in c(1:length(user_seed))) {
+      out <- out + m_vb_g[[i]]$gam_vb*exp(m_vb_g[[i]]$lb_opt)
+      lb_exp <- lb_exp + exp(m_vb_g[[i]]$lb_opt)
+    }
   }
   
   out <- out / lb_exp
   
   
   #out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
-  if(TRUE) {
+  if(FALSE) {
   # jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
   plot(out[1:50], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=3,lend=1, ylim = c(0,1))
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
@@ -172,7 +179,7 @@ pred_s_locus <- prediction(single_pred, single_lab)
 perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
 perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
 
-if(TRUE){
+if(FALSE){
   
 par(pty="s")
 # jpeg(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".jpeg",sep=""))
@@ -180,18 +187,27 @@ plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=TRUE)
 legend(0.6,0.2, c("Multiple Locus","Single Locus"), col=c('orange', 'blue'),lwd=2)
 # dev.off()
+dev.off()
 }
+
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
-# make_ld_plot(out,"r")
+if(FALSE){
+  make_ld_plot(dat_g$snps[,1:50],"r")
+  plot(out[1:50],type='h',lwd=12,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association with weighted averaging", ylab='')
+  points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=12)
+}
+
+if(FALSE){
+  make_ld_plot(dat_g$snps[,1:50],"r")
+  plot(single_vb_g$gam_vb[1:50],type='h',lwd=12,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association with weighted averaging", ylab='')
+  points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=12)
+  
+}
 
 # single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
 
 # points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
-
-
-
-
 
 
 
