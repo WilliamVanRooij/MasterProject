@@ -17,7 +17,8 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\title{Mid-term presentation}
+\title{Master Project: Statistical analysis on genomic data}
+\subtitle{Mid-term presentation}
 \author{William van Rooij}
 \institute{EPFL}
 \date{12.04.19}
@@ -37,14 +38,13 @@
 \frametitle{Introduction}
 \begin{itemize}
 \item We introduce $X = (X_1,\ldots,X_p)$, and $y = (y_1,\ldots,y_q)$.
-\item SNP $X_s$ and a trait $y_t$.
+\item A SNP $X_s$ and a trait $y_t$, SNPs are strongly correlated.
 \item Estimate the association between SNP $s$ and trait $t$.
 \item $y_{n\times q} = x_{n\times p}\beta_{p \times q} + \epsilon_{n\times q}\text{, }\epsilon_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)$
 \item $y$ is a response matrix, $x$ are candidate predictors.
 
 \item Each response $y_t$ is linearly related with the predictors and has a residual precision $\tau_t \sim $ Gamma$(\eta_t, \kappa_t)$.
 
-\item $p$ and $q$ large compared to $n$.
 \end{itemize}
 \end{frame}
 \begin{frame}
@@ -66,6 +66,18 @@ $$
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}
+\frametitle{Introduction III}
+\begin{itemize}
+\item Markov Chain Monte Carlo algorithms (MCMC) are the usual way to approximate inference in relatively small datasets.
+\item $p$ and $q$ large compared to $n$.
+\item MCMC gets time consuming, computation cost of operations increases with the number of parameters.
+\item Number of iterations needed increases with the number of parameters.
+\item Variational inference is an alternative to MCMC. 
+\end{itemize}
+\end{frame}
+
 \begin{frame}
 \frametitle{Variational inference}
 \begin{itemize}
@@ -138,9 +150,10 @@ RETURN: $q(z).$
 \begin{itemize}
 \item $\mathcal{L}(q)$ is guaranteed to augment at every iteration.
 \item CAVI yields a local optimum, depending on the initialization of the parameters.
-\begin{figure}
-\includegraphics[width=3in]{images/localOptimum.png}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width=3in]{images/localOptimum.png}
+%\end{figure}
+\item Another possible solution is annealing, which consists of "heating" the distribution to have only a global maximum.
 \end{itemize}
 \end{frame}
 
@@ -159,22 +172,34 @@ RETURN: $q(z).$
 \frametitle{Implementation}
 \begin{itemize}
 \item Generate SNPs, traits, and dependences.
-\item Call function with different initial matrices, drawn at random.
-\item Generate ELBO and use it to calculate the weighted average ("BMA").
+\item Find the optimums $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
+\item Generate the ELBOs and use them as weights in the weighted average ("BMA").
+\item The function yields the probabilities of association between SNPs and traits.
 \end{itemize}
 \end{frame}
 
 
 
 
-
+\begin{frame}
+\frametitle{Results}
+\begin{itemize}
+\item $n = 300$ observations,
+\item $p = 500$ SNPs, with $p_0$ active SNPs per trait,
+\item $q = 1$ trait,
+\item $100$ random initialisations,
+\item correlation between the SNPs is between $0.95$ and $0.99$, in blocks of ten SNPs,
+\item we can specify the maximum variance explained by 
+\end{itemize}
+\end{frame}
 
 
 
 \begin{frame}
-\frametitle{Probabilities of association with weighted averaging}
+\frametitle{Weighted averaging with $p_0 = 5$}
 \begin{figure}
-\includegraphics[width=3.7in]{images/LD_blockCorr.png}
+\includegraphics[width=2.1in]{images/CorrSingle.png}
+\includegraphics[width=2.1in]{images/CorrWeights.png}
 \end{figure}
 \end{frame}
 
@@ -202,5 +227,23 @@ RETURN: $q(z).$
 \begin{figure}
 \includegraphics[width=3in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
 \end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item The paralleled version is not necessarily more time consuming.
+\item The difference is bigger when phenotypic variance is better explained from the SNPs.
+\item The difference is bigger with fewer active SNPs.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Next steps}
+\begin{itemize}
+\item Optimize code,
+\item Comparison with annealing for strong correlations,
+\item Do we find the right modes?
+
+\end{itemize}
 \end{frame}
 \end{document}
