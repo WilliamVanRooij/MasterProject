@@ -17,7 +17,7 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\title{Master Project: Statistical analysis on genomic data}
+\title{Master Project:\\Statistical analysis on genomic data}
 \subtitle{Mid-term presentation}
 \author{William van Rooij}
 \institute{EPFL}
@@ -50,7 +50,7 @@
 \begin{frame}
 \frametitle{Introduction II}
 \begin{itemize}
-
+\item $s = 1,\ldots,p$, $t=1,\ldots,q$,
 \item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t \sim \gamma_{st}\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\delta_0$,
 
 (spike and slab)
@@ -58,7 +58,8 @@
 \item $\gamma_{st} \mid \omega_{s} \sim $ Bernoulli$(\omega_s)$,
 
 \item $\omega_s \sim $ Beta$(a_s,b_s)$,
-\item $a_s, b_s$ chosen to enforce sparsity. We choose $p^*$ the expected number of predictors involved in the model. Then:
+\item $\tau_t \sim $ Gamma$(\eta_t,\kappa_t)$, $\sigma^{-2} \sim $ Gamma$(\lambda,\nu)$,
+\item $a_s, b_s$ chosen to enforce sparsity. We define $p^*$ the expected number of predictors involved in the model. Then:
 $$
 a_s \equiv 1\text{, }b_s \equiv q(p-p^*)/p^*
 $$
@@ -71,8 +72,8 @@ $$
 \frametitle{Introduction III}
 \begin{itemize}
 \item Markov Chain Monte Carlo algorithms (MCMC) are the usual way to approximate inference in relatively small datasets.
-\item $p$ and $q$ large compared to $n$.
-\item MCMC gets time consuming, computation cost of operations increases with the number of parameters.
+\item $p$ and $q$ are large compared to $n$.
+\item MCMC gets time consuming, computational cost of operations increases with the number of parameters.
 \item Number of iterations needed increases with the number of parameters.
 \item Variational inference is an alternative to MCMC. 
 \end{itemize}
@@ -93,11 +94,11 @@ $$
 \begin{frame}
 \frametitle{Mean-field approximation}
 \begin{itemize}
-\item We assume independence for some of the parameters:
+\item We assume independence for most of the parameters:
 $$
 q(\boldsymbol{\theta}) = \left\lbrace\prod_{s=1}^p\prod_{t=1}^qq(\beta_{st},\gamma_{st})\right\rbrace\left\lbrace\prod_{s=1}^pq(\omega_s)\right\rbrace\left\lbrace\prod_{t=1}^qq(\tau_t)\right\rbrace q(\sigma^{-2}).
 $$
-\item The mean-field approximation does not compute the correlations between parameters.
+\item The mean-field approximation does not represent the correlations between parameters.
 \end{itemize}
 \begin{figure}
 \centering
@@ -111,18 +112,6 @@ $$
 \node (x1) at (-0.3,2) {$x_1$};
 \node (x2) at (2,-0.3) {$x_2$};
 \end{tikzpicture}\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Parameters distributions}
-\begin{itemize}
-\item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
-\item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
-\item $\gamma_{st} \mid \boldsymbol{y} \sim $ Bernoulli$(\gamma_{st}^{(1)})$,
-\vspace{2em}
-\item $\sigma^{-2}_{\beta,st} = \tau_t^{(1)}\left\lbrace \Vert \boldsymbol{X}_s \Vert^2 + (\sigma^{-2})^{(1)}\right\rbrace $,
-\item $\mu_{\beta,st}=\sigma^2_{\beta,st}\tau^{(1)}_t\boldsymbol{X}_s^T\left\lbrace\boldsymbol{y}_t - \sum_{j=1, j \neq s}^p \gamma_{jt}^{(1)}\mu_{\beta,jt}\boldsymbol{X}_j\right\rbrace $,
-\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -148,12 +137,23 @@ RETURN: $q(z).$
 \begin{frame}
 \frametitle{Coordinate ascent variational inference - CAVI II}
 \begin{itemize}
-\item $\mathcal{L}(q)$ is guaranteed to augment at every iteration.
+\item $\mathcal{L}(q)$ is guaranteed to increase at every iteration.
+\item We assume there exists a best model and we want to find it
 \item CAVI yields a local optimum, depending on the initialization of the parameters.
-%\begin{figure}
-%\includegraphics[width=3in]{images/localOptimum.png}
-%\end{figure}
 \item Another possible solution is annealing, which consists of "heating" the distribution to have only a global maximum.
+\item Annealing yields a unique model, so averaging might better represent the incertitude.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Parameters distributions}
+\begin{itemize}
+\item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
+\item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
+\item $\gamma_{st} \mid \boldsymbol{y} \sim $ Bernoulli$(\gamma_{st}^{(1)})$,
+\item $\omega_s \mid \boldsymbol{y} \sim $ Beta$(a^*_s, b^*_s)$,
+\item $\tau_t \mid \boldsymbol{y} \sim $ Gamma$(\eta_t^*, \kappa_t^*)$,
+\item $\sigma^{-2} \mid \boldsymbol{y} \sim $ Gamma$(\lambda^*,\nu^*)$,
 \end{itemize}
 \end{frame}
 
@@ -163,7 +163,7 @@ RETURN: $q(z).$
 \item Denote $M_k$, $k= 1,\ldots, K$ the models yielded by the local optimums.
 \item $p(\gamma_{st} \mid \boldsymbol{y}) = \sum_{k=1}^{K}p(\gamma_{st}\mid M_k)p(M_k \mid \boldsymbol{y})$,
 \item $p(M_k \mid \boldsymbol{y}) = \dfrac{p(\boldsymbol{y} \mid M_k)p(M_k)}{\sum_{j=1}^{K}p(\boldsymbol{y}\mid M_j)p(M_j)},$
-\item $\mathcal{L}(q)$ serves as an approximation of $p(\boldsymbol{y} \mid M_k)$, as $\KL(q\parallel p) = \log p(\boldsymbol{y}) - \mathcal{L}(q)$.
+\item $\mathcal{L}(q)$ serves as an approximation of $\log p(\boldsymbol{y} \mid M_k)$, as $\KL(q\parallel p) = \log p(\boldsymbol{y}) - \mathcal{L}(q)$.
 \item $p(M_k)$ is the prior probability of the models, we consider them to be equiprobable: $p(M_k) = 1/K$, $\forall k = 1,\ldots,K$.
 \end{itemize}
 \end{frame}
@@ -171,10 +171,10 @@ RETURN: $q(z).$
 \begin{frame}
 \frametitle{Implementation}
 \begin{itemize}
-\item Generate SNPs, traits, and dependences.
+\item Generate SNPs, traits, and associations.
 \item Find the optimums $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
 \item Generate the ELBOs and use them as weights in the weighted average ("BMA").
-\item The function yields the probabilities of association between SNPs and traits.
+\item The function yields probabilities of association between SNPs and traits.
 \end{itemize}
 \end{frame}
 
@@ -185,18 +185,19 @@ RETURN: $q(z).$
 \frametitle{Results}
 \begin{itemize}
 \item $n = 300$ observations,
-\item $p = 500$ SNPs, with $p_0$ active SNPs per trait,
-\item $q = 1$ trait,
+\item $p = 500$ SNPs, with $p_0$ associated SNPs,
+\item $q = 1$ trait, %for visualisation
 \item $100$ random initialisations,
-\item correlation between the SNPs is between $0.95$ and $0.99$, in blocks of ten SNPs,
-\item we can specify the maximum variance explained by 
+\item autocorrelation between the SNPs is between $0.95$ and $0.99$, in blocks of ten SNPs,
+\item we can specify the maximum proportion of response variance explained by the SNPs.
+\item We used $50$ replications to determine the ROC curves.
 \end{itemize}
 \end{frame}
 
 
 
 \begin{frame}
-\frametitle{Weighted averaging with $p_0 = 5$}
+\frametitle{Weighted averaging with $p_0 = 5$, max var. $=0.5$}
 \begin{figure}
 \includegraphics[width=2.1in]{images/CorrSingle.png}
 \includegraphics[width=2.1in]{images/CorrWeights.png}
@@ -230,8 +231,9 @@ RETURN: $q(z).$
 \end{frame}
 
 \begin{frame}
+\frametitle{Results}
 \begin{itemize}
-\item The paralleled version is not necessarily more time consuming.
+\item Paralleled computation is possible.
 \item The difference is bigger when phenotypic variance is better explained from the SNPs.
 \item The difference is bigger with fewer active SNPs.
 \end{itemize}
@@ -240,10 +242,15 @@ RETURN: $q(z).$
 \begin{frame}
 \frametitle{Next steps}
 \begin{itemize}
-\item Optimize code,
-\item Comparison with annealing for strong correlations,
-\item Do we find the right modes?
+\item Optimization of the code, $\rightarrow$ ev. integration to R-package,
+\item Comparison with annealing and non-weighted averaging for strong correlations.
+\item Do we find the right modes? 2D visualisations (Rocková).
+\item Application to real data.
 
 \end{itemize}
+\end{frame}
+
+\begin{frame}
+Thank you for your time.
 \end{frame}
 \end{document}
