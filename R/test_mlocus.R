@@ -24,7 +24,7 @@ set.seed(123);
 # ================================================================================================================================================ #
 
 n <- 300; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 4; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
@@ -37,7 +37,7 @@ c_lab <- NULL
 single_pred <-  NULL
 single_lab <-  NULL
 
-iter <- 10
+iter <- 1
 
 
 for (k in sample(1:1e3,iter)){
@@ -48,19 +48,21 @@ seed <-  k;
   
 cor_type <- "autocorrelated"; 
 
-vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
+vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
 
 nb_cpus <- 4;
 
 ind_d0 <-  sample(1:d, d0)
 
-ind_p0 <- sample(1:50, p0)
+ind_p0 <- c(3,13,23,43)
+
+p0_av <- 50
 
 user_seed <- sample(1:1e3, 100)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
-max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.25 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed)
@@ -69,7 +71,7 @@ list_phenos <- generate_phenos(n, d,  user_seed = seed)
 
 dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
                              ind_p0 = ind_p0, vec_prob_sh = vec_prob_sh,
-                             family = "gaussian", max_tot_pve = max_tot_pve, 
+                             family = "gaussian", max_tot_pve = max_tot_pve,
                              block_phenos = TRUE, user_seed = seed)
 
 # ================================================================================================================================================ #
@@ -102,12 +104,12 @@ mlocus <- function(fseed) {
   
   gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
   
-  mu_beta_vb_init <- matrix(rnorm(n = p * d,sd = 100), nrow = p)
+  mu_beta_vb_init <- matrix(rnorm(n = p * d,sd = 1), nrow = p)
   
-  list_init <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
+  list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                          sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
   
-  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0, link = "identity", user_seed = fseed, list_init = list_init)
+  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0)
   return(vb_g)
 }
 
@@ -152,7 +154,7 @@ if(mac) {
   if(FALSE) {
   # jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
   plot(out[1:50], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=3,lend=1, ylim = c(0,1))
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0, link = "identity", user_seed = 147512, verbose = FALSE)
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = 147512, verbose = FALSE)
   points(ind_p0,single_vb_g$gam_vb[ind_p0], col='black', pch=4)
   points(ind_p0, out[ind_p0], col = "red")
   # dev.off()
@@ -160,7 +162,7 @@ if(mac) {
   
 }
  if(FALSE){
-   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 5, link = "identity", user_seed = seed, verbose = FALSE)
+   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE)
    
    single_pred <- cbind(single_pred, single_vb_g$gam_vb)
    single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
@@ -196,22 +198,22 @@ dev.off()
 
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
-single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0, link = "identity", user_seed = seed, verbose = FALSE)
+single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE)
 
-if(FALSE){
+if(TRUE){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  png("Weighted.png", width=645, height=350 )
+  #png("Weighted.png", width=645, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
   points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=10)
-  dev.off()
+  #dev.off()
 }
 
-if(FALSE){
+if(TRUE){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  png("Single.png",width=645,height=350)
-  plot(single_vb_g$gam_vb[1:50],type='h',lwd=12,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
-  points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=12)
-  dev.off()
+  #png("Single.png",width=645,height=350)
+  plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
+  points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
+  #dev.off()
 }
 
 # single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
