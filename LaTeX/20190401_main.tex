@@ -7,61 +7,75 @@
 \usepackage{verbatim}
 \usepackage{lmodern}
 \usepackage{tikz}
+\usepackage[ruled,vlined]{algorithm2e}
 \usetikzlibrary{patterns}
 
+\numberwithin{equation}{section}
+
+\newtheorem{lemma}{Lemma}[section]
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
+\setlength{\parskip}{1em}
+
 \begin{document}
-\section{Bayesian inference}
-When using Bayesian statistics, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.\\
-\newline
-%
-When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is close to impossible when their number is really high.\\
-\newline
-Another way to perform Bayesian inference is using deterministic methods. It consists in turning the inference problem into an optimization problem. Variational inference belongs to these kind of methods.
-% ==========================================================================================
-\subsection{Variational inference}
-When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. One way to do so is the variational inference, which gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.\\
-\newline
-%
-We suppose we have observations $y$ and parameters $\boldsymbol{\theta}$, we are looking to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the "closeness" measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.\\
-\newline
-%
-Variational inference minimizes the Kullback-Leibler divergence as a "closeness" measure. Introduced in 1951 by Kullback and Leibler\cite{kl51}, it is the most common divergence measure used in statistics and machine learning. It is described as such:
+
+\title{Statistical analysis on genomic data}
+\author{William van Rooij - EPFL}
+
+\maketitle
+
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+W
+
+%When using Bayesian inference, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.
+
+%When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is close to impossible when their number is really high.
+
+%Another way to perform Bayesian inference is using deterministic methods. It consists in turning the inference problem into an optimization problem. Variational inference belongs to these kind of methods.
+
+\begin{equation*}
+y_{n\times q} = x_{n \times p}\;\beta_{p \times q}+\epsilon_{n \times q}\text{, }\epsilon_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
+\end{equation*}
+% =========================================
+\newpage
+\section{Variational inference}
+When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation of the posterior distribution as a result of an optimization problem that minimizes a measure of "closeness" as objective function.
+
+We suppose we have observations $y$ and parameters $\boldsymbol{\theta}$, we are looking to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the "closeness" measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
+
+Variational inference minimizes the Kullback--Leibler divergence as a "closeness" measure. Introduced in 1951 by Kullback and Leibler\cite{kl51}, it is the most common divergence measure used in statistics and machine learning. It is described as such:
 \begin{equation*}
 \KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
 \end{equation*} 
-It is described as a "directed divergence" as it is asymmetric, \textit{i.e.} $\KL(p\parallel q) \neq \KL(q \parallel p)$.\\
-\newline
-%
-Determining the family $\mathcal{D}$ can be tricky as we need the family to be simple enough to be optimized efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ w.r.t the KL divergence.\\
-\newline
-%
-The approximation will then be:
+It is described as a "directed divergence" as it is asymmetric, \textit{i.e.} $\KL(p\parallel q) \neq \KL(q \parallel p)$.
+
+Determining the family $\mathcal{D}$ can be difficult as we need the family to be simple enough to be optimized efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ w.r.t the Kullbach--Leibler divergence. The approximation will then be:
 \begin{equation*}
 q^*(\boldsymbol{\theta} ) = \argmin_{q(\boldsymbol{\theta}) \in \mathcal{D}} \KL\left( q(\boldsymbol{\theta}) \parallel p(\boldsymbol{\theta} \mid \boldsymbol{y})\right).
 \end{equation*}
-Minimizing the KL divergence can be complicated depending on the density $p$ we want to approximate and the densities family $\mathcal{D}$ we want $q$ to be apart of. We can decompose the KL divergence as follows:
+Minimizing the Kullbach--Leibler divergence can be complicated depending on the density $p$ that we want to approximate and the densities family $\mathcal{D}$ we want $q$ to be part of. We can decompose the KL divergence as follows:
 \begin{align*}
-\KL\left(q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right) &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right],\\
+\KL\left(q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right) &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right]\\
 &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right] + \log p(\boldsymbol{y}).
 \end{align*}
 We introduce the evidence lower bound (\small{ELBO}):
 \begin{align*}
-\mathcal{L}(q) &= \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right],\\
+\mathcal{L}(q) &= \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]\\
 &=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
 \end{align*}
 When decomposing the KL divergence, we obtain:
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
 \end{equation*}
-This means that the KL divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function : $\mathcal{L}(q)$. So minimizing the KL divergence is the same as maximizing $\mathcal{L}(q)$. The difference lays in the complexity of the problems, minimizing the KL divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.\\
-\newline
-%
+This means that the KL divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function : $\mathcal{L}(q)$. So minimizing the Kullbach--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lays in the complexity of the problems, minimizing the Kullbach--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
+
 Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound for the marginal log-likelihood, which is why we call it the evidence lower bound, or variational lower bound.
 \begin{align*}
 \log p(\boldsymbol{y}) &= \log \int p(\boldsymbol{y}, \boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta},\\
@@ -71,20 +85,18 @@ Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound fo
 &= \mathcal{L}(q).
 \end{align*}
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower bound" for $\mathcal{L}(q)$.
-%
+
 \subsection{Mean-field approximation}
-The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ we want $q(\boldsymbol{\theta})$ to be apart of. We introduce the mean-field variational family, where the parameters are mutually independent and are governed by a distinct factor in the variational density.\\
-\newline
-Let's call $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then:
+The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ we want $q(\boldsymbol{\theta})$ to be apart of. We introduce the mean-field variational family, where the parameters are mutually independent and are governed by a distinct factor in the variational density.
+
+We introduce $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then:
 \begin{equation*}
 q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)
 \end{equation*}
-We determine the variational factors $q_j(z_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.\\
-\newline
-%
-To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We can see that the mean of the approximation is the same as the real mean, but the covariance doesn't match the covariance of the real posterior.\\
-\newline
-%
+We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.
+
+To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We can see that the mean of the approximation is the same as the real mean, but the covariance doesn't match the covariance of the real posterior.
+
 \begin{figure}[h!]
 \centering
 \begin{tikzpicture}
@@ -99,17 +111,91 @@ To visualise the mean-field approximation, we consider a two dimensional Gaussia
 \end{tikzpicture}
 \caption{\label{fig:mean_field}Visualisation of mean-field approximation to a two-dimensional Gaussian posterior. The correlations in the mean-field approximation do not represent the correlations of the real posterior.}
 \end{figure}
-%
+
 We have transformed, using the \small{ELBO} and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we will be looking at the coordinate ascend mean-field variational inference.
 % =========================================
-\subsection{Coordinate ascent mean-field variational inference \small{(CAVI)}}
-The coordinate ascent mean-field variational inference (\small{CAVI}) is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the \small{ELBO}.\\
-\newline
-The \small{ELBO} is based on the following result:\\
-If we fix $q_l(z_l)$, $l\neq j$, then the optimal $q_j(z_j)$
+\subsection{Coordinate ascent algorithm}
+The coordinate ascent mean-field variational inference (\small{CAVI}) is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the \small{ELBO}.
+
+The \small{CAVI} algorithm is based on the following result:
+\begin{lemma}
+
+If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ verifies:
 \begin{equation*}
-hi
+q^*_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace.
 \end{equation*}
+
+\end{lemma}
+
+Based on this result, it updates one parameter $\theta_j$ at the time while the others are fixed. The CAVI algorithm stops when the \small{ELBO} varies less than a determined threshold $\varepsilon$.\\
+\newline
+\begin{algorithm}
+\SetKwData{ELBO}{$\mathcal{L}(q)$}\SetKwData{OLDELBO}{$\mathcal{L}^{\text{old}}(q)$}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}\SetKwInOut{Init}{initialize}
+\SetKw{Set}{set}
+\Input{$p(\boldsymbol{y},\boldsymbol{\theta})$, dataset $y$ tolerance $\varepsilon$}
+\BlankLine
+\Output{$q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)$}
+\BlankLine
+\Init{$q_j(\theta_j)$}
+\BlankLine
+\Repeat{$|\mathcal{L}^{\text{old}}(q)-\mathcal{L}(q)| < \varepsilon$}{
+\For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{\label{forins}
+\Set{$q_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace$}}
+\BlankLine
+\OLDELBO$\leftarrow$\ELBO\;
+\ELBO$\leftarrow\mathbb{E}\left[\log p(\boldsymbol{\theta}, \boldsymbol{y})\right]-\mathbb{E}\left[\log q(\boldsymbol{\theta})\right]$
+\BlankLine
+}
+\Return{$q(\boldsymbol{\theta})$}
+\caption{Coordinate ascent variational inference (\small{CAVI})\label{algo:CAVI}}
+\end{algorithm}
+
+At every iteration, $\mathcal{L}(q)$ is guaranteed to increase. The CAVI yields a local optimum depending on the initialization of the $q_j(\theta_j)$, $j=1,\ldots,J$. Having different initializations could yield different optimums. These different optimums correspond to different sets of parameters $\boldsymbol{\theta}_k$, $k=1,\ldots,K$
+
+\section{Multimodality}
+
+Bayesian model averaging is a solution to the inference problem with multiple competing models. It consists of weighting the different models in a weighted average with the probability that the data corresponds to such a model. If multiple models are strongly probable of corresponding to the data, it can be seen in the result of the Bayesian model averaging. The more the model corresponds to the observed data, the more it will stand out in the result.
+
+Assume the data $\boldsymbol{y}$ could correspond to multiple models $M_k$, $k= 1,\ldots,K$, and $\Delta$ is the quantity of interest. We have the posterior distribution:
+\begin{equation}
+p(\Delta \mid \boldsymbol{y}) = \sum_{k=1}^K p(\Delta \mid M_k,\boldsymbol{y}) \; p(M_k \mid \boldsymbol{y}).
+\label{eq:post_dist}
+\end{equation}
+
+This corresponds to a weighted average of the posterior distribution under each of the considered models with weights corresponding to the posterior models probabilities. The posterior probability for model $M_k$ is given by:
+\begin{equation}
+p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=1}^K p(\boldsymbol{y} \mid M_j)\; p(M_j)},
+\label{eq:post_prob}
+\end{equation}
+where $p(\boldsymbol{y} \mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probabilities of the model $M_k$. It can, for example, depend on the complexity of the model, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$.  
+
+We know that the \small{ELBO} and the KL divergence are related and that minimizing the KL divergence is equivalent to maximizing the \small{ELBO}, and that they verify: 
+\begin{equation*}
+\KL(q\parallel p) = \log p (\boldsymbol{y}) - \mathcal{L}(q).
+\end{equation*}
+As we minimized the KL div, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y})$ in Equation \ref{eq:post_prob}.
+
+Now, instead of $p(\Delta \mid \boldsymbol{y})$ in Equation \ref{eq:post_dist}, we might be interested in approximating:
+\begin{equation*}
+\mathbb{E}\left[\Delta \mid \boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\Delta \mid M_k, \boldsymbol{y}\right]\;p(M_k \mid \boldsymbol{y}).
+\end{equation*}
+The same way we did in Equation \ref{eq:post_dist}, we calculate $p(M_K \mid \boldsymbol{y})$ with Equation \ref{eq:post_prob}.
+
+% =========================================
+
+\newpage
+\section{Implementation}
+\subsection{Model description}
+We denote $X = (X_1,\ldots,X_p)$ the SNPs and $y = (y_1,\ldots,y_q)$ the traits. The SNPs are strongly correlated. Our goal is to estimate the association between SNP $s$ and trait $t$. To do so, we consider $y$ as the response matrix and $X$ as the candidate predictors, of the linear model where each response $y_t$ is linearly related with the predictors $X$ and has a residual precision $\tau_t\sim$ Gamma$(\eta_t,\kappa_t)$, \textit{i.e.}:
+\begin{equation*}
+\label{eq:model}
+\boldsymbol{y}_{n\times q} = \boldsymbol{x}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
+\end{equation*}
+
+We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix
+
 %
 %
 %
@@ -117,27 +203,36 @@ hi
 %
 %
 % =========================================
-\newpage
-\section{Results}
-\begin{figure}
-\includegraphics[width=5in]{images/multipleProba1.jpg}
-\includegraphics[width=5in]{images/multipleProba2.jpg}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=5in]{images/AUC_100_iter.jpeg}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
-\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
-\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
-\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
-\caption{Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
-Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
-\end{figure}
+%\newpage
+%\section{Results}
+%\begin{figure}
+%\includegraphics[width=5in]{images/multipleProba1.jpg}
+%\includegraphics[width=5in]{images/multipleProba2.jpg}
+%\end{figure}
+%
+%\begin{figure}
+%\includegraphics[width=5in]{images/AUC_100_iter.jpeg}
+%\end{figure}
+%
+%\begin{figure}
+%\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
+%\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
+%\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
+%\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
+%\caption{Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
+%Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
+%\end{figure}
 % =========================================
 \newpage
-%\bibliography{references}
-%\bibliographystyle{plain}
+\section{Next steps}
+In the continuity of this project, we would like to optimize the code of the function we implemented. To have an accepatable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's R-package.
+
+We would like to compare the accuracy and computation cost to other methods, such as annealing and non-weighted averaging for strong correlations. We would also like to try to combine annealing with our method to see the way it would interact.
+
+To be able to tell if the right modes are obtained from the ascent algorithm, we would like to represent with the level curves the modes and the direction of the algorithm, the same way V. Rockova did.
+
+Finally, to be able to apply this method on real-life data would be the target of the whole project. To be sure that the method works not only on simulated data, but could be used properly.
+\newpage
+\bibliography{references}
+\bibliographystyle{plain}
 \end{document}
