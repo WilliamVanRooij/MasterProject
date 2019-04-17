@@ -32,17 +32,50 @@
 \tableofcontents
 \newpage
 \section{Introduction}
-W
+For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science in the way business is done. With the expansion of computer performances, we are able to compute calculations quicker and can work with more complex models. The volume of collectible data, hence analysable data, is also growing, which allows more and more parameters to be included in our analysis.
 
-%When using Bayesian inference, one of the often used tools is integrals. However, it usually is a problem as they are not amenable, except in some particular cases, and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.
+Usually, when trying to find a model fitting the observable data, we have much more observations than parameters to fit. We work in a \textit{large n - small p} situation. It is the most common type of statistical analysis, Bayesian hierarchy modelling is a strong tool to identify the dependencies across multiple sources of informations.
 
-%When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations, the cost of these calculations increases with the number of parameters. Moreover, the more dimensions our problem has, the less exact our approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is close to impossible when their number is really high.
+However, in some cases, the number of parameters we need to estimate is way larger than the number of observations available. It is often the case in genomic research, where the situation is called a \textit{small n - large p}. Traditional techniques do not apply in these environment, because of the computation time necessary for the algorithms to end, or the accuracy not adequate enough.
 
-%Another way to perform Bayesian inference is using deterministic methods. It consists in turning the inference problem into an optimization problem. Variational inference belongs to these kind of methods.
+In this report, we will focus on the \textit{small n - large p} situation in the context of genetic association. We will focus on high dimensional Bayesian inference, with its statistical advantages and its computational problem that dissuades users to adopt this solution in statistical applications.
 
+\subsection{Motivation}
+The state of the technology nowadays allows us to determine the human genome. With this possibility, a whole new set of data is available to study the association between these data and various diseases or phenotypes.  Part of these newly available data are \textit{genetic variants}, a change at a specific location on  the genome (locus), where the different versions are called \textit{alleles}. We will focus on the most common genetic variant, the \textit{single nucleotide polymorphisms} (SNPs), a variation in the nucleotide that is present to some appreciable extent in the population, \textit{i.e.} the \textit{minor} allele has frequency $> 0.01$ \cite{lewin}. Some combinations of SNPs are inherited together, which yields block-wise dependences structures. We observe strong autocorrelations in these blocks, as shows Figure \ref{fig:corr}.
+\begin{figure}
+\centering
+\includegraphics[width=3in,bb = 0 0 2in 2in]{images/corrWeights.png}
+\caption{\label{fig:corr} Visualisation of the block-wise correlation structure and the probabilities of association of SNPs to a phenotype.}
+\end{figure}
+
+We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts, or genes. The data used for eQTL studies consists generally of several hundreds thousands SNPs and thousand transcripts expression outcomes. It is, in fact, a \textit{small n - large p - large q} situation, where $p$ is the number of SNPs and $q$ is the number of transcripts expressions outcomes.
+
+We would like to represent these data by a model where $\boldsymbol{y} = (y_1, \ldots ,y_q)$, the transcripts expressions, are linearly related with the predictors $\boldsymbol{X} = (X_1, \ldots, X_p)$, the SNPs, and $\boldsymbol{\beta}$ represent the probabilities of associations between the SNPs and the transcript expressions, \textit{i.e.}:
 \begin{equation*}
-y_{n\times q} = x_{n \times p}\;\beta_{p \times q}+\epsilon_{n \times q}\text{, }\epsilon_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
+\boldsymbol{y}_{n\times q} = \boldsymbol{x}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q},\;\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n),
 \end{equation*}
+where $\tau_t$ is the residual precision.
+
+In a Bayesian framework, one of the main tools used are integrals. However, the integrals are usually not amenable and need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are the most used to estimate these integrals and are fairly quick and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, the MCMC algorithms become really time-consuming up to not being computable.
+
+When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iterations. The cost of these calculations increases with the number of parameters. Moreover, the more dimensions the problem has, the less accurate the approximations become, which leads to more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is close to impossible when their number is really high.
+
+In our situation, \textit{small n - large p - large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to perform the algorithm is not acceptable as of today. We have to use an alternative solution, which is called variational inference \cite{varInf}.
+%==========================================
+\newpage
+\section{Model}
+We denote $\boldsymbol{X }= (X_1,\ldots,X_p)$ the SNPs and $\boldsymbol{y} = (y_1,\ldots,y_q)$ the traits. The SNPs are strongly correlated. Our goal is to estimate the association between SNP $s$ and transcripts expression , called \textit{trait}, $t$. To do so, we consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t\sim$ Gamma$(\eta_t,\kappa_t)$, \textit{i.e.}:
+\begin{equation*}
+\label{eq:model}
+\boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
+\end{equation*}
+where $\boldsymbol{\beta}_{st}$ represent the association between SNP $s$ and trait $t$
+
+We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix corresponding to the association of SNPs and traits. If the SNP $s$ and trait $t$ are associated, then $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we place a "spike-and-slab" prior distribution:
+\begin{equation*}
+\beta_{st} \mid \gamma_{st},\sigma^2, \tau_t \sim \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\delta_0,\;t=1,\ldots,q
+\end{equation*}
+ 
 % =========================================
 \newpage
 \section{Variational inference}
@@ -56,10 +89,11 @@ Variational inference minimizes the Kullback--Leibler divergence as a "closeness
 \end{equation*} 
 It is described as a "directed divergence" as it is asymmetric, \textit{i.e.} $\KL(p\parallel q) \neq \KL(q \parallel p)$.
 
-Determining the family $\mathcal{D}$ can be difficult as we need the family to be simple enough to be optimized efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ w.r.t the Kullbach--Leibler divergence. The approximation will then be:
+Determining the family $\mathcal{D}$ can be difficult as we need the family to be simple enough to be optimized efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ with respect to the Kullbach--Leibler divergence. The approximation will then be:
 \begin{equation*}
 q^*(\boldsymbol{\theta} ) = \argmin_{q(\boldsymbol{\theta}) \in \mathcal{D}} \KL\left( q(\boldsymbol{\theta}) \parallel p(\boldsymbol{\theta} \mid \boldsymbol{y})\right).
 \end{equation*}
+
 Minimizing the Kullbach--Leibler divergence can be complicated depending on the density $p$ that we want to approximate and the densities family $\mathcal{D}$ we want $q$ to be part of. We can decompose the KL divergence as follows:
 \begin{align*}
 \KL\left(q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right) &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right]\\
@@ -74,6 +108,7 @@ When decomposing the KL divergence, we obtain:
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
 \end{equation*}
+
 This means that the KL divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function : $\mathcal{L}(q)$. So minimizing the Kullbach--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lays in the complexity of the problems, minimizing the Kullbach--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
 
 Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound for the marginal log-likelihood, which is why we call it the evidence lower bound, or variational lower bound.
@@ -185,24 +220,6 @@ The same way we did in Equation \ref{eq:post_dist}, we calculate $p(M_K \mid \bo
 
 % =========================================
 
-\newpage
-\section{Implementation}
-\subsection{Model description}
-We denote $X = (X_1,\ldots,X_p)$ the SNPs and $y = (y_1,\ldots,y_q)$ the traits. The SNPs are strongly correlated. Our goal is to estimate the association between SNP $s$ and trait $t$. To do so, we consider $y$ as the response matrix and $X$ as the candidate predictors, of the linear model where each response $y_t$ is linearly related with the predictors $X$ and has a residual precision $\tau_t\sim$ Gamma$(\eta_t,\kappa_t)$, \textit{i.e.}:
-\begin{equation*}
-\label{eq:model}
-\boldsymbol{y}_{n\times q} = \boldsymbol{x}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
-\end{equation*}
-
-We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix
-
-%
-%
-%
-%
-%
-%
-% =========================================
 %\newpage
 %\section{Results}
 %\begin{figure}

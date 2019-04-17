@@ -1,8 +1,17 @@
 \begin{thebibliography}{1}
 
+\bibitem{lewin}
+S.~T.~Kilpatrick B.~Lewin, J.~Krebs and E.~S. Goldstein.
+\newblock {\em Lewin's Genes}, volume~10.
+\newblock Jones and Bartlett, Sudbury, United States, 2011.
+
+\bibitem{varInf}
+Jon D.~McAuliffe David M.~Blei, Alp~Kucukelbir.
+\newblock Variational inference: A review for statisticians, 2018.
+
 \bibitem{kl51}
 S.~Kullback and R.~A. Leibler.
 \newblock On information and sufficiency.
-\newblock {\em The Annals of Mathematical Statistics}, (22):79--86, 1951.
+\newblock {\em The Annals of Mathematical Statistics}, 22:79--86, 1951.
 
 \end{thebibliography}

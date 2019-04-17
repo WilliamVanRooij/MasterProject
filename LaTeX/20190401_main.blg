@@ -3,46 +3,49 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: 20190401_main.aux
 The style file: plain.bst
 Database file #1: references.bib
-Warning--there's a number but no volume in kl51
-You've used 1 entry,
+Name 1 in "B. Lewin, J. Krebs, S. T. Kilpatrick, and E. S. Goldstein" has a comma at the end for entry lewin
+while executing---line 1049 of file plain.bst
+Name 1 in "B. Lewin, J. Krebs, S. T. Kilpatrick, and E. S. Goldstein" has a comma at the end for entry lewin
+while executing---line 1090 of file plain.bst
+You've used 3 entries,
             2118 wiz_defined-function locations,
-            504 strings with 4121 characters,
-and the built_in function-call counts, 327 in all, are:
-= -- 30
-> -- 13
-< -- 0
-+ -- 5
-- -- 4
-* -- 26
-:= -- 61
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 5
+            515 strings with 4356 characters,
+and the built_in function-call counts, 760 in all, are:
+= -- 70
+> -- 33
+< -- 1
++ -- 13
+- -- 10
+* -- 43
+:= -- 139
+add.period$ -- 8
+call.type$ -- 3
+change.case$ -- 13
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 11
-empty$ -- 26
-format.name$ -- 4
-if$ -- 65
+cite$ -- 3
+duplicate$ -- 31
+empty$ -- 62
+format.name$ -- 10
+if$ -- 154
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 1
-newline$ -- 8
-num.names$ -- 2
-pop$ -- 4
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 17
+num.names$ -- 6
+pop$ -- 15
 preamble$ -- 1
-purify$ -- 4
+purify$ -- 11
 quote$ -- 0
-skip$ -- 6
+skip$ -- 23
 stack$ -- 0
-substring$ -- 20
-swap$ -- 1
-text.length$ -- 0
+substring$ -- 30
+swap$ -- 4
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
-warning$ -- 1
-while$ -- 3
-width$ -- 2
-write$ -- 13
-(There was 1 warning)
+type$ -- 10
+warning$ -- 0
+while$ -- 7
+width$ -- 4
+write$ -- 32
+(There were 2 error messages)
