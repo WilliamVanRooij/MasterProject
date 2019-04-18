@@ -23,7 +23,7 @@
 
 \begin{document}
 
-\title{Statistical analysis on genomic data}
+\title{Statistical analysis on genomic data - First Draft}
 \author{William van Rooij - EPFL}
 
 \maketitle
@@ -64,18 +64,35 @@ In our situation, \textit{small n - large p - large q}, the computational cost o
 %==========================================
 \newpage
 \section{Model}
-We denote $\boldsymbol{X }= (X_1,\ldots,X_p)$ the SNPs and $\boldsymbol{y} = (y_1,\ldots,y_q)$ the traits. The SNPs are strongly correlated. Our goal is to estimate the association between SNP $s$ and transcripts expression , called \textit{trait}, $t$. To do so, we consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t\sim$ Gamma$(\eta_t,\kappa_t)$, \textit{i.e.}:
+We denote $\boldsymbol{X }= (X_1,\ldots,X_p)$ the SNPs and $\boldsymbol{y} = (y_1,\ldots,y_q)$ the traits. The SNPs are strongly correlated. Our goal is to estimate the association between SNP $s$ and transcripts expression , called \textit{trait}, $t$. To do so, we consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t$, \textit{i.e.}
 \begin{equation*}
 \label{eq:model}
 \boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)
 \end{equation*}
-where $\boldsymbol{\beta}_{st}$ represent the association between SNP $s$ and trait $t$
+where $\boldsymbol{\beta}_{st}$ represent the association between SNP $s$ and trait $t$. The parameters $\tau_t$ and $\sigma^{-2}$ have the following prior distribution:
+\begin{align*}
+\tau_t &\sim \text{Gamma}(\eta_t,\kappa_t),\\
+\sigma^{-2} &\sim \text{Gamma}(\lambda,\nu).
+\end{align*}
 
-We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix corresponding to the association of SNPs and traits. If the SNP $s$ and trait $t$ are associated, then $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we place a "spike-and-slab" prior distribution:
+We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix corresponding to an indicator of association between SNPs and traits. The SNP $s$ and trait $t$ are associated if and only if $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we set a "spike-and-slab" prior distribution, \textit{i.e.} 
 \begin{equation*}
-\beta_{st} \mid \gamma_{st},\sigma^2, \tau_t \sim \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\delta_0,\;t=1,\ldots,q
+\beta_{st} \mid \gamma_{st},\sigma^2, \tau_t \sim \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0
 \end{equation*}
- 
+where $\delta_0$ is a Dirac distribution.
+
+We call $\omega_s$ the parameter controlling to the proportion of responses associated with the predictor $X_s$. Then, the prior distribution of $\gamma_{st}$ knowing $\omega_s$ is given by:
+\begin{equation*}
+\gamma_{st} \mid \omega_s \sim  \text{Bernoulli}(\omega_s).
+\end{equation*}
+We choose $\omega_s$ to follow a Beta distribution,
+\begin{equation*}
+\omega_s \sim \text{Beta}(a_s, b_s).
+\end{equation*}
+The parameters $a_s$ and $b_s$ are chosen to enforce sparsity. If we define $p^* \ll p$ as the expected number of predictors involved in the model, we want to set $a_s$ and $b_s$ such that the prior probability that $X_s$ is associated with at least one response is equal to $p^*/p$. We fix the mean of the distribution but let the variance free, the solution still has one degree of freedom so multiple solutions are possible, \textit{e.g.}
+\begin{equation*}
+a_s \equiv 1,\;b_s \equiv q(p-p^*)/p^*.
+\end{equation*}
 % =========================================
 \newpage
 \section{Variational inference}
@@ -94,22 +111,22 @@ Determining the family $\mathcal{D}$ can be difficult as we need the family to b
 q^*(\boldsymbol{\theta} ) = \argmin_{q(\boldsymbol{\theta}) \in \mathcal{D}} \KL\left( q(\boldsymbol{\theta}) \parallel p(\boldsymbol{\theta} \mid \boldsymbol{y})\right).
 \end{equation*}
 
-Minimizing the Kullbach--Leibler divergence can be complicated depending on the density $p$ that we want to approximate and the densities family $\mathcal{D}$ we want $q$ to be part of. We can decompose the KL divergence as follows:
+Minimizing the Kullbach--Leibler divergence can be complicated depending on the density $p$ that we want to approximate and the densities family $\mathcal{D}$ we want $q$ to be part of. We can decompose the Kullbach--Leibler divergence as follows:
 \begin{align*}
 \KL\left(q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right) &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right]\\
 &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right] + \log p(\boldsymbol{y}).
 \end{align*}
-We introduce the evidence lower bound (\small{ELBO}):
+We introduce the evidence lower bound:
 \begin{align*}
 \mathcal{L}(q) &= \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]\\
 &=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
 \end{align*}
-When decomposing the KL divergence, we obtain:
+When decomposing the Kullbach--Leibler divergence, we obtain:
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
 \end{equation*}
 
-This means that the KL divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function : $\mathcal{L}(q)$. So minimizing the Kullbach--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lays in the complexity of the problems, minimizing the Kullbach--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
+This means that the Kullbach--Leibler divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function : $\mathcal{L}(q)$. So minimizing the Kullbach--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lays in the complexity of the problems, minimizing the Kullbach--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
 
 Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound for the marginal log-likelihood, which is why we call it the evidence lower bound, or variational lower bound.
 \begin{align*}
@@ -119,16 +136,21 @@ Using Jensen's inequality, we can show that $\mathcal{L}(q)$ is a lower bound fo
 &\geq \int q(\boldsymbol{\theta}) \log \left\lbrace \frac{p(\boldsymbol{y}, \boldsymbol{\theta})}{q(\boldsymbol{\theta})} \right\rbrace \mathrm{d}\boldsymbol{\theta},\\
 &= \mathcal{L}(q).
 \end{align*}
-Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the name "lower bound" for $\mathcal{L}(q)$.
+Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$, justifying the lower bound for $\mathcal{L}(q)$.
 
 \subsection{Mean-field approximation}
 The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ we want $q(\boldsymbol{\theta})$ to be apart of. We introduce the mean-field variational family, where the parameters are mutually independent and are governed by a distinct factor in the variational density.
 
-We introduce $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then:
+We introduce $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ is a mean-field variational family, then:
 \begin{equation*}
 q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)
 \end{equation*}
-We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the \small{ELBO}.
+We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the evidence lower bound.
+
+Concretely, we assume the independence of most of the parameters:
+\begin{equation*}
+q(\boldsymbol{\theta}) =\left\lbrace\prod_{s=1}^p \prod_{t=1}^q q(\beta_{st}, \gamma_{st})\right\rbrace \left\lbrace\prod_{s=1}^p  q(\omega_s)\right\rbrace \left\lbrace\prod_{t=1}^q q(\tau_t)\right\rbrace q(\sigma^{-2}).
+\end{equation*}
 
 To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We can see that the mean of the approximation is the same as the real mean, but the covariance doesn't match the covariance of the real posterior.
 
@@ -147,12 +169,12 @@ To visualise the mean-field approximation, we consider a two dimensional Gaussia
 \caption{\label{fig:mean_field}Visualisation of mean-field approximation to a two-dimensional Gaussian posterior. The correlations in the mean-field approximation do not represent the correlations of the real posterior.}
 \end{figure}
 
-We have transformed, using the \small{ELBO} and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we will be looking at the coordinate ascend mean-field variational inference.
+We have transformed, using the evidence lower bound and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we will be looking at the coordinate ascend mean-field variational inference.
 % =========================================
 \subsection{Coordinate ascent algorithm}
-The coordinate ascent mean-field variational inference (\small{CAVI}) is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the \small{ELBO}.
+The coordinate ascent mean-field variational inference  is one of the most common used to solve this kind of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the evidence lower bound.
 
-The \small{CAVI} algorithm is based on the following result:
+The algorithm is based on the following result:
 \begin{lemma}
 
 If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ verifies:
@@ -162,7 +184,7 @@ q^*_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mi
 
 \end{lemma}
 
-Based on this result, it updates one parameter $\theta_j$ at the time while the others are fixed. The CAVI algorithm stops when the \small{ELBO} varies less than a determined threshold $\varepsilon$.\\
+Based on this result, it updates one parameter $\theta_j$ at the time while the others are fixed. The algorithm stops when $\mathcal{L}(q)$ varies less than a determined threshold $\varepsilon$.\\
 \newline
 \begin{algorithm}
 \SetKwData{ELBO}{$\mathcal{L}(q)$}\SetKwData{OLDELBO}{$\mathcal{L}^{\text{old}}(q)$}
@@ -184,11 +206,21 @@ Based on this result, it updates one parameter $\theta_j$ at the time while the 
 \BlankLine
 }
 \Return{$q(\boldsymbol{\theta})$}
-\caption{Coordinate ascent variational inference (\small{CAVI})\label{algo:CAVI}}
+\caption{Coordinate ascent variational inference \label{algo:CAVI}}
 \end{algorithm}
+At every iteration, $\mathcal{L}(q)$ is guaranteed to increase. The algorithm yields a local optimum depending on the initialization of the $q_j(\theta_j)$, $j=1,\ldots,J$. Having different initializations could yield different optimums that correspond to different models.
 
-At every iteration, $\mathcal{L}(q)$ is guaranteed to increase. The CAVI yields a local optimum depending on the initialization of the $q_j(\theta_j)$, $j=1,\ldots,J$. Having different initializations could yield different optimums. These different optimums correspond to different sets of parameters $\boldsymbol{\theta}_k$, $k=1,\ldots,K$
+In our case, the posterior distributions of our model's parameters are:
+\begin{align*}
+\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} &\sim \mathcal{N}\left(\mu_{\beta, st},\sigma^2_{\beta, st}\right),\\
+\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} &\sim \delta_0,\\
+\gamma_{st} \mid \boldsymbol{y} &\sim \text{Bernoulli}(\gamma_{st}^{(1)}),\\
+\omega_s\mid\boldsymbol{y} &\sim \text{Beta}(a_s^*,b_s^*),\\
+\tau_t\mid \boldsymbol{y} &\sim \text{Gamma}(\eta^*_t, \kappa^*_t),\\
+\sigma^{-2} \mid \boldsymbol{y} &\sim \text{Gamma}(\lambda^*, \nu^*).
+\end{align*}
 
+\newpage
 \section{Multimodality}
 
 Bayesian model averaging is a solution to the inference problem with multiple competing models. It consists of weighting the different models in a weighted average with the probability that the data corresponds to such a model. If multiple models are strongly probable of corresponding to the data, it can be seen in the result of the Bayesian model averaging. The more the model corresponds to the observed data, the more it will stand out in the result.
@@ -206,47 +238,54 @@ p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=
 \end{equation}
 where $p(\boldsymbol{y} \mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probabilities of the model $M_k$. It can, for example, depend on the complexity of the model, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$.  
 
-We know that the \small{ELBO} and the KL divergence are related and that minimizing the KL divergence is equivalent to maximizing the \small{ELBO}, and that they verify: 
+We know that the evidence lower bound and the Kullbach--Leibler divergence are related and that minimizing the Kullbach--Leibler divergence is equivalent to maximizing the evidence lower bound, and that they verify: 
 \begin{equation*}
 \KL(q\parallel p) = \log p (\boldsymbol{y}) - \mathcal{L}(q).
 \end{equation*}
-As we minimized the KL div, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y})$ in Equation \ref{eq:post_prob}.
+As we minimized the Kullbach--Leibler divergence, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y})$ in Equation \ref{eq:post_prob}.
 
 Now, instead of $p(\Delta \mid \boldsymbol{y})$ in Equation \ref{eq:post_dist}, we might be interested in approximating:
 \begin{equation*}
 \mathbb{E}\left[\Delta \mid \boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\Delta \mid M_k, \boldsymbol{y}\right]\;p(M_k \mid \boldsymbol{y}).
 \end{equation*}
-The same way we did in Equation \ref{eq:post_dist}, we calculate $p(M_K \mid \boldsymbol{y})$ with Equation \ref{eq:post_prob}.
+The same way we did in Equation \ref{eq:post_dist}, we calculate $p(M_k \mid \boldsymbol{y})$ with Equation \ref{eq:post_prob}.
 
+Our quantity of interest is $\gamma_{st}$, \textit{i.e.} we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{algo:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
+
+We can consider each optimum to be a model representing the data, and we can apply a form of Bayesian model averaging to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in Equation \ref{eq:post_prob}, and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models we have obtained in the algorithm.
 % =========================================
+\newpage
+\section{Simulations}
+In her R-package \texttt{locus}, H. Ruffieux has implemented a function \texttt{locus} that estimates the probabilities of association between a SNP and a trait. We will use this function to build our own method and also to have a comparison. If our method would not perform better than this implementation, it because irrelevant.
 
-%\newpage
-%\section{Results}
-%\begin{figure}
-%\includegraphics[width=5in]{images/multipleProba1.jpg}
-%\includegraphics[width=5in]{images/multipleProba2.jpg}
-%\end{figure}
-%
-%\begin{figure}
-%\includegraphics[width=5in]{images/AUC_100_iter.jpeg}
-%\end{figure}
-%
-%\begin{figure}
-%\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
-%\includegraphics[width=2.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
-%\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
-%\includegraphics[width=2.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
-%\caption{Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
-%Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
-%\end{figure}
+Our method is basically calling multiple times that \texttt{locus} function and combine all the results in an weighted average. For each call, we initialized the parameters differently, and hoped to obtain different optimums.
+
+We have drawn at random the initial parameters for the optimal approximations $q^*(\boldsymbol{\theta})$. We have used H. Ruffieux's function \texttt{locus} to calculate the probabilities of association between the SNPs and the traits, as well as the evidence lower bound for each initialisation. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation.
+
+We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We did $100$ random initialisations for the parameters.
+
+In Figure \ref{fig:ROCComp}, we have plotted the ROC curves of our method (blue) as well as the ROC curve of calling the function just once (orange). We replicated the process $50$ times to generate these curves, so we don't get "lucky" and have the a set of parameters that is really performing well and would not be representative of the real behaviour of the method. We have chosen the number of SNPs associated with the trait to be $15$ or $50$, and the maximum proportion of response variance explained by the SNPs to be $0.5$ or $0.8$.
+\begin{figure}[h!]
+\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
+\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
+\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
+\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
+\caption{\label{fig:ROCComp}Comparison of ROC curves between single locus (blue) and multiple locus (orange). Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
+Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
+\end{figure}
+
+We can see that with every parameters combination, our method performs better than the single-call method. We can see that some combinations of parameters yield better results than others. For example, we can see that when the maximum proportion of response variance explained by the SNPs is bigger, the method identifies better the SNPs associated with the trait (right two compared to left two). In the same way, the method identifies better the active SNPs when their number is lower (top two compared to bottom two).
+
+
+It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
 % =========================================
 \newpage
 \section{Next steps}
 In the continuity of this project, we would like to optimize the code of the function we implemented. To have an accepatable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's R-package.
 
-We would like to compare the accuracy and computation cost to other methods, such as annealing and non-weighted averaging for strong correlations. We would also like to try to combine annealing with our method to see the way it would interact.
+We would like to compare the accuracy and computation cost to other methods, such as annealing and non-weighted averaging for strong correlations. We would also like to try to combine annealing with our method to see how it would modify the results.
 
-To be able to tell if the right modes are obtained from the ascent algorithm, we would like to represent with the level curves the modes and the direction of the algorithm, the same way V. Rockova did.
+To be able to tell if the right modes are obtained from the ascent algorithm, we would like to represent with the level curves the modes and the direction of the algorithm, the same way V. Rockova \cite{rockova} did.
 
 Finally, to be able to apply this method on real-life data would be the target of the whole project. To be sure that the method works not only on simulated data, but could be used properly.
 \newpage
