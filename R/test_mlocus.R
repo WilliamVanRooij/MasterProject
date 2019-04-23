@@ -24,7 +24,7 @@ set.seed(123);
 # ================================================================================================================================================ #
 
 n <- 300; 
-p <- 500; p0 <- 4; 
+p <- 2; p0 <- 1; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
@@ -48,17 +48,18 @@ seed <-  k;
   
 cor_type <- "autocorrelated"; 
 
-vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
+# vec_rho <- runif(floor(p/10), min = 0.97, max = 0.99)
+vec_rho <- 0.9
 
 nb_cpus <- 4;
 
 ind_d0 <-  sample(1:d, d0)
 
-ind_p0 <- c(3,13,23,43)
+ind_p0 <- c(1)
 
-p0_av <- 50
+p0_av <- 1
 
-user_seed <- sample(1:1e3, 100)
+user_seed <- sample(1:1e3, 3)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
@@ -109,7 +110,7 @@ mlocus <- function(fseed) {
   list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                          sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
   
-  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0)
+  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=TRUE)
   return(vb_g)
 }
 
@@ -198,7 +199,7 @@ dev.off()
 
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
-single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE)
+single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE)
 
 if(TRUE){
   #make_ld_plot(dat_g$snps[,1:50],"r")
@@ -220,6 +221,8 @@ if(TRUE){
 
 # points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
 
+library(LaplacesDemon)
+joint.density.plot(single_vb_g$gam_vb[,1], color=TRUE)
 
 
 # Next steps:
