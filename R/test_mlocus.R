@@ -24,7 +24,7 @@ set.seed(123);
 # ================================================================================================================================================ #
 
 n <- 300; 
-p <- 2; p0 <- 1; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 # plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
@@ -48,22 +48,22 @@ seed <-  k;
   
 cor_type <- "autocorrelated"; 
 
-# vec_rho <- runif(floor(p/10), min = 0.97, max = 0.99)
-vec_rho <- 0.9
+vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
+#vec_rho <- c(0.99,0.99)
 
 nb_cpus <- 4;
 
 ind_d0 <-  sample(1:d, d0)
 
-ind_p0 <- c(1)
+ind_p0 <- c(3,13,17,23,43)
 
-p0_av <- 1
+p0_av <- 30
 
-user_seed <- sample(1:1e3, 3)
+user_seed <- sample(1:1e3, 100)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
-max_tot_pve <-  0.25 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.7 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed)
@@ -105,8 +105,8 @@ mlocus <- function(fseed) {
   
   gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
   
-  mu_beta_vb_init <- matrix(rnorm(n = p * d,sd = 1), nrow = p)
-  
+  mu_beta_vb_init <- matrix(rnorm(n = p * d , mean=0, sd = 1), nrow = p)
+
   list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                          sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
   
@@ -201,7 +201,7 @@ dev.off()
 
 single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE)
 
-if(TRUE){
+if(FALSE){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Weighted.png", width=645, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
@@ -209,7 +209,7 @@ if(TRUE){
   #dev.off()
 }
 
-if(TRUE){
+if(FALSE){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Single.png",width=645,height=350)
   plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
@@ -220,11 +220,12 @@ if(TRUE){
 # single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
 
 # points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
-
-library(LaplacesDemon)
-joint.density.plot(single_vb_g$gam_vb[,1], color=TRUE)
-
-
+lbo <- NULL
+for(x in c(1:length(user_seed))){
+lbo = c(lbo, m_vb_g[[x]]$lb_opt)  
+  
+}
+plot(lbo)
 # Next steps:
 # implement weights in average - (DONE 27.03.19)
 # compare with results from a single seed - (DONE 27.03.19)
