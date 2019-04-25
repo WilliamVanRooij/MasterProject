@@ -1,10 +1,11 @@
 \babel@toc {british}{}
-\contentsline {section}{\numberline {1}Introduction}{3}
-\contentsline {subsection}{\numberline {1.1}Motivation}{3}
-\contentsline {section}{\numberline {2}Model}{5}
-\contentsline {section}{\numberline {3}Variational inference}{6}
-\contentsline {subsection}{\numberline {3.1}Mean-field approximation}{7}
-\contentsline {subsection}{\numberline {3.2}Coordinate ascent algorithm}{8}
-\contentsline {section}{\numberline {4}Multimodality}{10}
-\contentsline {section}{\numberline {5}Simulations}{12}
-\contentsline {section}{\numberline {6}Next steps}{14}
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {1.1}Situation}{2}
+\contentsline {section}{\numberline {1.2}Motivation}{3}
+\contentsline {chapter}{\numberline {2}Model}{5}
+\contentsline {chapter}{\numberline {3}Variational Inference}{7}
+\contentsline {section}{\numberline {3.1}Mean-field approximation}{8}
+\contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{10}
+\contentsline {chapter}{\numberline {4}Multimodality}{12}
+\contentsline {chapter}{\numberline {5}Simulations}{14}
+\contentsline {chapter}{\numberline {6}Next steps}{17}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  23 APR 2019 11:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  25 APR 2019 15:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,19 +6,20 @@ entering extended mode
 (./20190401_main.tex
 LaTeX2e <2018-04-01> patch level 2
 Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\c@figure=\count87
+\c@table=\count88
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -37,11 +38,11 @@ Language: english 2017/06/06 v3.3r English support from the babel system
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2018/02/14 3.18 Babel common definitions
-\babel@savecnt=\count88
+\babel@savecnt=\count89
 \U@D=\dimen103
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/babel/txtbabel.def)
-\bbl@dirlevel=\count89
+\bbl@dirlevel=\count90
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
@@ -70,13 +71,13 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count90
+\inf@bad=\count91
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count91
-\leftroot@=\count92
+\uproot@=\count92
+\leftroot@=\count93
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count93
-\DOTSCASE@=\count94
+\classnum@=\count94
+\DOTSCASE@=\count95
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
@@ -85,15 +86,15 @@ LaTeX Info: Redefining \cdots on input line 596.
 \big@size=\dimen106
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count95
-\c@MaxMatrixCols=\count96
+\macc@depth=\count96
+\c@MaxMatrixCols=\count97
 \dotsspace@=\muskip10
-\c@parentequation=\count97
-\dspbrk@lvl=\count98
+\c@parentequation=\count98
+\dspbrk@lvl=\count99
 \tag@help=\toks15
-\row@=\count99
-\column@=\count100
-\maxfields@=\count101
+\row@=\count100
+\column@=\count101
+\maxfields@=\count102
 \andhelp@=\toks16
 \eqnshift@=\dimen107
 \alignsep@=\dimen108
@@ -117,15 +118,15 @@ Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count102
-\calc@Bcount=\count103
+\calc@Acount=\count103
+\calc@Bcount=\count104
 \calc@Adimen=\dimen113
 \calc@Bdimen=\dimen114
 \calc@Askip=\skip46
 \calc@Bskip=\skip47
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count104
+\calc@Ccount=\count105
 \calc@Cskip=\skip48
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/mathtools/mhsetup.sty
@@ -135,7 +136,7 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count105
+\g_MT_multlinerow_int=\count106
 \l_MT_multwidth_dim=\dimen115
 \origjot=\skip49
 \l_MT_shortvdotswithinadjustabove_dim=\dimen116
@@ -255,10 +256,10 @@ ode.tex
 \pgf@yc=\dimen133
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count106
-\c@pgf@countb=\count107
-\c@pgf@countc=\count108
-\c@pgf@countd=\count109
+\c@pgf@counta=\count107
+\c@pgf@countb=\count108
+\c@pgf@countc=\count109
+\c@pgf@countd=\count110
 \t@pgf@toka=\toks26
 \t@pgf@tokb=\toks27
 \t@pgf@tokc=\toks28
@@ -279,8 +280,8 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
 code.tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count110
-\pgfsyssoftpath@bigbuffer@items=\count111
+\pgfsyssoftpath@smallbuffer@items=\count111
+\pgfsyssoftpath@bigbuffer@items=\count112
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
 code.tex
@@ -309,7 +310,7 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen134
-\pgfmath@count=\count112
+\pgfmath@count=\count113
 \pgfmath@box=\box29
 \pgfmath@toks=\toks29
 \pgfmath@stack@operand=\toks30
@@ -334,7 +335,7 @@ code.tex)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
 erarithmetics.code.tex)))
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count113
+\c@pgfmathroundto@lastzeros=\count114
 ))
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
 de.tex
@@ -372,7 +373,7 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box30
 \pgf@hbox=\box31
 \pgf@layerbox@main=\box32
-\pgf@picture@serial@count=\count114
+\pgf@picture@serial@count=\count115
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
 ate.code.tex
@@ -407,7 +408,7 @@ File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
 e.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
 \pgf@max=\dimen158
-\pgf@sys@shading@range@num=\count115
+\pgf@sys@shading@range@num=\count116
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
 e.tex
@@ -470,7 +471,7 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothan
 dlers.code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count116
+\pgf@plot@mark@count=\count117
 \pgfplotmarksize=\dimen163
 )
 \tikz@lastx=\dimen164
@@ -483,19 +484,19 @@ File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
 \tikz@figbox@bg=\box36
 \tikz@tempbox=\box37
 \tikz@tempbox@bg=\box38
-\tikztreelevel=\count117
-\tikznumberofchildren=\count118
-\tikznumberofcurrentchild=\count119
-\tikz@fig@count=\count120
+\tikztreelevel=\count118
+\tikznumberofchildren=\count119
+\tikznumberofcurrentchild=\count120
+\tikz@fig@count=\count121
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.cod
 e.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count121
-\pgfmatrixcurrentcolumn=\count122
-\pgf@matrix@numberofcolumns=\count123
+\pgfmatrixcurrentrow=\count122
+\pgfmatrixcurrentcolumn=\count123
+\pgf@matrix@numberofcolumns=\count124
 )
-\tikz@expandcount=\count124
+\tikz@expandcount=\count125
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarytopaths.code.tex
@@ -503,7 +504,7 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
 (/usr/local/texlive/2018/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count125
+\c@AlgoLine=\count126
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
@@ -512,7 +513,7 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
-\c@checkoddpage=\count126
+\c@checkoddpage=\count127
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -550,9 +551,9 @@ Package: relsize 2013/03/29 ver 4.1
 \algoheightrule=\skip66
 \algotitleheightruledefault=\skip67
 \algotitleheightrule=\skip68
-\c@algocfline=\count127
-\c@algocfproc=\count128
-\c@algocf=\count129
+\c@algocfline=\count128
+\c@algocfproc=\count129
+\c@algocf=\count130
 \algocf@algoframe=\box45
 \algocf@algobox=\box46
 )
@@ -564,7 +565,7 @@ File: tikzlibrarypatterns.code.tex 2008/01/15 v3.0.1a (rcs-revision 1.2)
 s.code.tex
 File: pgflibrarypatterns.code.tex 2008/03/03 v3.0.1a (rcs-revision 1.13)
 ))
-\c@lemma=\count130
+\c@lemma=\count131
  (./20190401_main.aux)
 \openout1 = `20190401_main.aux'.
 
@@ -588,16 +589,16 @@ File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ABD: EveryShipout initializing macros
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count131
+\scratchcounter=\count132
 \scratchdimen=\dimen176
 \scratchbox=\box47
-\nofMPsegments=\count132
-\nofMParguments=\count133
+\nofMPsegments=\count133
+\nofMParguments=\count134
 \everyMPshowfont=\toks34
-\MPscratchCnt=\count134
+\MPscratchCnt=\count135
 \MPscratchDim=\dimen177
-\MPnumerator=\count135
-\makeMPintoPDFobject=\count136
+\MPnumerator=\count136
+\makeMPintoPDFobject=\count137
 \everyMPtoPDFconversion=\toks35
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -692,131 +693,146 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./2019
 0401_main.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 3.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 3.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 3.
+(Font)              <10.95> on input line 3.
 )
 \tf@toc=\write4
 \openout4 = `20190401_main.toc'.
 
- [2]
+ [1
+
+]
+Chapter 1.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 45.
+r on input line 46.
 <images/CorrSingleNoProba.png, id=17, 192.72pt x 72.27pt>
 File: images/CorrSingleNoProba.png Graphic file (type png)
 <use images/CorrSingleNoProba.png>
-Package pdftex.def Info: images/CorrSingleNoProba.png  used on input line 45.
-(pdftex.def)             Requested size: 216.81pt x 108.41019pt.
- [3] [4 <./images/CorrSingleNoProba.png>] [5] [6] [7]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 196
-.
+Package pdftex.def Info: images/CorrSingleNoProba.png  used on input line 46.
+(pdftex.def)             Requested size: 433.62pt x 138.7723pt.
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
-File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [8] [9] [10]
-[11]
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 248
+Overfull \hbox (73.62pt too wide) in paragraph at lines 46--47
+ [] 
+ []
+
+[2
+
+] [3 <./images/CorrSingleNoProba.png>] [4]
+Chapter 2.
+[5
+
+] [6]
+Chapter 3.
+[7
+
+] [8] [9]
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 200
 .
- (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmtt.fd
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
+File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+[10] [11]
+Chapter 4.
+[12
+
+] [13]
+Chapter 5.
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 252
+.
+(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 258.
-<images/ROC_Comp_p0_15_var_0_5.jpeg, id=61, 115.632pt x 115.632pt>
+r on input line 262.
+<images/ROC_Comp_p0_15_var_0_5.jpeg, id=70, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.jpeg  used on input line
- 258.
+ 262.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 259.
-<images/ROC_Comp_p0_15_var_0_8.jpeg, id=62, 115.632pt x 115.632pt>
+r on input line 263.
+<images/ROC_Comp_p0_15_var_0_8.jpeg, id=71, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.jpeg  used on input line
- 259.
+ 263.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 260.
-<images/ROC_Comp_p0_50_var_0_5.jpeg, id=63, 115.632pt x 115.632pt>
+r on input line 264.
+<images/ROC_Comp_p0_50_var_0_5.jpeg, id=72, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.jpeg  used on input line
- 260.
+ 264.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 261.
-<images/ROC_Comp_p0_50_var_0_8.jpeg, id=64, 115.632pt x 115.632pt>
+r on input line 265.
+<images/ROC_Comp_p0_50_var_0_8.jpeg, id=73, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.jpeg  used on input line
- 261.
+ 265.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 258--263
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 262--267
 [][] []
  []
 
 
-Overfull \hbox (47.47975pt too wide) in paragraph at lines 258--263
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 262--267
 [] [] 
  []
 
+[14
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+] [15 <./images/ROC_Comp_p0_15_var_0_5.jpeg> <./images/ROC_Comp_p0_15_var_0_8.j
+peg> <./images/ROC_Comp_p0_50_var_0_5.jpeg> <./images/ROC_Comp_p0_50_var_0_8.jp
+eg>] [16]
+Chapter 6.
 
-[12] [13 <./images/ROC_Comp_p0_15_var_0_5.jpeg> <./images/ROC_Comp_p0_15_var_0_
-8.jpeg> <./images/ROC_Comp_p0_50_var_0_5.jpeg> <./images/ROC_Comp_p0_50_var_0_8
-.jpeg>]
+LaTeX Warning: Citation `glob' on page 17 undefined on input line 277.
 
-LaTeX Warning: Citation `glob' on page 14 undefined on input line 273.
+[17
 
+] (./20190401_main.bbl) [18
 
-Overfull \hbox (72.0547pt too wide) in paragraph at lines 277--278
-\OT1/lmr/m/n/10 ory, we may in-clude the func-tion in H. Ruf-fieux's R-package 
-(http://github.com/hruffieux/locus). 
- []
-
-[14] (./20190401_main.bbl) [15] (./20190401_main.aux)
+] (./20190401_main.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 14463 strings out of 492649
- 282997 string characters out of 6129622
- 344394 words of memory out of 5000000
- 17999 multiletter control sequences out of 15000+600000
- 71656 words of font info for 65 fonts, out of 8000000 for 9000
+ 14465 strings out of 492649
+ 283114 string characters out of 6129622
+ 344809 words of memory out of 5000000
+ 18008 multiletter control sequences out of 15000+600000
+ 72821 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,20n,59p,888b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,20n,59p,850b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/loca
 l/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018
-/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2018/texmf-dis
-t/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018/texmf-dist/fonts/en
-c/dvips/lm/lm-mathsy.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018/texmf-dis
+t/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2018/texmf-dist/fonts/en
+c/dvips/lm/lm-mathit.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /lm/lmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmbx12
 .pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr
 /local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/tex
-live/2018/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2018/t
+live/2018/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2018/t
 exmf-dist/fonts/type1/public/lm/lmmib10.pfb></usr/local/texlive/2018/texmf-dist
-/fonts/type1/public/lm/lmmib7.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
-e1/public/lm/lmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/l
-m/lmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr17.pfb
-></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local
-/texlive/2018/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2
-018/texmf-dist/fonts/type1/public/lm/lmri7.pfb></usr/local/texlive/2018/texmf-d
-ist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
-ype1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
-c/lm/lmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt10
-.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/ms
-bm10.pfb>
-Output written on 20190401_main.pdf (15 pages, 448724 bytes).
+/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type
+1/public/lm/lmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm
+/lmr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr8.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/lm/lmri8.pfb></usr/local/texlive/20
+18/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2018/texmf-di
+st/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
+ype1/public/lm/lmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
+symbols/msbm10.pfb>
+Output written on 20190401_main.pdf (19 pages, 450915 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
- 98 compressed objects within 1 object stream
+ 151 PDF objects out of 1000 (max. 8388607)
+ 104 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  42 words of extra memory for PDF output out of 10000 (max. 10000000)
 
