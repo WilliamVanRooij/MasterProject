@@ -69,7 +69,7 @@ where $\boldsymbol{\beta}_{st}$ represents the association between SNP $s$ and t
 \sigma^{-2} &\sim \text{Gamma}(\lambda,\nu).
 \end{align*}
 
-We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix which says which pairs of SNPs and traits are associated. The SNP $s$ and trait $t$ are associated if and only if $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we set a spike-and-slab prior distribution on $\beta_{st}$, i.e.,
+We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix which says which pairs of SNPs and traits are associated. The SNP $s$ and trait $t$ are associated if and only if $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we set a ``spike-and-slab'' prior distribution on $\beta_{st}$, i.e.,
 \begin{equation*}
 \beta_{st} \mid \gamma_{st},\sigma^2, \tau_t \sim \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0,
 \end{equation*}
@@ -90,11 +90,11 @@ a_s = 1,\;b_s = q(p-p^*)/p^*.
 % =========================================
 \newpage
 \chapter{Variational Inference}
-When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimization problem that minimizes a measure of closeness as objective function.
+When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimization problem that minimizes a measure of ``closeness'' as objective function.
 
-If we have observations $\boldsymbol{y}$ and parameters $\boldsymbol{\theta}$, we need to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the closeness measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
+If we have observations $\boldsymbol{y}$ and parameters $\boldsymbol{\theta}$, we need to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the ``closeness'' measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
 
-Variational inference minimizes the Kullback--Leibler divergence as a closeness measure. Introduced in 1951 by Kullback and Leibler\cite{kl51}, this is the most common divergence measure used in statistics and machine learning:
+Variational inference minimizes the Kullback--Leibler divergence as a ``closeness'' measure. Introduced in 1951 by Kullback and Leibler\cite{kl51}, this is the most common divergence measure used in statistics and machine learning:
 \begin{equation*}
 \KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
 \end{equation*} 
