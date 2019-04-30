@@ -159,8 +159,20 @@ for (k in sample(1:1e3,iter)){
   
   plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
   points(gam[1,], gam[2,], col='red')
+  points(single_vb_g$gam_vb[1,],single_vb_g$gam_vb[2,],col='blue',pch=4)
   lines(c(0,1),c(0.5,0.5),lty=2)
   lines(c(0.5,0.5),c(0,1),lty=2)
   
   
 }
+
+stan_dat <- list(N=n,
+                 q=d,
+                 p=p,
+                 y=dat_g$phenos,
+                 x=dat_g$snps)
+
+fit <- stan(file='prior.stan', data=stan_dat)
+
+print(fit)
+plot(fit)
