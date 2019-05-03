@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  26 APR 2019 12:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  3 MAY 2019 16:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -725,76 +725,76 @@ Chapter 3.
 [7
 
 ] [8] [9]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 200
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 197
 .
  (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-[10] [11]
+[10]
 Chapter 4.
-[12
+[11
 
-] [13]
+] [12]
 Chapter 5.
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 252
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 249
 .
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 262.
-<images/ROC_Comp_p0_15_var_0_5.jpeg, id=70, 115.632pt x 115.632pt>
+r on input line 259.
+<images/ROC_Comp_p0_15_var_0_5.jpeg, id=67, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.jpeg  used on input line
- 262.
+ 259.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 263.
-<images/ROC_Comp_p0_15_var_0_8.jpeg, id=71, 115.632pt x 115.632pt>
+r on input line 260.
+<images/ROC_Comp_p0_15_var_0_8.jpeg, id=68, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.jpeg  used on input line
- 263.
+ 260.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 264.
-<images/ROC_Comp_p0_50_var_0_5.jpeg, id=72, 115.632pt x 115.632pt>
+r on input line 261.
+<images/ROC_Comp_p0_50_var_0_5.jpeg, id=69, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.jpeg  used on input line
- 264.
+ 261.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 265.
-<images/ROC_Comp_p0_50_var_0_8.jpeg, id=73, 115.632pt x 115.632pt>
+r on input line 262.
+<images/ROC_Comp_p0_50_var_0_8.jpeg, id=70, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.jpeg  used on input line
- 265.
+ 262.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 
-Overfull \hbox (32.69087pt too wide) in paragraph at lines 262--267
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 259--264
 [][] []
  []
 
 
-Overfull \hbox (32.69087pt too wide) in paragraph at lines 262--267
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 259--264
 [] [] 
  []
 
-[14
+[13
 
-] [15 <./images/ROC_Comp_p0_15_var_0_5.jpeg> <./images/ROC_Comp_p0_15_var_0_8.j
+] [14 <./images/ROC_Comp_p0_15_var_0_5.jpeg> <./images/ROC_Comp_p0_15_var_0_8.j
 peg> <./images/ROC_Comp_p0_50_var_0_5.jpeg> <./images/ROC_Comp_p0_50_var_0_8.jp
-eg>] [16]
+eg>] [15]
 Chapter 6.
 
-LaTeX Warning: Citation `glob' on page 17 undefined on input line 277.
+LaTeX Warning: Citation `glob' on page 16 undefined on input line 274.
 
-[17
+[16
 
-] (./20190401_main.bbl) [18
+] (./20190401_main.bbl) [17
 
 ] (./20190401_main.aux)
 
@@ -829,10 +829,10 @@ st/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
 ype1/public/lm/lmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (19 pages, 450991 bytes).
+Output written on 20190401_main.pdf (18 pages, 449312 bytes).
 PDF statistics:
- 151 PDF objects out of 1000 (max. 8388607)
- 104 compressed objects within 2 object streams
+ 147 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  42 words of extra memory for PDF output out of 10000 (max. 10000000)
 

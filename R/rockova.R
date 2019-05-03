@@ -4,6 +4,7 @@ require(echoseq)
 require(locus)
 require(ROCR)
 require(gsubfn)
+require(rstan)
 
 rm(list= ls())
 
@@ -154,8 +155,7 @@ for (k in sample(1:1e3,iter)){
 
   }
 
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE)
-  
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper = TRUE)
   
   plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
   points(gam[1,], gam[2,], col='red')
@@ -165,6 +165,8 @@ for (k in sample(1:1e3,iter)){
   
   
 }
+
+
 
 stan_dat <- list(N=n,
                  q=d,

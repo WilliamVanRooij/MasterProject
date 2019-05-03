@@ -5,7 +5,7 @@
 \contentsline {chapter}{\numberline {2}Model}{5}
 \contentsline {chapter}{\numberline {3}Variational Inference}{7}
 \contentsline {section}{\numberline {3.1}Mean-field approximation}{8}
-\contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{10}
-\contentsline {chapter}{\numberline {4}Multimodality}{12}
-\contentsline {chapter}{\numberline {5}Simulations}{14}
-\contentsline {chapter}{\numberline {6}Next steps}{17}
+\contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{9}
+\contentsline {chapter}{\numberline {4}Multimodality}{11}
+\contentsline {chapter}{\numberline {5}Simulations}{13}
+\contentsline {chapter}{\numberline {6}Next steps}{16}

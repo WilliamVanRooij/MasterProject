@@ -16,6 +16,7 @@ parameters {
   real kappa;
   real lambda;
   real eta;
+
 }
 model {
   tau ~ inv_gamma(eta, kappa);
@@ -23,5 +24,5 @@ model {
   for (n in 1:q) {
     beta[n] ~ normal(gamma[n]*mu,gamma[n]*sigma*tau+(1-gamma[n])*0.001);
   }
-  y ~ multi_normal(beta'*x, sigma*tau*);
+  y ~ multi_normal(beta'*x, sigma*tau);
 }

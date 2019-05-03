@@ -111,10 +111,10 @@ Minimizing the Kullback--Leibler divergence can be complicated depending on the 
 &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right] + \log p(\boldsymbol{y}).
 \end{align*}
 We introduce the evidence lower bound:
-\begin{align*}
-\mathcal{L}(q) &= \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]\\
-&=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
-\end{align*}
+\begin{equation*}
+\mathcal{L}(q) = \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]
+=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
+\end{equation*}
 When decomposing the Kullback--Leibler divergence, we obtain
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
@@ -131,23 +131,20 @@ Jensen's inequality provides another way to see that $\mathcal{L}(q)$ is a lower
 \end{align*}
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$.
 
-
-``a''
 \section{Mean-field approximation}
 The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ to which $q(\boldsymbol{\theta})$ belongs. We introduce the mean-field variational family, where the parameters are mutually independent.
 
-Let $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ be a partition of $\boldsymbol{\theta}$, if $q \in \mathcal{D}$ and $\mathcal{D}$ is a mean-field variational family, then:
+Let $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ be a partition of $\boldsymbol{\theta}$, $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then,
 \begin{equation*}
-q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)
+q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j).
 \end{equation*}
 We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the evidence lower bound.
 
-Concretely, we assume the independence of most of the parameters:
+Concretely, we assume the independence of most of the parameters,
 \begin{equation*}
 q(\boldsymbol{\theta}) =\left\lbrace\prod_{s=1}^p \prod_{t=1}^q q(\beta_{st}, \gamma_{st})\right\rbrace \left\lbrace\prod_{s=1}^p  q(\omega_s)\right\rbrace \left\lbrace\prod_{t=1}^q q(\tau_t)\right\rbrace q(\sigma^{-2}).
 \end{equation*}
 
-To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We can see that the mean of the approximation is the same as the real mean, but the covariance does not match the covariance of the real posterior.
 
 \begin{figure}[h!]
 \centering
@@ -161,23 +158,23 @@ To visualise the mean-field approximation, we consider a two dimensional Gaussia
 \node (x1) at (-0.3,2) {$x_1$};
 \node (x2) at (2,-0.3) {$x_2$};
 \end{tikzpicture}
-\caption{\label{fig:mean_field}Visualisation of mean-field approximation to a two-dimensional Gaussian posterior. The correlations in the mean-field approximation do not represent the correlations of the real posterior.}
+\caption{\label{fig:mean_field}To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We see that the mean of the approximation is the same as the real mean, but the covariance does not match the covariance of the real posterior.}
 \end{figure}
 
-We have transformed, using the evidence lower bound and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascend algorithm.
+We have transformed, using the evidence lower bound and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascent algorithm.
 % =========================================
 \section{Coordinate ascent algorithm}
-The coordinate ascent mean-field variational inference  is one of the most commonly used to solve this type of optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
+Coordinate ascent mean-field variational inference  is one of commonly used to solve this optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
 \begin{lemma}
 
-If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ verifies:
+If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ satisfies:
 \begin{equation*}
 q^*_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace.
 \end{equation*}
-Where $/mathbb{E}_{-j}$ denotes the expectation with respect to all $l \neq j$.
+Where $\mathbb{E}_{-j}$ denotes the expectation with respect to all $\theta_l$, $l \neq j$.
 \end{lemma}
 
-Based on this result, the algorithm updates one parameter $\theta_j$ at the time while the others stay fixed. The algorithm stops when $\mathcal{L}(q)$ varies less than a determined threshold $\varepsilon$.
+Based on this result, the algorithm updates one parameter $\theta_j$ at a time while the others stay fixed. The algorithm stops when $\mathcal{L}(q)$ increases by less than a pre-determined threshold $\varepsilon$.
 
 \begin{algorithm}
 \SetKwData{ELBO}{$\mathcal{L}(q)$}\SetKwData{OLDELBO}{$\mathcal{L}^{\text{old}}(q)$}
@@ -194,7 +191,7 @@ Based on this result, the algorithm updates one parameter $\theta_j$ at the time
 \For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{\label{forins}
 \Set{$q_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace$}}
 \BlankLine
-\OLDELBO$\leftarrow$\ELBO\;
+\OLDELBO$\leftarrow$\ELBO\\
 \ELBO$\leftarrow\mathbb{E}\left[\log p(\boldsymbol{\theta}, \boldsymbol{y})\right]-\mathbb{E}\left[\log q(\boldsymbol{\theta})\right]$
 \BlankLine
 }
