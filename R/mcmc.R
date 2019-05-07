@@ -1,10 +1,9 @@
 library(parallel)
-
-require(echoseq)
-require(locus)
-require(ROCR)
-require(gsubfn)
-require(mcmc)
+library(echoseq)
+library(locus)
+library(ROCR)
+library(gsubfn)
+library(mcmc)
 
 
 
@@ -107,7 +106,7 @@ for (k in sample(1:1e3,iter)){
     list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                             sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
     
-    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=FALSE)
+    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, full_output = TRUE)
     return(list(locus = vb_g, gam_init = gam_vb_init,mu = mu_beta_vb_init, sig = sig2_beta_vb_init))
   }
   
@@ -158,7 +157,7 @@ for (k in sample(1:1e3,iter)){
     
   }
   
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper = TRUE)
+  single_vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, full_output = TRUE)
   
   plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
   points(gam[1,], gam[2,], col='red')
@@ -167,5 +166,47 @@ for (k in sample(1:1e3,iter)){
   lines(c(0.5,0.5),c(0,1),lty=2)
   
   
+
+# ===================== MCMC ======================== #
+  if(TRUE){
+    set.seed(123)
+    
+    p <- 2; p0_av <- 1
+    d <- 1
+    
+    lambda <- 0.01
+    nu <- 1
+    eta <- 0.48
+    kappa <- 1
+    
+    X <- dat_g$snps
+    y <-  dat_g$phenos
+    n <- length(y)
+    
+    
+    sig_mcmc <- rgamma(I, shape=lambda,scale=nu)
+    w_mcmc <- matrix(rbeta(I*p, shape1 = 1, shape2 = d * (p - p0_av)/p0_av), nrow=p)
+    poss_gam <- list(c(0,0),c(1,0),c(0,1),c(1,1))
+    esp_mcmc <- NULL
+    
+    for (i in (1:I)){
+      p_y_gam__gam_w <- NULL
+      for (gam_mcmc in poss_gam){
+        p_gam_w_mcmc <- (w_mcmc[1,i])^gam_mcmc[1]*(1-w_mcmc[1,i])^(1-gam_mcmc[1])*(w_mcmc[2,i])^gam_mcmc[2]*(1-w_mcmc[2,i])^(1-gam_mcmc[2])
+        
+        q_gam <- sum(gam_mcmc)
+        X_gam_mcmc <- X[,gam_mcmc]
+        V_gam_mcmc <- t(X_gam_mcmc) %*% (X_gam_mcmc) + sig_mcmc[i]*diag(q_gam)
+        S_gam_mcmc <- norm(y,type="2")^2 - t(y) %*% X_gam_mcmc %*% V_gam_mcmc %*% t(X_gam_mcmc) %*% y
+        p_y_gam_mcmc <- ((2*pi)^(-n/2)) * (det(V_gam_mcmc)^(-1/2)) * (gamma(n/2 + eta)) * (kappa^eta/gamma(eta)) * ((kappa + S_gam_mcmc^2/2)^(-n/2+eta)) * (sig_mcmc^(q_gam/2))
+        p_y_gam__gam_w <- c(p_y_gam__gam_w, p_y_gam_mcmc*p_gam_w_mcmc)
+      }
+      
+      esp_mcmc <-  c(esp_mcmc,w_mcmc[,i] %*% sum(p_y_gam__gam_w))
+    }
+    
+  }
+
+# =================== FIN MCMC ===================== #
 }
 

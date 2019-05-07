@@ -156,6 +156,7 @@ for (k in sample(1:1e3,iter)){
   }
 
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper = TRUE)
+  single_vb_g$beta_vb
   
   plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
   points(gam[1,], gam[2,], col='red')
@@ -166,15 +167,17 @@ for (k in sample(1:1e3,iter)){
   
 }
 
-
+y <-  dat_g$phenos
+y <- as.vector(y)
 
 stan_dat <- list(N=n,
                  q=d,
                  p=p,
-                 y=dat_g$phenos,
+                 y=y,
                  x=dat_g$snps)
 
 fit <- stan(file='prior.stan', data=stan_dat)
 
+pairs(fit)
 print(fit)
 plot(fit)
