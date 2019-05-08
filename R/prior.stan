@@ -9,22 +9,32 @@ parameters {
   real sigma;
   real tau;
   vector[p] beta;
-  vector[p] gamma;
-  vector[p] omega;
+  vector[q] omega;
   vector[p] mu;
-  real nu;
-  real kappa;
-  real lambda;
-  real eta;
-  real a;
-  real b;
-
+  real<lower=0> nu;
+  real<lower=0> kappa;
+  real<lower=0> lambda;
+  real<lower=0> eta;
+  real hs_1[p];
+  real hs_2;
 }
+
+transformed parameters{
+  vector[p] gamma;
+
+  for (i in 1:p){
+    gamma[i] = hs_1[i]*hs_2;
+  }
+}
+
 model {
+
   tau ~ gamma(eta, kappa);
   sigma ~ gamma(lambda, nu);
-  omega ~ beta(a,b);
-  gamma ~
+
+  hs_1 ~ cauchy(0,1);
+  hs_2 ~ cauchy(0,1);
+
 
   for (n in 1:p) {
     beta[n] ~ normal(gamma[n]*mu,gamma[n]*sigma*tau^(-1)+(1-gamma[n])*0.001);

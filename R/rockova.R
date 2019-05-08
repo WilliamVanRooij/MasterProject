@@ -104,7 +104,7 @@ for (k in sample(1:1e3,iter)){
     list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                             sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
     
-    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=FALSE)
+    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, full_output = TRUE)
     return(list(locus = vb_g, gam_init = gam_vb_init,mu = mu_beta_vb_init, sig = sig2_beta_vb_init))
   }
   
@@ -131,12 +131,14 @@ for (k in sample(1:1e3,iter)){
     lb_exp <- 0
     gam_init <- NULL
     gam <- NULL
+    beta_init <- NULL
     sig_init <- sig <- mu_init <- mu <- NULL
     
     if(FALSE){
       for(i in c(1:length(user_seed))) {
         out <- out + m_vb_g[[i]]$locus$gam_vb
         lb_exp <- lb_exp + 1
+        
       }
     }
     
@@ -148,6 +150,7 @@ for (k in sample(1:1e3,iter)){
         gam <- cbind(gam,m_vb_g[[i]]$locus$gam_vb)
         sig_init <- cbind(sig_init,m_vb_g[[i]]$sig)
         mu_init <- cbind(mu_init,m_vb_g[[i]]$mu)
+        beta_init <- cbind(beta_init, m_vb_g[[i]]$locus$beta_vb)
       }
     }
     
@@ -155,8 +158,8 @@ for (k in sample(1:1e3,iter)){
 
   }
 
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper = TRUE)
-  single_vb_g$beta_vb
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, full_output = FALSE)
+  single_vb_g
   
   plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
   points(gam[1,], gam[2,], col='red')
@@ -167,17 +170,19 @@ for (k in sample(1:1e3,iter)){
   
 }
 
-y <-  dat_g$phenos
-y <- as.vector(y)
-
-stan_dat <- list(N=n,
-                 q=d,
-                 p=p,
-                 y=y,
-                 x=dat_g$snps)
-
-fit <- stan(file='prior.stan', data=stan_dat)
-
-pairs(fit)
+if(TRUE){
+  y <-  dat_g$phenos
+  y <- as.vector(y)
+  
+  stan_dat <- list(N=n,
+                   q=d,
+                   p=p,
+                   y=y,
+                   x=dat_g$snps)
+  
+  fit <- stan(file='prior.stan', data=stan_dat)
+  
+#  pairs(fit)
 print(fit)
 plot(fit)
+}
