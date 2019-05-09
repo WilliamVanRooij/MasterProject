@@ -1,0 +1,15 @@
+model {
+
+tau ~ gamma(eta, kappa);
+sigma ~ gamma(lambda, nu);
+omega ~ beta(1,1);
+
+
+
+for (n in 1:p) {
+  beta[n] ~ dnorm(gamma[n]*mu,gamma[n]*sigma*tau^(-1)+(1-gamma[n])*0.1);
+}
+
+y ~ dnorm(x*beta, sigma*tau^(-1));
+
+}

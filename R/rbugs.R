@@ -4,7 +4,7 @@ require(echoseq)
 require(locus)
 require(ROCR)
 require(gsubfn)
-require(rstan)
+require(R2WinBUGS)
 
 rm(list= ls())
 
@@ -98,7 +98,7 @@ for (k in sample(1:1e3,iter)){
     
     gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = d * (p - p0_av)/p0_av), nrow = p)
     
-
+    
     mu_beta_vb_init <- matrix(rnorm(n = p * d , mean=0, sd = 1), nrow = p)
     
     list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
@@ -126,69 +126,22 @@ for (k in sample(1:1e3,iter)){
     
     m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
     
-  
     out <- 0
     lb_exp <- 0
-    gam_init <- NULL
-    gam <- 0
-    beta_init <- 0
-    mu_ <- 0
-    sig_init <- sig <- mu_init <- mu <- NULL
-    
-    if(FALSE){
-      for(i in c(1:length(user_seed))) {
-        out <- out + m_vb_g[[i]]$locus$gam_vb
-        lb_exp <- lb_exp + 1
-        
-      }
-    }
-    
+
     if(TRUE){
       for(i in c(1:length(user_seed))) {
         out <- out + m_vb_g[[i]]$locus$gam_vb*exp(m_vb_g[[i]]$locus$lb_opt)
         lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
-        gam_init <- cbind(gam_init,m_vb_g[[i]]$gam_init)
-        gam <- gam + m_vb_g[[i]]$locus$gam_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-        sig_init <- cbind(sig_init,m_vb_g[[i]]$sig)
-        mu_init <- cbind(mu_init,m_vb_g[[i]]$mu)
-        beta_init <- beta_init + m_vb_g[[i]]$locus$beta_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-        mu_ <- mu_ + m_vb_g[[i]]$locus$mu_beta_vb*exp(m_vb_g[[i]]$locus$lb_opt)
 
+        
       }
     }
-    
-    gam <- gam/lb_exp
-    beta_init <- beta_init/lb_exp
-    mu_ <- mu_/lb_exp
+
     out <- out / lb_exp
-
+    
   }
-
+  
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, full_output = TRUE)
-  single_vb_g
-  
-  plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
-  points(gam[1,], gam[2,], col='red')
-  points(single_vb_g$gam_vb[1,],single_vb_g$gam_vb[2,],col='blue',pch=4)
-  lines(c(0,1),c(0.5,0.5),lty=2)
-  lines(c(0.5,0.5),c(0,1),lty=2)
-  
-  
 }
 
-if(TRUE){
-  y <-  dat_g$phenos
-  y <- as.vector(y)
-  
-  stan_dat <- list(N=n,
-                   q=d,
-                   p=p,
-                   y=y,
-                   x=dat_g$snps)
-  
-  fit <- stan(file='prior.stan', data=stan_dat)
-  
-#  pairs(fit)
-print(fit)
-pairs(fit, pars=c("gamma","beta"))
-}
