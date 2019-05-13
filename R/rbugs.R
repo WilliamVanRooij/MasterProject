@@ -2,9 +2,7 @@ library(parallel)
 
 require(echoseq)
 require(locus)
-require(ROCR)
-require(gsubfn)
-require(R2WinBUGS)
+require(R2OpenBUGS)
 
 rm(list= ls())
 
@@ -142,6 +140,62 @@ for (k in sample(1:1e3,iter)){
     
   }
   
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, full_output = TRUE)
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE)
+  
+  if(FALSE){
+    BUGSmodel <- function(){
+      for( j in 1:d ){
+        
+        for( i in 1:n ){
+          y[i, j] ~ dnorm(mu[i,j], tau[j])
+          mu[i,j] <- inprod( X[i,1:p], beta[1:p,j] )
+        }
+        tau[j] ~ dgamma( eta[j], kappa[j] )
+        
+        tau.beta[j] <- sigma2.inv*tau[j]
+        for( k in 1:p ){
+          
+          beta[k, j] ~ dnorm( 0, prec.beta[k, j] )
+          prec.beta[k, j] <- (1-gamma[k, j])*1/eps + gamma[k, j]*tau.beta[j]
+          
+          gamma[k,j] ~ dbern( omega[k])
+        }
+      }
+      for( k in 1:p ){
+        omega[k] ~ dbeta(a[k], b[k])# <- 0.5# ~ dbeta( a[k], b[k] )
+      }
+      sigma2.inv ~ dgamma(lambda, nu)
+    }
+    
+    write.model(BUGSmodel, "BUGSmodel.txt")
+    model.file1 = paste(getwd(),"BUGSmodel.txt", sep="/")
+    file.show("BUGSmodel.txt")
+    
+  }
+  
+  if(TRUE){
+    y <- as.matrix(dat_g$phenos)
+    X <- as.matrix(dat_g$snps)
+    n <- length(y)
+    p <- dim(X)[2]
+    d <- dim(y)[2]
+    a <- as.vector(single_vb_g$list_hyper$a)
+    b <- as.vector(single_vb_g$list_hyper$b)
+    lambda <- single_vb_g$list_hyper$lambda
+    kappa <- as.vector(single_vb_g$list_hyper$kappa)
+    nu <- single_vb_g$list_hyper$nu
+    eta <- as.vector(single_vb_g$list_hyper$eta)
+    eps <- 1e-3
+    WINE="/usr/local/bin/wine"
+    WINEPATH="/usr/local/bin/winepath"
+    OpenBUGS.pgm="/Applications/OpenBUGS323/OpenBUGS.exe"
+    
+    data <- c("y","X","p","n", "d","eps", "a", "b","lambda","kappa","eta","nu")
+    
+    bugs.data(data, dir=getwd(), data.file="data.txt")
+    inits <- list(list(gamma=single_vb_g$list_init$gam_vb))
+    parameters <- c("beta","gamma")
+    bugs.sim <- bugs("data.txt", inits=inits, parameters=parameters, model.file="BUGSmodel.txt", n.chains = 1, n.iter=2000,useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm, debug=TRUE)
+  }
 }
 
