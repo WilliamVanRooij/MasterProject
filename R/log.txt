@@ -1,0 +1,17 @@
+model is syntactically correct
+invalid or unexpected token scanned error pos 4019
+variable n is not defined
+model must have been compiled but not updated to be able to change RN generator
+BugsCmds:NoCompileInits
+model must be compiled before generating initial values
+model must be initialized before updating
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before DIC can be monitored
+model must be initialized before updating
+model must be initialized before monitors used
+DIC monitor not set

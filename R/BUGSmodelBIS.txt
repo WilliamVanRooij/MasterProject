@@ -1,0 +1,19 @@
+model
+{
+    for (i in 1:n) {
+        y[i] ~ dnorm(mu[i], tau)
+        mu[i] <- inprod(X[i, 1:p], beta[1:p])
+    }
+
+    tau ~ dgamma(eta, kappa)
+    tau.beta <- sigma2.inv * tau
+
+    for (k in 1:p) {
+
+        beta[k] ~ dnorm(0.00000E+00, prec.beta[k])
+        prec.beta[k] <- (1 - gamma[k]) * 1/eps + gamma[k] * tau.beta
+        gamma[k] ~ dbern(omega[k])
+        omega[k] ~ dbeta(a[k], b[k])
+    }
+    sigma2.inv ~ dgamma(lambda, nu)
+}
