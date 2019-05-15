@@ -3,6 +3,8 @@ library(parallel)
 require(echoseq)
 require(locus)
 require(R2OpenBUGS)
+require(coda)
+require(lattice)
 
 a <- 1
 
@@ -116,7 +118,7 @@ for (k in sample(1:1e3,iter)){
   if(TRUE){
     y <- as.vector(dat_g$phenos)
     X <- as.matrix(dat_g$snps)
-    n <- as.numeric(nrow(y))
+    n <- as.numeric(length(y))
     p <- as.numeric(ncol(X))
     a <- as.vector(single_vb_g$list_hyper$a)
     b <- as.vector(single_vb_g$list_hyper$b)
@@ -124,7 +126,7 @@ for (k in sample(1:1e3,iter)){
     kappa <- as.numeric(single_vb_g$list_hyper$kappa)
     nu <- as.numeric(single_vb_g$list_hyper$nu)
     eta <- as.numeric(single_vb_g$list_hyper$eta)
-    eps <- 1e4
+    eps <- 1e-4
     
     WINE="/usr/local/bin/wine"
     WINEPATH="/usr/local/bin/winepath"
@@ -136,11 +138,24 @@ for (k in sample(1:1e3,iter)){
     inits <- list(list(gamma=apply(single_vb_g$list_init$gam_vb, 2, function(cc) as.numeric(cc>0.5)), beta=single_vb_g$list_init$mu_beta_vb*single_vb_g$list_init$gam_vb, tau=as.numeric(single_vb_g$list_init$tau_vb), sigma2.inv=as.numeric(single_vb_g$list_init$sig2_inv_vb), omega=matrix(rbeta(p,single_vb_g$list_hyper$a,single_vb_g$list_hyper$b),nrow = p)))
     parameters <- c("beta","gamma","tau","sigma2.inv","omega")
     
-    bugs.sim <- R2OpenBUGS::bugs(data = data, inits=inits, parameters.to.save = parameters, 
-                                 model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=50, n.burnin = 10,DIC=TRUE, 
-                                 codaPkg = TRUE, working.directory = getwd(), save.history = TRUE, bugs.seed=1,
-                                 useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm, debug=TRUE)
-  }
+    out_bugs <- bugs(data = data, inits=inits, parameters.to.save = parameters, 
+                                 model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=10000, n.burnin = 5000, 
+                                 codaPkg = TRUE, working.directory = getwd(), bugs.seed=1,
+                                 useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm, debug=F)
+    
+    out_coda <- read.bugs(out_bugs)
+    xyplot(out_coda)
+    densityplot(out_coda)
+    acfplot(out_coda)
+    
+    # gelman.diag(out_coda) # Need at least two chains
+    # gelman.plot(out_coda)
+    
+    out_summary <- summary(out_coda, q=c(0.025,0.975))
+    out_summary$statistics
+    out_summary$quantiles
+    
+    }
   
 }
 
