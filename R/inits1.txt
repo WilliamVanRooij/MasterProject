@@ -1,1 +1,1 @@
-list(gamma= structure(.Data= c(1.00000E+00, 0.00000E+00), .Dim=c(2, 1)), beta= structure(.Data= c(8.21258E-01, 4.67206E-04), .Dim=c(2, 1)), tau=6.08335E-01, sigma2.inv=1.00000E-02, omega= structure(.Data= c(9.84414E-01, 5.37519E-01), .Dim=c(2, 1)))
+list(gamma= structure(.Data= c(1.00000E+00, 0.00000E+00), .Dim=c(2, 1)), beta= structure(.Data= c(8.21258E-01, 4.67206E-04), .Dim=c(2, 1)), tau=6.08335E-01, sigma2.inv=1.00000E-02, omega= structure(.Data= c(9.98268E-01, 4.79381E-01), .Dim=c(2, 1)))
