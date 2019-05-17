@@ -22,6 +22,7 @@
 \setlength{\parskip}{1em}
 
 \begin{document}
+\SetEndCharOfAlgoLine{}
 
 \title{Bayesian averaging for variational inference applied to genomic data - First Draft}
 \author{William van Rooij - EPFL}
@@ -187,7 +188,7 @@ Based on this result, the algorithm updates one parameter $\theta_j$ at a time w
 \BlankLine
 \Init{$q_j(\theta_j)$}
 \BlankLine
-\Repeat{$|\mathcal{L}^{\text{old}}(q)-\mathcal{L}(q)| < \varepsilon$}{
+\Repeat{$|$\OLDELBO$-\mathcal{L}(q)| < \varepsilon $}{
 \For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{\label{forins}
 \Set{$q_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace$}}
 \BlankLine

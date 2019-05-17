@@ -5,6 +5,7 @@ require(locus)
 require(R2OpenBUGS)
 require(coda)
 require(lattice)
+require(nor1mix)
 
 a <- 1
 
@@ -146,7 +147,8 @@ for (k in sample(1:1e3,iter)){
     out_coda <- read.bugs(out_bugs)
     xyplot(out_coda)
     densityplot(out_coda)
-    acfplot(out_coda)
+    
+    # acfplot(out_coda)
     
     # gelman.diag(out_coda) # Need at least two chains
     # gelman.plot(out_coda)
@@ -156,6 +158,10 @@ for (k in sample(1:1e3,iter)){
     out_summary$quantiles
     
     }
-  
+    
+    if(TRUE){
+      mix <- norMix(c(single_vb_g$list_init$mu_beta_vb[1],0),sigma = c(single_vb_g$list_init$sig2_beta_vb,0.0001),w=c(single_vb_g$gam_vb[1],1-single_vb_g$gam_vb[1]))
+      plot(mix)
+    }
 }
 
