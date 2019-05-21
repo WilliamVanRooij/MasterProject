@@ -1,5 +1,7 @@
 library(parallel)
+library(LaplacesDemon)
 
+require(MASS)
 require(echoseq)
 require(locus)
 require(R2OpenBUGS)
@@ -45,7 +47,7 @@ for (k in sample(1:1e3,iter)){
   cor_type <- "autocorrelated"; 
   
   #vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
-  vec_rho <- c(0.9)
+  vec_rho <- c(0.98)
   
   nb_cpus <- 4;
   
@@ -53,7 +55,7 @@ for (k in sample(1:1e3,iter)){
   
   ind_p0 <- c(1)
   
-  p0_av <- 1
+  p0_av <- 1.5
   
   user_seed <- sample(1:1e3, 100)
   
@@ -96,16 +98,32 @@ for (k in sample(1:1e3,iter)){
   if(TRUE) {
     
     m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
-    
     out <- 0
     lb_exp <- 0
+    
+    elbo <- NULL
+    mu_m_locus_1 <- NULL
+    mu_m_locus_2 <- NULL
+    gam_m_locus_1 <- NULL
+    gam_m_locus_2 <- NULL
+    sig_m_locus <- NULL
+    m_mix_mean_1 <- NULL
+    m_mix_mean_2 <- NULL
+    m_mix_sig_1 <- NULL
+    m_mix_sig_2 <- NULL
+    
     
     if(TRUE){
       for(i in c(1:length(user_seed))) {
         out <- out + m_vb_g[[i]]$locus$gam_vb*exp(m_vb_g[[i]]$locus$lb_opt)
         lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
-        
-        
+        elbo <- c(elbo, exp(m_vb_g[[i]]$locus$lb_opt))
+        mu_m_locus_1 <- c(mu_m_locus_1,m_vb_g[[i]]$mu[1],0)
+        mu_m_locus_2 <- c(mu_m_locus_2,m_vb_g[[i]]$mu[2],0)
+        sig_m_locus <- c(sig_m_locus, m_vb_g[[i]]$sig,0.001)
+        gam_m_locus_1 <- c(gam_m_locus_1, exp(m_vb_g[[i]]$locus$lb_opt)*m_vb_g[[i]]$locus$gam_vb[1],exp(m_vb_g[[i]]$locus$lb_opt)*(1-m_vb_g[[i]]$locus$gam_vb[1]))
+        gam_m_locus_2 <- c(gam_m_locus_2, exp(m_vb_g[[i]]$locus$lb_opt)*m_vb_g[[i]]$locus$gam_vb[2],exp(m_vb_g[[i]]$locus$lb_opt)*(1-m_vb_g[[i]]$locus$gam_vb[2]))
+
       }
     }
     
@@ -113,7 +131,7 @@ for (k in sample(1:1e3,iter)){
     
   }
   
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE)
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE)
   
   
   if(TRUE){
@@ -127,7 +145,7 @@ for (k in sample(1:1e3,iter)){
     kappa <- as.numeric(single_vb_g$list_hyper$kappa)
     nu <- as.numeric(single_vb_g$list_hyper$nu)
     eta <- as.numeric(single_vb_g$list_hyper$eta)
-    eps <- 1e-4
+    eps <- 1e4
     
     WINE="/usr/local/bin/wine"
     WINEPATH="/usr/local/bin/winepath"
@@ -159,9 +177,27 @@ for (k in sample(1:1e3,iter)){
     
     }
     
+    if(FALSE){
+      mix1 <- norMix(c(single_vb_g$mu_beta_vb[1],0),sigma = c(single_vb_g$sig2_beta_vb,0.0001),w=c(single_vb_g$gam_vb[1],1-single_vb_g$gam_vb[1]))
+      mix2 <- norMix(c(single_vb_g$mu_beta_vb[2],0),sigma = c(single_vb_g$sig2_beta_vb,0.0001),w=c(single_vb_g$gam_vb[2],1-single_vb_g$gam_vb[2]))
+      
+      joint.density.plot(rnorMix(1e5,mix1),rnorMix(1e5,mix2))
+      
+      joint.density.plot(out_coda[,"beta[1]"][[1]], out_coda[,"beta[2]"][[1]], Title="Joint Density Plot", contour=T, color=F)
+      
+    }
+  
     if(TRUE){
-      mix <- norMix(c(single_vb_g$list_init$mu_beta_vb[1],0),sigma = c(single_vb_g$list_init$sig2_beta_vb,0.0001),w=c(single_vb_g$gam_vb[1],1-single_vb_g$gam_vb[1]))
-      plot(mix)
+      m_mix1 <- norMix(mu=mu_m_locus_1,sigma=sig_m_locus,w=gam_m_locus_1)
+      m_mix2 <- norMix(mu=mu_m_locus_2,sigma=sig_m_locus,w=gam_m_locus_2)
+      
+      
+      kill <- kde2d(rnorMix(1e5,m_mix_1),rnorMix(1e5,m_mix_2))
+      image(kill)
+      contour(kill,levels=c(0.1,0.3,0.5,0.7,0.9,1.1,1.3),method="simple",xlim=c(-2,2),ylim=c(-2,2))
     }
 }
+
+
+
 
