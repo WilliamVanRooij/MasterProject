@@ -63,10 +63,10 @@ for (k in sample(1:1e3,iter)){
   
   vec_prob_sh <-  0.1 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.4 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
-                             user_seed = seed)
+                             user_seed = seed, vec_maf = rep(0.4, 2))
   
   list_phenos <- generate_phenos(n, d,  user_seed = seed)
   
@@ -151,14 +151,14 @@ for (k in sample(1:1e3,iter)){
     
   }
   
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE)
+  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE, anneal=c(1,100,1))
   
   if(TRUE) {
 
-    plot(out[1:50], main='Probabilities of link between a phenotype and SNPs, comparison between m_locus and annealing m_locus',type='h',lwd=3,lend=1, ylim = c(0,1))
-    points(out_a[1:50],lwd=1,lend=1,type="h",col="red")
-    points(ind_p0,out[ind_p0], col='black')
-    points(ind_p0, out_a[ind_p0], col = "red")
+    plot(out_a[1:50], main='Probabilities of link between a phenotype and SNPs, comparison between m_locus and annealing',type='h',lwd=3,lend=1, ylim = c(0,1))
+    points(single_vb_g$gam_vb[1:50],lwd=2,lend=1,type="h",col="red")
+    points(ind_p0, out[ind_p0], col='black')
+    points(ind_p0, single_vb_g$gam_vb[ind_p0], col = "red")
 
     }
 

@@ -7,5 +7,6 @@
 \contentsline {section}{\numberline {3.1}Mean-field approximation}{8}
 \contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{9}
 \contentsline {chapter}{\numberline {4}Multimodality}{11}
-\contentsline {chapter}{\numberline {5}Simulations}{13}
-\contentsline {chapter}{\numberline {6}Next steps}{16}
+\contentsline {section}{\numberline {4.1}Simulated Annealing}{13}
+\contentsline {chapter}{\numberline {5}Simulations}{14}
+\contentsline {chapter}{\numberline {6}Next steps}{17}

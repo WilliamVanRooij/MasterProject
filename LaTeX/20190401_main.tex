@@ -10,9 +10,9 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usetikzlibrary{patterns}
 
-\numberwithin{equation}{section}
+\numberwithin{equation}{chapter}
 
-\newtheorem{lemma}{Lemma}[section]
+\newtheorem{lemma}{Lemma}[chapter]
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -189,7 +189,7 @@ Based on this result, the algorithm updates one parameter $\theta_j$ at a time w
 \Init{$q_j(\theta_j)$}
 \BlankLine
 \Repeat{$|$\OLDELBO$-\mathcal{L}(q)| < \varepsilon $}{
-\For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{\label{forins}
+\For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{
 \Set{$q_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace$}}
 \BlankLine
 \OLDELBO$\leftarrow$\ELBO\\
@@ -197,7 +197,7 @@ Based on this result, the algorithm updates one parameter $\theta_j$ at a time w
 \BlankLine
 }
 \Return{$q(\boldsymbol{\theta})$}
-\caption{Coordinate ascent variational inference \label{algo:CAVI}}
+\caption{Coordinate ascent variational inference \label{alg:CAVI}}
 \end{algorithm}
 At every iteration, $\mathcal{L}(q)$ is guaranteed to increase. The algorithm yields a local optimum depending on the initialization of the $q_j(\theta_j)$, $j=1,\ldots,J$. Having different initializations could yield different optima that correspond to different models.
 
@@ -244,6 +244,15 @@ Since we minimized the Kullback--Leibler divergence, we can use $\mathcal{L}(q)$
 Our quantity of interest is $\gamma_{st}$, i.e. we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{algo:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
 
 We can consider each optimum to be a model representing the data, and we can apply a form of Bayesian model averaging to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in Equation \ref{eq:post_prob}, and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models we have obtained in the algorithm.
+\newpage
+\section{Simulated Annealing}
+To identify data dependence structures, instead of altering the model, we can change the inference strategy. When dealing with highly correlated data, our coordinate ascent algorithm often gets stuck in local modes. We use a simulated annealing procedure to augment our method and improve the modes exploration.
+
+The idea of simulated annealing is to introduce a temperature $T$ that yields a series of heated distributions,
+\begin{equation*}
+p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T},
+\end{equation*}
+
 % =========================================
 \newpage
 \chapter{Simulations}

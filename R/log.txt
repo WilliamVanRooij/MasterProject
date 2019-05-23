@@ -1,26 +1,17 @@
 model is syntactically correct
-data loaded
-model compiled
-expected the collection operator c error pos 12
-initial values generated, model initialized
-model is updating
-5000 updates took 2 s
-model is updating
-5000 updates took 2 s
-CODA files written
-Summary statistics
-		mean	sd	val2.5pc	median	val97.5pc	sample
-	beta[1]	3.475	0.4862	2.527	3.459	4.417	5000
-	beta[2]	-0.1775	0.2386	-0.6472	-0.1781	0.2819	5000
-	deviance	284.5	2.05	282.6	283.9	290.1	5000
-	gamma[1]	0.0	1.0E-15	-0.01457	-4.37E-6	0.01457	5000
-	gamma[2]	0.0	1.0E-15	-0.01457	-4.37E-6	0.01457	5000
-	omega[1]	0.4254	0.2717	0.01803	0.4044	0.9326	5000
-	omega[2]	0.4235	0.2694	0.01785	0.3926	0.937	5000
-	sigma2.inv	1.524E-152	1.0E-15	-0.01457	4.37E-6	0.01457	5000
-	tau	1.095	3.544E-7	1.08	1.095	1.109	5000
-Deviance information
-	Dbar	Dhat	DIC	pD	
-y	284.5	282.5	286.6	2.019
-total	284.5	282.5	286.6	2.019
-History
+expected the collection operator c error pos 8
+variable n is not defined
+model must have been compiled but not updated to be able to change RN generator
+BugsCmds:NoCompileInits
+model must be compiled before generating initial values
+model must be initialized before updating
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before monitors used
+model must be initialized before DIC can be monitored
+model must be initialized before updating
+model must be initialized before monitors used
+DIC monitor not set
