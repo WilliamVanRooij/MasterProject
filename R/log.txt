@@ -4,9 +4,9 @@ model compiled
 expected the collection operator c error pos 46
 initial values generated, model initialized
 model is updating
-2000 updates took 93 s
+2000 updates took 89 s
 model is updating
-3000 updates took 143 s
+3000 updates took 135 s
 CODA files written
 Summary statistics
 		mean	sd	val2.5pc	median	val97.5pc	sample

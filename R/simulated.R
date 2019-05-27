@@ -251,7 +251,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     s <- subplot(
       plot_ly(x = rmix1, type = "histogram"),
       plotly_empty(),
-      plot_ly(x = rmix1, y = rmix2, type = "histogram2dcontour",contours=list(coloring="none",start=300,end=50000,size=5000),ncontours=100),
+      plot_ly(x = rmix1, y = rmix2, type = "histogram2dcontour"),
       plot_ly(y = rmix2, type = "histogram"),
       nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2), margin = 0,
       shareX = TRUE, shareY = TRUE, titleX = FALSE, titleY = FALSE
@@ -273,7 +273,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
 
 if(TRUE){
   par(mfrow=c(1,2))
-  hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,col="lightgrey",ylim=c(1,50),main=expression(paste("Estimations for ", beta[1])))
+  hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,ylim=c(0,50),col="lightgrey",main=expression(paste("Estimations for ", beta[1])))
   lines(d1_solo,lwd=2,lty=2,col="blue")
   lines(d1_m,lwd=2,lty=2,col="green")
   abline(v=beta_init[1],col="red",lwd=2)

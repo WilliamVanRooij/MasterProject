@@ -59,6 +59,8 @@ ind_p0 <- c(3,13,17,23,43)
 
 p0_av <- 30
 
+vec_maf <- runif(p, 0.4, 0.5)
+
 user_seed <- sample(1:1e3, 100)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
@@ -66,7 +68,7 @@ vec_prob_sh <-  0.05 # proba that each SNP will be associated with another activ
 max_tot_pve <-  0.7 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
-                           user_seed = seed)
+                           user_seed = seed, vec_maf = vec_maf)
 
 list_phenos <- generate_phenos(n, d,  user_seed = seed)
 
@@ -200,9 +202,10 @@ dev.off()
 # plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
 
 single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE)
+single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal=c(1,100,3))
 
 if(FALSE){
-  #make_ld_plot(dat_g$snps[,1:50],"r")
+  make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Weighted.png", width=645, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
   points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=10)
@@ -210,10 +213,26 @@ if(FALSE){
 }
 
 if(FALSE){
-  #make_ld_plot(dat_g$snps[,1:50],"r")
+  make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Single.png",width=645,height=350)
   plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
   points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
+  #dev.off()
+}
+
+if(FALSE){
+  make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("m_annealed.png", width=645, height=350 )
+  plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed  multiple LOCUS", ylab='')
+  points(ind_p0, out_a[ind_p0], col = "red",type='h',lend=1,lwd=10)
+  #dev.off()
+}
+
+if(FALSE){
+  make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("a_annealed.png",width=645,height=350)
+  plot(single_vb_g_a$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed single LOCUS", ylab='')
+  points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
 

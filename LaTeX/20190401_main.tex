@@ -252,7 +252,12 @@ The idea of simulated annealing is to introduce a temperature $T$ that yields a 
 \begin{equation*}
 p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T},
 \end{equation*}
+and influences the differences of the modes. The temperature starts high, smoothing the density of interest, and gets lower along the process until it reaches the original density. The high temperatures yields local an more easy search for the global optimum.
 
+\begin{equation*}
+\mathcal{L}_T(q) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta},\; T\geq 1,
+\end{equation*}
+where $q_T$ is the heated variational distribution.
 % =========================================
 \newpage
 \chapter{Simulations}
@@ -278,6 +283,19 @@ We can see that with every parameters combination, our method performs better th
 
 
 It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
+\begin{center}
+\begin{figure}
+\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_single.png}
+\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_multiple.png}
+\end{figure}
+\end{center}
+\begin{center}
+
+\begin{figure}
+\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_s_anneal.png}
+\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_m_anneal.png}
+\end{figure}
+\end{center}
 % =========================================
 \newpage
 \chapter{Next steps}
