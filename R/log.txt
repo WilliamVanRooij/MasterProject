@@ -4,23 +4,23 @@ model compiled
 expected the collection operator c error pos 46
 initial values generated, model initialized
 model is updating
-2000 updates took 89 s
+200 updates took 5 s
 model is updating
-3000 updates took 135 s
+800 updates took 22 s
 CODA files written
 Summary statistics
 		mean	sd	val2.5pc	median	val97.5pc	sample
-	beta[1]	0.006718	0.02925	-0.03919	0.001754	0.09046	3000
-	beta[2]	1.422	0.04056	1.337	1.424	1.496	3000
-	deviance	2962.0	1.933	2960.0	2961.0	2967.0	3000
-	gamma[1]	0.1543	0.3613	-0.01863	-4.406E-9	0.3487	3000
-	gamma[2]	1.0	1.0E-15	0.9809	1.0	1.019	3000
-	omega[1]	0.5298	0.3126	0.02686	0.5249	0.9991	3000
-	omega[2]	0.9152	0.1575	0.4149	0.9913	1.018	3000
-	sigma2.inv	0.3107	0.4003	-0.001773	0.1691	1.4	3000
-	tau	0.8837	0.0386	0.8122	0.8837	0.9639	3000
+	beta[1]	0.009005	0.03408	-0.05233	0.003322	0.1236	800
+	beta[2]	0.2267	0.09043	0.09531	0.2421	0.3858	800
+	deviance	3160.0	3.332	3156.0	3159.0	3173.0	800
+	gamma[1]	0.06875	0.253	-0.0443	0.001956	0.6925	800
+	gamma[2]	0.9363	0.2443	-0.1836	1.0	1.039	800
+	omega[1]	0.4964	0.3033	0.02114	0.4998	1.0	800
+	omega[2]	0.894	0.1943	0.4381	0.992	1.036	800
+	sigma2.inv	0.1384	0.1995	-0.03412	0.08371	0.3274	800
+	tau	0.3292	0.01533	0.2664	0.3314	0.38	800
 Deviance information
 	Dbar	Dhat	DIC	pD	
-y	2962.0	2960.0	2964.0	2.089
-total	2962.0	2960.0	2964.0	2.089
+y	3160.0	3157.0	3163.0	2.711
+total	3160.0	3157.0	3163.0	2.711
 History

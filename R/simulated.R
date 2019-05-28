@@ -32,30 +32,17 @@ get_p_m_y <- function(vec_elbo) {
   
 } 
 
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                     TO DO                                                                        #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
 
-# Check the Windows part of the function 
-
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                   VARIABLES                                                                      #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
-
-n <- 1000; 
+n <- 800; 
 p <- 2; p0 <- 1; 
 d <- 1; d0 <- 1;
 
-p0_av = 1.7
+p0_av = 1.9
 
 
 seed = 123
 
-X <- generate_snps(n, p, cor_type = "equicorrelated", vec_rho=0.9, vec_maf=c(0.4, 0.4), user_seed = seed)$snps
+X <- generate_snps(n, p, cor_type = "equicorrelated", vec_rho=0, vec_maf=c(0.3, 0.3), user_seed = seed)$snps
 tau <- rgamma(d,shape=1, scale=2)
 sigma2.inv <- rgamma(d, shape=1, scale=2)
 beta_init <- c(0,rnorm(1,mean=0,sd=sqrt(1/sigma2.inv*tau)))
@@ -127,7 +114,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
       vec_w2 <- rep(vec_w_part, each = 2) * gam_m_locus_2
     }
     
-    out <- out / lb_exp
+    out <- out / sum(vec_w_part)
     
   }
   
@@ -184,7 +171,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     parameters <- c("beta","gamma","tau","sigma2.inv","omega")
     
     out_bugs <- bugs(data = data, inits=inits, parameters.to.save = parameters, 
-                     model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=5000, n.burnin = 2000, 
+                     model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=1000, n.burnin = 200, 
                      codaPkg = TRUE, working.directory = getwd(), bugs.seed=13,
                      useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm, debug=F)
     
@@ -228,7 +215,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     lines(d1_m, lty=2)
     abline(v = beta_init[1],col="red",lty=1)
     
-    plot(d2_solo,col="blue", main="beta_2 =/= 0", ylim = c(0, 100)) # ylim = c(0, max(d2_solo, d2_m))) 
+    plot(d2_solo,col="blue", main="beta_2 =/= 0") # ylim = c(0, max(d2_solo, d2_m))) 
     lines(d2_m, lty=2)
     abline(v = beta_init[2],col="red",lty=1)
     
@@ -258,6 +245,16 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     )
     p <- layout(s, showlegend = FALSE)
     p
+    r <- subplot(
+      plot_ly(x = rmix1, type = "histogram"),
+      plotly_empty(),
+      plot_ly(x = rmix1, y = rmix2, type = "histogram2dcontour"),
+      plot_ly(y = rmix2, type = "histogram"),
+      nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2), margin = 0,
+      shareX = TRUE, shareY = TRUE, titleX = FALSE, titleY = FALSE
+    )
+    p <- layout(s, showlegend = FALSE)
+    p
     
     t <- subplot(
       plot_ly(x = out_coda[,"beta[1]"][[1]], type = "histogram"),
@@ -273,14 +270,14 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
 
 if(TRUE){
   par(mfrow=c(1,2))
-  hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,ylim=c(0,50),col="lightgrey",main=expression(paste("Estimations for ", beta[1])))
-  lines(d1_solo,lwd=2,lty=2,col="blue")
-  lines(d1_m,lwd=2,lty=2,col="green")
+  hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,col="lightgrey",main=expression(paste("Estimations for ", beta[1])),xlab=expression(beta[1]))
+  lines(d1_solo,lwd=2,lty=2,col="green")
+  lines(d1_m,lwd=2,lty=2,col="black")
   abline(v=beta_init[1],col="red",lwd=2)
   
-  hist(out_coda[,"beta[2]"][[1]],breaks=50,freq=F,col="lightgrey",xlim=c(0.8,1.6),ylim=c(1,15),main=expression(paste("Estimations for ", beta[2])))
-  lines(d2_solo,lwd=2,lty=2,col="blue")
-  lines(d2_m,lwd=2,lty=2,col="green")
+  hist(out_coda[,"beta[2]"][[1]],breaks=50,freq=F,col="lightgrey",main=expression(paste("Estimations for ", beta[2])),xlab=expression(beta[2]))
+  lines(d2_solo,lwd=2,lty=2,col="green")
+  lines(d2_m,lwd=2,lty=2,col="black")
   abline(v=beta_init[2],col="red",lwd=2)
   par(mfrow=c(1,1))
   }

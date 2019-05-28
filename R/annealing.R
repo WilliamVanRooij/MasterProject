@@ -48,13 +48,15 @@ for (k in sample(1:1e3,iter)){
   
   cor_type <- "autocorrelated"; 
   
-  vec_rho <- runif(floor(p/10), min = 0.9, max = 0.95)
+  vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
   
-  vec_maf <- runif(p, 0.4,0.5)
+  vec_maf <- runif(p, 0.25,0.5)
 
-  t_final <- 50
+  t_scheme <- 2
   
-  t_size <- 50
+  t_final <- 5
+  
+  t_size <- 100
   
   nb_cpus <- 4;
   
@@ -114,7 +116,7 @@ for (k in sample(1:1e3,iter)){
     list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                             sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
     
-    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, full_output = TRUE, anneal = c(1,t_final,t_size))
+    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, full_output = TRUE, anneal = c(t_scheme,t_final,t_size))
 
     return(list(locus = vb_g, gam_init = gam_vb_init,mu = mu_beta_vb_init, sig = sig2_beta_vb_init))
   }
@@ -149,13 +151,14 @@ for (k in sample(1:1e3,iter)){
       }
     }
     
-    out <- out / lb_exp
+    sum_elbo <- get_p_m_y(elbo)
+    out <- out / sum(sum_elb0)
     out_a <- out_a / lb_exp_a
     
   }
   
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE, anneal=NULL)
-  single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE, anneal=c(1,t_final,t_size))
+  single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE, anneal=c(t_scheme,t_final,t_size))
   
   if(FALSE) {
     plot(out_a[1:50], main='Probabilities of link between a phenotype and SNPs, comparison between m_locus and annealing',type='h',lwd=3,lend=1, ylim = c(0,1))
@@ -177,7 +180,7 @@ for (k in sample(1:1e3,iter)){
     plot(out[1:50],type='h',lwd=8,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
     points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=8)
 
-    plot(out_a[1:50],type='h',lwd=8,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed  multiple LOCUS", ylab='')
+    plot(out_a[1:50],type='h',lwd=8,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
     points(ind_p0, out_a[ind_p0], col = "red",type='h',lend=1,lwd=8)
     
     par(mfrow=c(1,1))

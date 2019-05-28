@@ -7,45 +7,22 @@ require(ROCR)
 rm(list= ls())
 
 RNGkind("L'Ecuyer-CMRG")
-set.seed(123);
+seed <- 167
+set.seed(seed);
 
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                     TO DO                                                                        #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
-
-# Check the Windows part of the function 
-
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                   VARIABLES                                                                      #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
 
 n <- 300; 
 p <- 500; p0 <- 5; 
 d <- 1; d0 <- 1
 
-# plot(x=NULL,y=NULL,xlim=c(0,1),ylim=c(0,1))
 
-auc = NULL
+bool_anneal <- F
+if(bool_anneal) {
+  anneal <- c(1, 2, 10)
+} else {
+  anneal <- NULL
+}
 
-c_pred <- NULL
-c_lab <- NULL
-
-single_pred <-  NULL
-single_lab <-  NULL
-
-iter <- 1
-
-
-for (k in sample(1:1e3,iter)){
-
-set.seed(k)  
-
-seed <-  k;
-  
 cor_type <- "autocorrelated"; 
 
 vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
@@ -59,13 +36,11 @@ ind_p0 <- c(3,13,17,23,43)
 
 p0_av <- 30
 
-vec_maf <- runif(p, 0.4, 0.5)
-
-user_seed <- sample(1:1e3, 100)
+vec_maf <- runif(p, 0.25, 0.5)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
-max_tot_pve <-  0.7 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed, vec_maf = vec_maf)
@@ -82,6 +57,20 @@ dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
 #                                                                  FUNCTIONS                                                                       #
 #                                                                                                                                                  #
 # ================================================================================================================================================ #
+
+
+log_sum_exp_ <- function(x) { # avoid numerical underflow or overflow
+  if ( max(abs(x)) > max(x) )
+    offset <- min(x)
+  else
+    offset <- max(x)
+  log(sum(exp(x - offset))) + offset
+}
+
+get_p_m_y <- function(vec_elbo) {
+  
+  exp(vec_elbo - log_sum_exp_(vec_elbo))
+}
 
 make_ld_plot <- function(X, meas) {
   
@@ -112,143 +101,120 @@ mlocus <- function(fseed) {
   list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
                          sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
   
-  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=TRUE)
+  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=TRUE, anneal = anneal)
   return(vb_g)
 }
 
-mac = (Sys.info()['sysname'] != "Windows")
 
-if(!mac) {
-  
-  cores <- detectCores()
-  cl <- makeCluster(cores)
-  out <- clusterApply(cl=cl, x=user_seed , fun=mlocus) # are you sure you still get a vector here? maybe see below?
-  plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
-  points(ind_p0, out[ind_p0], col = "red")
 
-  }
 
-# MAC
 
-if(mac) {
-  
-  m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
-  
-  out <- 0
-  lb_exp <- 0
-  if(FALSE){
-    for(i in c(1:length(user_seed))) {
-      out <- out + m_vb_g[[i]]$gam_vb
-      lb_exp <- lb_exp + 1
-    }
-  }
-  
-  if(TRUE){
-    for(i in c(1:length(user_seed))) {
-      out <- out + m_vb_g[[i]]$gam_vb*exp(m_vb_g[[i]]$lb_opt)
-      lb_exp <- lb_exp + exp(m_vb_g[[i]]$lb_opt)
-    }
-  }
-  
-  out <- out / lb_exp
-  
-  
-  #out <- Reduce('+',  m_vb_g) / length(user_seed) # a bit more compact and no "hard coded" numbers
-  if(FALSE) {
-  # jpeg(paste("multipleProba",k,".jpg",sep=""), width=800, height=600)
-  plot(out[1:50], main='Probabilities of link between a phenotype and SNPs',type='h',lwd=3,lend=1, ylim = c(0,1))
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = 147512, verbose = FALSE)
-  points(ind_p0,single_vb_g$gam_vb[ind_p0], col='black', pch=4)
-  points(ind_p0, out[ind_p0], col = "red")
-  # dev.off()
-  }
-  
-}
- if(FALSE){
-   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE)
-   
-   single_pred <- cbind(single_pred, single_vb_g$gam_vb)
-   single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
-   
-   c_pred <- cbind(c_pred, out)
-   c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
-   
- }
 
+iter <- 20
+{
+auc = NULL
+
+c_pred <- NULL
+c_lab <- NULL
+
+single_pred <-  NULL
+single_lab <-  NULL
 }
 
-if(FALSE){
-  pred_m_locus <- prediction(c_pred, c_lab)
-  pred_s_locus <- prediction(single_pred, single_lab)
-
-  # perf1 <- performance(pred, "auc")
-  # auc <- append(auc,perf1@y.values)
-
-  perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
-  perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
-  } 
- 
-if(FALSE){
+for(k in 1:iter){
+set.seed(k)
+user_seed <- sample(1:1e3, 100)
   
+  if(T) {
+    
+    m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
+    
+    elbo <- NULL
+    gam <- NULL
+    out <- 0
+    lb_exp <- 0
+    
+    if(FALSE){
+      for(i in c(1:length(user_seed))) {
+        out <- out + m_vb_g[[i]]$gam_vb
+        lb_exp <- lb_exp + 1
+      }
+    }
+    
+    if(TRUE){
+      for(i in c(1:length(user_seed))) {
+        gam <- rbind(gam, as.vector(m_vb_g[[i]]$gam_vb))
+        #lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
+        elbo <- c(elbo, m_vb_g[[i]]$lb_opt)
+      }
+    }
+    
+    
+    vec_w_part <- get_p_m_y(elbo)
+    out <- colSums(sweep(gam, 1, vec_w_part, "*"))
+    
+    
+    
+}
+  
+single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
+  
+single_pred <- cbind(single_pred, single_vb_g$gam_vb)
+single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
+  
+c_pred <- cbind(c_pred, out)
+c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
+
+}
+
+{ # ROC CURVES
+pred_m_locus <- prediction(c_pred, c_lab)
+pred_s_locus <- prediction(single_pred, single_lab)
+
+# perf1 <- performance(pred, "auc")
+# auc <- append(auc,perf1@y.values)
+
+perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
+perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
+
 par(pty="s")
 # jpeg(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".jpeg",sep=""))
 plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main="ROC Curves comparison")
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=TRUE)
 legend(0.6,0.2, c("Multiple Locus","Single Locus"), col=c('orange', 'blue'),lwd=2)
 # dev.off()
-dev.off()
+
 }
 
-# plot((1:iter), auc, ylim=c(0,1), pch = 19, main = paste("AUC of ",iter," iterations of the algorithm"), xlab = "Iterations", ylab="AUC")
-
-single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE)
-single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal=c(1,100,3))
-
-if(FALSE){
-  make_ld_plot(dat_g$snps[,1:50],"r")
+if(T){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Weighted.png", width=645, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
   points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(FALSE){
-  make_ld_plot(dat_g$snps[,1:50],"r")
+if(T){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("Single.png",width=645,height=350)
   plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
   points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
 
-if(FALSE){
-  make_ld_plot(dat_g$snps[,1:50],"r")
+if(F){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_annealed.png", width=645, height=350 )
   plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed  multiple LOCUS", ylab='')
   points(ind_p0, out_a[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(FALSE){
-  make_ld_plot(dat_g$snps[,1:50],"r")
+if(F){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("a_annealed.png",width=645,height=350)
   plot(single_vb_g_a$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed single LOCUS", ylab='')
   points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
 
-# single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = 100, link = "identity", user_seed = seed, verbose = FALSE)
-
-# points(ind_p0,single_vb_g$gam_vb[ind_p0], col='blue', pch=19)
-lbo <- NULL
-for(x in c(1:length(user_seed))){
-lbo = c(lbo, m_vb_g[[x]]$lb_opt)  
-  
-}
-plot(lbo)
-# Next steps:
-# implement weights in average - (DONE 27.03.19)
-# compare with results from a single seed - (DONE 27.03.19)
-# assess the performance with ROC curves, e.g., using the ROCR package (DONE - 27.03.19)
-# think of a 2D example where we can visualize the local modes, e.g., 
-# with two highly correlated predictors. See if the multiple-seed algorithm 
-# is about to explore all the local modes (inspiration in simulation of Rockova et al. papers).

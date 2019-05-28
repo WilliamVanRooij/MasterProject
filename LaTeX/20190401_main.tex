@@ -18,6 +18,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \DeclareMathOperator*{\KL}{{\rm KL}}
+\DeclareMathOperator*{\const}{{\rm const}}
 
 \setlength{\parskip}{1em}
 
@@ -248,16 +249,48 @@ We can consider each optimum to be a model representing the data, and we can app
 \section{Simulated Annealing}
 To identify data dependence structures, instead of altering the model, we can change the inference strategy. When dealing with highly correlated data, our coordinate ascent algorithm often gets stuck in local modes. We use a simulated annealing procedure to augment our method and improve the modes exploration.
 
+We start with the same strategy as earlier, i.e. minimizing the reverse Kullback--Leibler divergence,
+\begin{equation*}
+\KL(q \parallel q) = -\int q(\boldsymbol{\theta}) \log\left\lbrace\frac{p(\boldsymbol{\theta}\mid\boldsymbol{y})}{q(\boldsymbol{\theta})}\right\rbrace \mathrm{d}\boldsymbol{\theta}.
+\end{equation*}
+we end up with the lower bound as objective function,
+\begin{equation*}
+\mathcal{L}(q) = \mathbb{E}_q\left[ \log p(\boldsymbol{y}, \boldsymbol{\theta})\right] - \mathbb{E}_q\left[\log q(\boldsymbol{\theta})\right],
+\end{equation*}
+which is composed of the expected log joint distribution, which motivates the approximation to take more mass where the variables explain more the data, and the entropy, that encourages the dispersion of the approximation. 
+
 The idea of simulated annealing is to introduce a temperature $T$ that yields a series of heated distributions,
 \begin{equation*}
 p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T},
 \end{equation*}
-and influences the differences of the modes. The temperature starts high, smoothing the density of interest, and gets lower along the process until it reaches the original density. The high temperatures yields local an more easy search for the global optimum.
-
-\begin{equation*}
+and influences the differences of the modes. The temperature starts high, smoothing the density of interest, and gets lower along the process until it reaches the original density. The high temperatures yield an easier search for the global optimum. The temperature multiplies the entropy term, allowing for more disparate approximations to be considered,
+\begin{equation}
 \mathcal{L}_T(q) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta},\; T\geq 1,
+\label{eq:ann_elbo}
+\end{equation}
+where $q_T$ is the heated variational distribution, it applies a penalty on the log joint distribution when the temperature $T > 1$, and relaxes the penalty as $T$ goes down until $T = 1$, where the penalty becomes null.
+
+With the same process we used without the annealing, we can write (\ref{eq:ann_elbo}) with respect to $\theta_j$ as
+\begin{equation*}
+\mathcal{L}_T(q) = \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const,
 \end{equation*}
-where $q_T$ is the heated variational distribution.
+that can be written as
+\begin{equation*}
+\mathcal{L}_T(q) = T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const,	
+\end{equation*}
+where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $v_j$.
+
+$\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, which is equivalent to when
+\begin{equation*}
+\log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J.
+\end{equation*}
+
+We have a choice to make for the temperature schedule to consider, we have chosen to take a harmonic schedule,
+\begin{equation*}
+T_l = 1 + \Delta(l-L),\quad \Delta = \frac{T_L - 1}{L-1},
+\end{equation*}
+where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps necessary to lower the temperature to the initial temperature $T = 1$, where the initial algorithm is ran until convergence.
+
 % =========================================
 \newpage
 \chapter{Simulations}
