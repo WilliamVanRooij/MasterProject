@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  28 MAY 2019 14:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  29 MAY 2019 15:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -704,19 +704,23 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 Chapter 1.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
 r on input line 48.
-<images/CorrSingleNoProba.png, id=17, 192.72pt x 72.27pt>
-File: images/CorrSingleNoProba.png Graphic file (type png)
-<use images/CorrSingleNoProba.png>
-Package pdftex.def Info: images/CorrSingleNoProba.png  used on input line 48.
-(pdftex.def)             Requested size: 433.62pt x 138.7723pt.
+<images/corr_real_SNPs.png, id=17, 803.0pt x 803.0pt>
+File: images/corr_real_SNPs.png Graphic file (type png)
+<use images/corr_real_SNPs.png>
+Package pdftex.def Info: images/corr_real_SNPs.png  used on input line 48.
+(pdftex.def)             Requested size: 361.34999pt x 361.34798pt.
 
-Overfull \hbox (73.62pt too wide) in paragraph at lines 48--49
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 48--49
  [] 
  []
 
 [2
 
-] [3 <./images/CorrSingleNoProba.png>] [4]
+]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[3] [4 <./images/corr_real_SNPs.png>]
 Chapter 2.
 [5
 
@@ -847,7 +851,7 @@ LaTeX Warning: There were undefined references.
  ) 
 Here is how much of TeX's memory you used:
  14484 strings out of 492649
- 283574 string characters out of 6129622
+ 283559 string characters out of 6129622
  344826 words of memory out of 5000000
  18025 multiletter control sequences out of 15000+600000
  64379 words of font info for 57 fonts, out of 8000000 for 9000
@@ -872,7 +876,7 @@ exmf-dist/fonts/type1/public/lm/lmmib10.pfb></usr/local/texlive/2018/texmf-dist
 ist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
 ype1/public/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
 c/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (21 pages, 554966 bytes).
+Output written on 20190401_main.pdf (21 pages, 856584 bytes).
 PDF statistics:
  161 PDF objects out of 1000 (max. 8388607)
  105 compressed objects within 2 object streams
