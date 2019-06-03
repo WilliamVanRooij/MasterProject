@@ -42,8 +42,11 @@ Often, when trying to find a model for data, we have many more observations than
 In this report, we will focus on the \textit{small n - large p} situation in the context of genetic association. We will focus on high dimensional Bayesian inference, with its statistical advantages and its computational problem that often dissuades users to adopt this solution in statistical applications.
 
 \section{Motivation}
-Current technology allows us to numerically represent the human genome, a whole new set of data is available to study the association between the genome and various diseases or phenotypes.  Some of these newly available data are \textit{genetic variants}, a change at a specific location on  the genome (locus), where the different versions are called \textit{alleles}. We will focus on the most common genetic variant, the \textit{single nucleotide polymorphism} (SNP), a variation in the nucleotide that is present to some appreciable extent in the population, i.e. the \textit{minor} allele has frequency $> 0.01$ \cite{lewin}. Some combinations of SNPs are inherited together, which yields block-wise dependence structures. We observe strong autocorrelations in these blocks, as shows Figure \ref{fig:corr}.
-\begin{figure}[h!  ]
+Current technology allows us to numerically represent the human genome, a whole new set of data is available to study the association between the genome and various diseases or phenotypes.  Some of these newly available data are \textit{genetic variants}, a change at a specific location on  the genome (locus), where the different versions are called \textit{alleles}. We will focus on the most common genetic variant, the \textit{single nucleotide polymorphism} (SNP), a variation in the nucleotide that is present to some appreciable extent in the population. Some combinations of SNPs are inherited together, which yields block-wise dependence structures. We will calculate the association between SNPs and transcript expressions, called \textit{traits}.
+
+The strong correlation structure, observable in Figure \ref{fig:corr}, means that two SNPs in a same correlation block will be hard to differentiate. The goal is two represent the probabilities of association between a SNP and a trait, we should be able to observe the block-wise correlation in our results, the probabilities of association should be high even when the mode is not the real one.
+
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5in,bb = 0 0 800px 800px]{images/corr_real_SNPs.png}
 \caption{\label{fig:corr} Visualisation of the block-wise correlation structure in the SNPs.}
@@ -56,11 +59,12 @@ Bayesian inference involves many integrals, but these usually need to be approxi
 
 When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iteration. The cost of these calculations increases with the number of parameters. Moreover, the more dimensions the problem has, the less accurate the approximations become, requiring more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is often impossible when their number is very high.
 
-In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \cite{varInf}.
+In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \cite{varInf}. 
+
 %==========================================
 \newpage
 \chapter{Model}
-We let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be the design matrix, representing the SNPs, and $\boldsymbol{y} = (y_1,\ldots,y_q)$ be the response variables, representing the traits. The SNPs have a strong local correlation on the genome. Our goal is to estimate the association between a SNP $s$ and a transcript expression, called a \textit{trait}, $t$. To do so, we consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t$, i.e.,
+Our goal is to estimate the association between a SNP $s$ and a trait $t$. To do so, we let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be the design matrix, representing the SNPs, and $\boldsymbol{y} = (y_1,\ldots,y_q)$ be the response variables, representing the traits. The SNPs have a strong local correlation on the genome.  We consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t$, i.e.,
 \begin{equation*}
 \label{eq:model}
 \boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q},\quad\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n),
@@ -89,6 +93,14 @@ with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we define $p^* \l
 \begin{equation*}
 a_s = 1,\;b_s = q(p-p^*)/p^*.
 \end{equation*}
+
+Now that we have defined our model, we can make a few observations. We can see that the probability of association of a SNP $s$ with a trait $t$ is only depending on $\omega_s$, so it must be really small to ensure that the SNP $s$ is not associated with too many traits. This is ensured by $a_s$ and $b_s$, that are chosen to keep $\omega_s$ small enough.
+
+The ``spike-and-slab'' distribution can be represented by a sum of Gaussians, the ``slab'': $\gamma_{st}\;\mathcal{N}\left(0,\sigma^2\tau_t^{-1}\right)$, and the ``spike'': $(1-\gamma_{st})\;\mathcal{N}\left(0, \varepsilon\right)$, for $\varepsilon > 0$ small enough.
+
+The parameter $\sigma$ represents the nonzero effects, the ``slab''. It is countered by the residual scale of the response affected by the effect $\tau_t^{-1/2}$.
+
+The \textit{small n, large p, large q} situation does not let MCMC inference perform with quality and quickness. Instead, we chose to use variational inference to estimate the distributions of the parameters.
 % =========================================
 \newpage
 \chapter{Variational Inference}
@@ -245,6 +257,8 @@ Since we minimized the Kullback--Leibler divergence, we can use $\mathcal{L}(q)$
 Our quantity of interest is $\gamma_{st}$, i.e. we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{algo:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
 
 We can consider each optimum to be a model representing the data, and we can apply a form of Bayesian model averaging to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in Equation \ref{eq:post_prob}, and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models we have obtained in the algorithm.
+
+As we are dealing with strongly correlated structures, some modes will be strongly plausible even if they are not the real mode. This incertitude should be visible when observing the resulting approximations for $\mathbb{E}\left[\gamma_st\mid \boldsymbol{y}\right]$. Indeed, we should see the real mode standing out, but we should have some other modes visible as well, more or less visible according to their plausibility.
 \newpage
 \section{Simulated Annealing}
 To identify data dependence structures, instead of altering the model, we can change the inference strategy. When dealing with highly correlated data, our coordinate ascent algorithm often gets stuck in local modes. We use a simulated annealing procedure to augment our method and improve the modes exploration.
@@ -291,6 +305,8 @@ T_l = 1 + \Delta(l-L),\quad \Delta = \frac{T_L - 1}{L-1},
 \end{equation*}
 where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps necessary to lower the temperature to the initial temperature $T = 1$, where the initial algorithm is ran until convergence.
 
+To cope with strongly correlated structures and represent the incertitude of the modes, we use simulated annealing combined with our weighted average and retrieve a combination of different models yielded from different initialisations. However, two different initialisations that gave different modes could give the same mode when using simulated annealing as the density function is ``smoothed'' by the temperature. The number of different modes considered in the weighted average will hence be less than when not performing the simulated annealing step before hand.
+
 % =========================================
 \newpage
 \chapter{Simulations}
@@ -316,19 +332,21 @@ We can see that with every parameters combination, our method performs better th
 
 
 It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
-\begin{center}
 \begin{figure}
-\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_single.png}
-\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_multiple.png}
-\end{figure}
-\end{center}
 \begin{center}
+\includegraphics[width=5in]{images/s_locus.png}
+\includegraphics[width=5in]{images/m_locus.png}
+\end{center}
+\caption{\label{fig:simple_locus}Probabilities of associations of SNPs with a trait calculated with a single call of the \texttt{locus} function (top) and when doing a weighted average on multiple calls of the \texttt{locus} function.}
+\end{figure}
 
 \begin{figure}
-\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_s_anneal.png}
-\includegraphics[width=3in,bb=0 0 2.5in 2.5in]{images/LD_m_anneal.png}
-\end{figure}
+\begin{center}
+\includegraphics[width=5in]{images/s_annealed.png}
+\includegraphics[width=5in]{images/m_annealed.png}
 \end{center}
+\end{figure}
+
 % =========================================
 \newpage
 \chapter{Next steps}

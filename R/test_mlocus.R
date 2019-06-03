@@ -12,7 +12,7 @@ set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 15; 
+p <- 500; p0 <- 5; 
 d <- 1; d0 <- 1
 
 
@@ -32,8 +32,8 @@ nb_cpus <- 4;
 
 ind_d0 <-  sample(1:d, d0)
 
-#ind_p0 <- c(3,13,17,23,43)
-ind_p0 <- sample(1:50, p0)
+ind_p0 <- c(3,13,17,23,43)
+#ind_p0 <- sample(1:50, p0)
 
 p0_av <- 30
 
@@ -41,7 +41,7 @@ vec_maf <- runif(p, 0.4, 0.5)
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 
-max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.4 # max proportion of phenotypic variance explained by the active SNPs
 
 list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                            user_seed = seed, vec_maf = vec_maf)
@@ -209,7 +209,7 @@ c_lab_a <- cbind(c_lab_a, c(1:500) %in% ind_p0)
 
 }
 
-{ # ROC CURVES
+if(F){ # ROC CURVES
   pred_m_locus <- prediction(c_pred, c_lab)
   pred_s_locus <- prediction(single_pred, single_lab)
   
@@ -234,32 +234,32 @@ legend(0.6,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","A
 par(pty="m")
 
 }
-
-if(F){
-  #make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("Weighted.png", width=645, height=350 )
+par(mfrow=c(1,1))
+if(T){
+  make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("m_locus.png", width=645, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
   points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(F){
+if(T){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("Single.png",width=645,height=350)
-  plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - single LOCUS", ylab='')
+  #png("s_locus.png",width=645,height=350)
+  plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Single LOCUS", ylab='')
   points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
 
-if(F){
+if(T){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_annealed.png", width=645, height=350 )
-  plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed  multiple LOCUS", ylab='')
+  plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
   points(ind_p0, out_a[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(F){
+if(T){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("a_annealed.png",width=645,height=350)
   plot(single_vb_g_a$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed single LOCUS", ylab='')

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  29 MAY 2019 15:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  3 JUN 2019 15:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -702,21 +702,21 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 ]
 Chapter 1.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 48.
-<images/corr_real_SNPs.png, id=17, 803.0pt x 803.0pt>
-File: images/corr_real_SNPs.png Graphic file (type png)
-<use images/corr_real_SNPs.png>
-Package pdftex.def Info: images/corr_real_SNPs.png  used on input line 48.
-(pdftex.def)             Requested size: 361.34999pt x 361.34798pt.
-
-Overfull \hbox (1.34999pt too wide) in paragraph at lines 48--49
- [] 
- []
-
 [2
 
 ]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 51.
+<images/corr_real_SNPs.png, id=21, 803.0pt x 803.0pt>
+File: images/corr_real_SNPs.png Graphic file (type png)
+<use images/corr_real_SNPs.png>
+Package pdftex.def Info: images/corr_real_SNPs.png  used on input line 51.
+(pdftex.def)             Requested size: 361.34999pt x 361.34798pt.
+
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 51--52
+ [] 
+ []
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -724,12 +724,18 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Chapter 2.
 [5
 
-] [6]
+]
+Overfull \hbox (1.28996pt too wide) in paragraph at lines 101--102
+[]\OT1/lmr/m/n/10.95 The para-meter $\OML/lmm/m/it/10.95 ^^[$ \OT1/lmr/m/n/10.9
+5 rep-res-ents the nonzero ef-fects, the ``slab''. It is countered
+ []
+
+[6]
 Chapter 3.
 [7
 
 ] [8] [9]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 199
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 211
 .
  (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -740,54 +746,54 @@ Chapter 4.
 
 ]
 
-LaTeX Warning: Reference `algo:CAVI' on page 12 undefined on input line 245.
+LaTeX Warning: Reference `algo:CAVI' on page 12 undefined on input line 257.
 
 [12] [13] [14]
 Chapter 5.
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 297
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 313
 .
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 307.
+r on input line 323.
 <images/ROC_Comp_p0_15_var_0_5.jpeg, id=72, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.jpeg  used on input line
- 307.
+ 323.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 308.
+r on input line 324.
 <images/ROC_Comp_p0_15_var_0_8.jpeg, id=73, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_15_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_15_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.jpeg  used on input line
- 308.
+ 324.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 309.
+r on input line 325.
 <images/ROC_Comp_p0_50_var_0_5.jpeg, id=74, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_5.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_5.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.jpeg  used on input line
- 309.
+ 325.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 310.
+r on input line 326.
 <images/ROC_Comp_p0_50_var_0_8.jpeg, id=75, 115.632pt x 115.632pt>
 File: images/ROC_Comp_p0_50_var_0_8.jpeg Graphic file (type jpg)
 <use images/ROC_Comp_p0_50_var_0_8.jpeg>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.jpeg  used on input line
- 310.
+ 326.
 (pdftex.def)             Requested size: 195.12877pt x 195.15138pt.
 
-Overfull \hbox (32.69087pt too wide) in paragraph at lines 307--312
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 323--328
 [][] []
  []
 
 
-Overfull \hbox (32.69087pt too wide) in paragraph at lines 307--312
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 323--328
 [] [] 
  []
 
@@ -796,53 +802,55 @@ Overfull \hbox (32.69087pt too wide) in paragraph at lines 307--312
 ] [16 <./images/ROC_Comp_p0_15_var_0_5.jpeg> <./images/ROC_Comp_p0_15_var_0_8.j
 peg> <./images/ROC_Comp_p0_50_var_0_5.jpeg> <./images/ROC_Comp_p0_50_var_0_8.jp
 eg>]
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 321.
-<images/LD_single.png, id=83, 161.1621pt x 150.0807pt>
-File: images/LD_single.png Graphic file (type png)
-<use images/LD_single.png>
-Package pdftex.def Info: images/LD_single.png  used on input line 321.
-(pdftex.def)             Requested size: 216.81pt x 216.81163pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 322.
-<images/LD_multiple.png, id=84, 161.1621pt x 150.0807pt>
-File: images/LD_multiple.png Graphic file (type png)
-<use images/LD_multiple.png>
-Package pdftex.def Info: images/LD_multiple.png  used on input line 322.
-(pdftex.def)             Requested size: 216.81pt x 216.81163pt.
+<images/s_locus.png, id=83, 647.41875pt x 351.3125pt>
+File: images/s_locus.png Graphic file (type png)
+<use images/s_locus.png>
+Package pdftex.def Info: images/s_locus.png  used on input line 337.
+(pdftex.def)             Requested size: 361.34999pt x 196.07965pt.
+<images/m_locus.png, id=84, 647.41875pt x 351.3125pt>
+File: images/m_locus.png Graphic file (type png)
+<use images/m_locus.png>
+Package pdftex.def Info: images/m_locus.png  used on input line 338.
+(pdftex.def)             Requested size: 361.34999pt x 196.07965pt.
 
-Overfull \hbox (76.05333pt too wide) in paragraph at lines 321--323
-[][] [] 
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 337--339
+ [] 
  []
 
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 328.
-<images/LD_s_anneal.png, id=85, 161.1621pt x 150.0807pt>
-File: images/LD_s_anneal.png Graphic file (type png)
-<use images/LD_s_anneal.png>
-Package pdftex.def Info: images/LD_s_anneal.png  used on input line 328.
-(pdftex.def)             Requested size: 216.81pt x 216.81163pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 329.
-<images/LD_m_anneal.png, id=86, 161.1621pt x 150.0807pt>
-File: images/LD_m_anneal.png Graphic file (type png)
-<use images/LD_m_anneal.png>
-Package pdftex.def Info: images/LD_m_anneal.png  used on input line 329.
-(pdftex.def)             Requested size: 216.81pt x 216.81163pt.
 
-Overfull \hbox (76.05333pt too wide) in paragraph at lines 328--330
-[][] [] 
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 337--339
+ [] 
  []
 
-[17 <./images/LD_single.png> <./images/LD_multiple.png>] [18 <./images/LD_s_ann
-eal.png> <./images/LD_m_anneal.png>]
+<images/s_annealed.png, id=85, 647.41875pt x 351.3125pt>
+File: images/s_annealed.png Graphic file (type png)
+<use images/s_annealed.png>
+Package pdftex.def Info: images/s_annealed.png  used on input line 345.
+(pdftex.def)             Requested size: 361.34999pt x 196.07965pt.
+<images/m_annealed.png, id=86, 647.41875pt x 351.3125pt>
+File: images/m_annealed.png Graphic file (type png)
+<use images/m_annealed.png>
+Package pdftex.def Info: images/m_annealed.png  used on input line 346.
+(pdftex.def)             Requested size: 361.34999pt x 196.07965pt.
+
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 345--347
+ [] 
+ []
+
+
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 345--347
+ [] 
+ []
+
+[17] [18 <./images/s_locus.png> <./images/m_locus.png>] [19 <./images/s_anneale
+d.png> <./images/m_annealed.png>]
 Chapter 6.
 
-LaTeX Warning: Citation `glob' on page 19 undefined on input line 335.
+LaTeX Warning: Citation `glob' on page 20 undefined on input line 353.
 
-[19
+[20
 
-] (./20190401_main.bbl) [20
+] (./20190401_main.bbl) [21
 
 ] (./20190401_main.aux)
 
@@ -850,13 +858,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 14484 strings out of 492649
- 283559 string characters out of 6129622
- 344826 words of memory out of 5000000
- 18025 multiletter control sequences out of 15000+600000
+ 14485 strings out of 492649
+ 283537 string characters out of 6129622
+ 344837 words of memory out of 5000000
+ 18026 multiletter control sequences out of 15000+600000
  64379 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,20n,59p,850b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,20n,59p,797b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/loca
 l/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018
 /texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018/texmf-dis
@@ -876,10 +884,10 @@ exmf-dist/fonts/type1/public/lm/lmmib10.pfb></usr/local/texlive/2018/texmf-dist
 ist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
 ype1/public/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
 c/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (21 pages, 856584 bytes).
+Output written on 20190401_main.pdf (22 pages, 788535 bytes).
 PDF statistics:
- 161 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
+ 164 PDF objects out of 1000 (max. 8388607)
+ 107 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  62 words of extra memory for PDF output out of 10000 (max. 10000000)
 
