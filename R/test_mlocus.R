@@ -25,33 +25,6 @@ if(bool_anneal) {
 
 cor_type <- "autocorrelated"; 
 
-vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
-#vec_rho <- c(0.99,0.99)
-
-nb_cpus <- 4;
-
-ind_d0 <-  sample(1:d, d0)
-
-ind_p0 <- c(3,13,17,23,43)
-#ind_p0 <- sample(1:50, p0)
-
-p0_av <- 30
-
-vec_maf <- runif(p, 0.4, 0.5)
-
-vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
-
-max_tot_pve <-  0.4 # max proportion of phenotypic variance explained by the active SNPs
-
-list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
-                           user_seed = seed, vec_maf = vec_maf)
-
-list_phenos <- generate_phenos(n, d,  user_seed = seed)
-
-dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
-                             ind_p0 = ind_p0, vec_prob_sh = vec_prob_sh,
-                             family = "gaussian", max_tot_pve = max_tot_pve,
-                             block_phenos = TRUE, user_seed = seed)
 
 # ================================================================================================================================================ #
 #                                                                                                                                                  #
@@ -126,7 +99,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 30
+iter <- 10
 {
 
   c_pred <- NULL
@@ -143,7 +116,38 @@ iter <- 30
 }
 
 for(k in 1:iter){
-set.seed(k)
+#set.seed(k)
+  
+  vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
+  #vec_rho <- c(0.99,0.99)
+  
+  nb_cpus <- 4;
+  
+  ind_d0 <-  sample(1:d, d0)
+  
+  ind_p0 <- c(3,13,17,23,43)
+  #ind_p0 <- sample(1:50, p0)
+  
+  p0_av <- 15
+  
+  vec_maf <- runif(p, 0.4, 0.5)
+  #vec_maf <- NULL
+  
+  vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
+  
+  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
+  
+  list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
+                             user_seed = seed, vec_maf = vec_maf)
+  
+  list_phenos <- generate_phenos(n, d,  user_seed = seed)
+  
+  dat_g <- generate_dependence(list_snps, list_phenos, ind_d0 = ind_d0,
+                               ind_p0 = ind_p0, vec_prob_sh = vec_prob_sh,
+                               family = "gaussian", max_tot_pve = max_tot_pve,
+                               block_phenos = TRUE, user_seed = seed)
+  
+  
 user_seed <- sample(1:1e3, 100)
   
   if(T){
@@ -189,10 +193,10 @@ user_seed <- sample(1:1e3, 100)
     
     
     
-}
 
-single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
-single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
+
+single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = 166, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
+single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= 166, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
 
 
 single_pred <- cbind(single_pred, single_vb_g$gam_vb)
@@ -207,9 +211,10 @@ single_lab_a <- cbind(single_lab_a, c(1:500) %in% ind_p0)
 c_pred_a <- cbind(c_pred_a, out_a)
 c_lab_a <- cbind(c_lab_a, c(1:500) %in% ind_p0)
 
+  }
 }
 
-if(F){ # ROC CURVES
+if(T){ # ROC CURVES
   pred_m_locus <- prediction(c_pred, c_lab)
   pred_s_locus <- prediction(single_pred, single_lab)
   
@@ -223,45 +228,45 @@ if(F){ # ROC CURVES
   perf_s_locus_a <- performance(pred_s_locus_a, "tpr","fpr")
   
 par(pty="s")
-#jpeg(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".jpeg",sep=""))
-plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main="ROC Curves comparison")
+#pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
+plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5")))
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
 plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
 plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
-legend(0.6,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
+legend(0.4,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
 #dev.off()
 
 par(pty="m")
 
 }
 par(mfrow=c(1,1))
-if(T){
-  make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("m_locus.png", width=645, height=350 )
+if(F){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("m_locus.png", width=715, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
   points(ind_p0, out[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("s_locus.png",width=645,height=350)
+  #png("s_locus.png", width=715, height=350 )
   plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Single LOCUS", ylab='')
   points(ind_p0, single_vb_g$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("m_annealed.png", width=645, height=350 )
+  #png("m_annealed.png", width=715, height=350 )
   plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
   points(ind_p0, out_a[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
-  #png("a_annealed.png",width=645,height=350)
+  #png("s_annealed.png", width=715, height=350 )
   plot(single_vb_g_a$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed single LOCUS", ylab='')
   points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()

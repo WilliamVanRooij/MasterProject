@@ -49,7 +49,7 @@ The strong correlation structure, observable in Figure \ref{fig:corr}, means tha
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5in,bb = 0 0 800px 800px]{images/corr_real_SNPs.png}
-\caption{\label{fig:corr} Visualisation of the block-wise correlation structure in the SNPs.}
+\caption{\label{fig:corr} Visualisation of the correlation structure in the SNPs. We can clearly see the block-wise correlation structure.}
 \end{center}
 \end{figure}
 
@@ -94,13 +94,10 @@ with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we define $p^* \l
 a_s = 1,\;b_s = q(p-p^*)/p^*.
 \end{equation*}
 
-Now that we have defined our model, we can make a few observations. We can see that the probability of association of a SNP $s$ with a trait $t$ is only depending on $\omega_s$, so it must be really small to ensure that the SNP $s$ is not associated with too many traits. This is ensured by $a_s$ and $b_s$, that are chosen to keep $\omega_s$ small enough.
-
-The ``spike-and-slab'' distribution can be represented by a sum of Gaussians, the ``slab'': $\gamma_{st}\;\mathcal{N}\left(0,\sigma^2\tau_t^{-1}\right)$, and the ``spike'': $(1-\gamma_{st})\;\mathcal{N}\left(0, \varepsilon\right)$, for $\varepsilon > 0$ small enough.
-
-The parameter $\sigma$ represents the nonzero effects, the ``slab''. It is countered by the residual scale of the response affected by the effect $\tau_t^{-1/2}$.
-
-The \textit{small n, large p, large q} situation does not let MCMC inference perform with quality and quickness. Instead, we chose to use variational inference to estimate the distributions of the parameters.
+We want to estimate the parameter $\boldsymbol{\beta}$ knowing $\boldsymbol{y}$, so we need to find the maximum of the density function
+\begin{equation*}
+p(\boldsymbol{\beta}\mid\boldsymbol{y})=\int\dots\int p(\boldsymbol{\beta}\mid\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2},\boldsymbol{y})\;p(\boldsymbol{\gamma}\mid \boldsymbol{\omega},\boldsymbol{\tau},\boldsymbol{y})\;p(\boldsymbol{\omega}\mid\boldsymbol{y})\;p(\boldsymbol{\tau}\mid\boldsymbol{y})\;p(\sigma^{-2}\mid\boldsymbol{y})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2}
+\end{equation*}
 % =========================================
 \newpage
 \chapter{Variational Inference}
@@ -299,9 +296,9 @@ $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\the
 \log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J.
 \end{equation*}
 
-We have a choice to make for the temperature schedule to consider, we have chosen to take a harmonic schedule,
+We have a choice to make for the temperature schedule to consider, we have chosen to take a geometric spacing,
 \begin{equation*}
-T_l = 1 + \Delta(l-L),\quad \Delta = \frac{T_L - 1}{L-1},
+T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
 \end{equation*}
 where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps necessary to lower the temperature to the initial temperature $T = 1$, where the initial algorithm is ran until convergence.
 
@@ -332,21 +329,51 @@ We can see that with every parameters combination, our method performs better th
 
 
 It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
-\begin{figure}
-\begin{center}
-\includegraphics[width=5in]{images/s_locus.png}
-\includegraphics[width=5in]{images/m_locus.png}
-\end{center}
-\caption{\label{fig:simple_locus}Probabilities of associations of SNPs with a trait calculated with a single call of the \texttt{locus} function (top) and when doing a weighted average on multiple calls of the \texttt{locus} function.}
-\end{figure}
 
-\begin{figure}
 \begin{center}
-\includegraphics[width=5in]{images/s_annealed.png}
-\includegraphics[width=5in]{images/m_annealed.png}
-\end{center}
+\begin{figure}[h]
+\includegraphics[width=2.7in]{images/s_locus.png}
+\includegraphics[width=2.7in]{images/m_locus.png}
+\caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
+\end{center}
+In Figure \ref{fig:simple_locus}, we have plotted the probabilities of association of the $50$ first SNPs, out of $500$ used, with a single trait $t$. In the construction of the data, we have enforced the five real associated SNPs to be in the $50$ first SNPs, for observations reasons, they are marked in red. The real associated SNPs are the same for both of the plots.
 
+On the left, we have used a single call of the \texttt{locus} function, it is equivalent to choosing a single model $M$ and calculating
+\begin{equation*}
+\mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \mathbb{E}\left[\gamma_{st}\mid M,\boldsymbol{y}\right]\;p\left(M\mid\boldsymbol{y}\right).
+\end{equation*}
+
+On the right, we have used the weighted averaging method over a range of $100$ different initial parameters yielding $K$ different models $ M_k$, $k~=~1\ldots,K$. We then calculated
+\begin{equation*}
+\mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\gamma_{st}\mid M_k\right]\;p\left(M_k\mid\boldsymbol{y}\right).
+\end{equation*}
+
+We can see that when using a single call of the \texttt{locus} function, the SNPs found to be associated with the trait are not the right ones. This can be explained by the strong correlations in the block structure. The strong correlations can mislead the function into yielding the wrong SNP in the same correlation block.
+
+When using a weighted average on multiple models yielded by multiple initialisations the function \texttt{locus}, we can see that we consider different models containing the one we used to build the data. We can see that three of the five real SNPs associated with the trait are found by the algorithm.
+
+We can also see that the two grey pikes of the left plot can be seen on the right plot. This can be explained by the fact that the model found on the left plot has been considered in the weighted average of the right plot. Apparently, a few other iterations of the function have also mislead the SNP corresponding to the second spike of the left plot to be associated with the trait, as its probability of association is non negligible. The first spike of the left plot is not as present in other occurrences of the function as we can see that it is considerably small.
+
+The block wise correlation structure is also visible in the probabilities of association for the weighted average method. We can see that four SNPs of the middle block have all non null probabilities of association with the trait. This phenomena can be explained by the strong correlations between these SNPs misleading the algorithm into designating a wrong SNP with a strong correlation to the right one.
+
+In Figure \ref{fig:anneal_locus}, we have plotted the probabilities of association of the same $50$ SNPs as in Figure \ref{fig:simple_locus}, obtained from our simulated annealing augmented strategy. The same five SNPs have been selected to build our data, they are in red in the plots. We have also calculated these probabilities for $500$ SNPs but for visualisation purposes we only show the $50$ first.
+
+For both of the methods, we have used simulated annealing with an initial temperature of $2$, a geometric spacing, and ten steps. Then, we use the obtained parameters to continue with the usual algorithm. We have used simulated annealing for both the single and multiple calls of the \texttt{locus} function.
+
+\begin{center}
+\begin{figure}[h!]
+\includegraphics[width=2.7in]{images/s_anneal.png}
+\includegraphics[width=2.7in]{images/m_anneal.png}
+\caption{\label{fig:anneal_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus}function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right), both strategies augmented with simulated annealing. In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
+\end{figure}
+\end{center}
+On the left plot, we can see that the annealing part has changed the mode obtained from a single call of the function. Compared to Figure \ref{fig:simple_locus}, we can see that the first spike of the left plot is one of the correct SNPs. This can be explained by the correlation between the second and third SNPs that misguided the first algorithm on the wrong SNP, but the simulated annealing smoothed the density function enough for the algorithm to find another optimum corresponding to having the right SNP as associated with the trait.
+
+Other than the change in associated SNPs, we can see that there is no visible change in the probabilities between the usual algorithm and the simulated annealing augmented single use of the function. The simulated annealing could not have a temperature high enough to smooth the density function such that the optimum obtained is the global optimum.
+
+When using the simulated annealing in the weighted averaging method, we can see that the resulting probabilities of association are less accurate that with the standard strategy. A possible reason for this could be that the simulated annealing single call yields the wrong SNPs more often than when using the standard method, and when averaging over all the considered models, the result might be wrong. Even with small weights, if there is a lot of models favouring the wrong SNP, it will show in the average.
+ 
 % =========================================
 \newpage
 \chapter{Next steps}
