@@ -94,10 +94,28 @@ with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we define $p^* \l
 a_s = 1,\;b_s = q(p-p^*)/p^*.
 \end{equation*}
 
-We want to estimate the parameter $\boldsymbol{\beta}$ knowing $\boldsymbol{y}$, so we need to find the maximum of the density function
-\begin{equation*}
-p(\boldsymbol{\beta}\mid\boldsymbol{y})=\int\dots\int p(\boldsymbol{\beta}\mid\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2},\boldsymbol{y})\;p(\boldsymbol{\gamma}\mid \boldsymbol{\omega},\boldsymbol{\tau},\boldsymbol{y})\;p(\boldsymbol{\omega}\mid\boldsymbol{y})\;p(\boldsymbol{\tau}\mid\boldsymbol{y})\;p(\sigma^{-2}\mid\boldsymbol{y})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2}
-\end{equation*}
+
+
+We are interested in estimating the association between the SNPs and the traits, i.e. $\boldsymbol{\beta}$. It is common to estimate the parameters based on the observations $\boldsymbol{y}$, the associated density function is
+\begin{align*}
+p(\boldsymbol{\beta}\mid\boldsymbol{y})&=\int\dots\int p(\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2}\mid\boldsymbol{y})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},\\
+&=\frac{1}{p(\boldsymbol{y})}\int\dots\int p(\boldsymbol{y},\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},\\
+\end{align*}
+with 
+\begin{align*}
+p(\boldsymbol{y},\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2}) = &\left\lbrace\prod_{t=1}^qp(\boldsymbol{y}_t \mid \boldsymbol{\beta}_t,\tau_t)\right\rbrace\left\lbrace\prod_{t=1}^q\prod_{s=1}^p p(\beta_{st} \mid \gamma_{st},\tau_t,\sigma^{-2})\right\rbrace\left\lbrace \prod_{t=1}^q\prod_{s=1}^p p(\gamma_{st} \mid \omega_s)\right\rbrace\\
+\times &\left\lbrace \prod_{s=1}^p p(\omega_s)\right\rbrace\left\lbrace\prod_{t=1}^q p(\tau_t)\right\rbrace p(\sigma^{-2}),
+\end{align*}
+where, as mentioned earlier,
+\begin{align*}
+\boldsymbol{y}_t \mid \boldsymbol{\beta}_t,\tau_t \quad &\sim \quad \mathcal{N}_n\left(\boldsymbol{X}\boldsymbol{\beta}_t,\tau_t^{-1}\boldsymbol{I}_n\right),\\
+\beta_{st} \mid \gamma_{st},\tau_t,\sigma^{-2} \quad &\sim \quad \gamma_{st}\mathcal{N}\left(0,\sigma^2\tau_t^{-1}\right)+(1-\gamma_{st})\delta_0,\\
+\gamma_{st} \mid \omega_s \quad &\sim \quad \mathrm{Bernoulli}(\omega_s),\\
+\omega_s \quad &\sim \quad \mathrm{Beta}(a_s,b_s),\\
+\tau_t \quad &\sim \quad \mathrm{Gamma}(\eta_t,\kappa_t),\\
+\sigma^{-2} \quad &\sim \quad \mathrm{Gamma}(\lambda, \nu),
+\end{align*}
+and $\delta_0$ is the Dirac distribution.
 % =========================================
 \newpage
 \chapter{Variational Inference}
@@ -309,31 +327,32 @@ To cope with strongly correlated structures and represent the incertitude of the
 \chapter{Simulations}
 In her R-package \texttt{locus}, H. Ruffieux has implemented a function \texttt{locus} that estimates the probabilities of association between a SNP and a trait. We will use this function to build our own method and also to have a comparison. If our method would not perform better than this implementation, it because irrelevant.
 
-Our method is basically calling multiple times that \texttt{locus} function and combine all the results in an weighted average. For each call, we initialized the parameters differently, and hoped to obtain different optimums.
+Our method is basically calling multiple times that \texttt{locus} function and combine all the results in an weighted average. For each call, we initialized the parameters differently, and hoped to obtain different optimums. We will call this method ``multiple locus'', the single call method will be ``single locus'' and when augmented with simulated annealing, we will just add ``annealing'' before the name.
 
 We have drawn at random the initial parameters for the optimal approximations $q^*(\boldsymbol{\theta})$. We have used H. Ruffieux's function \texttt{locus} to calculate the probabilities of association between the SNPs and the traits, as well as the evidence lower bound for each initialisation. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation.
 
-We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We did $100$ random initialisations for the parameters.
+We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We did $100$ random initialisations of the parameters.
 
-In Figure \ref{fig:ROCComp}, we have plotted the ROC curves of our method (blue) as well as the ROC curve of calling the function just once (orange). We replicated the process $50$ times to generate these curves, so we don't get "lucky" and have the a set of parameters that is really performing well and would not be representative of the real behaviour of the method. We have chosen the number of SNPs associated with the trait to be $15$ or $50$, and the maximum proportion of response variance explained by the SNPs to be $0.5$ or $0.8$.
+We wanted to compare four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations that we thought would be interesting to compare. Two of the settings were constituted of $15$ associated SNPs, whereas the two other had $50$ associated SNPs. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$.
+
 \begin{figure}[h!]
-\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
-\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
-\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
-\includegraphics[width=2.7in, bb= 0 0 1.7in 1.7in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
-\caption{\label{fig:ROCComp}Comparison of ROC curves between single locus (blue) and multiple locus (orange). Top: $p_0 = 15$, Left: Max tot. PVE$ = 0.5$,
-Bottom: $p_0 = 50$, Right: Max tot. PVE$ = 0.8$}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_8.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_5.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_8.pdf}
+\caption{\label{fig:ROCComp}Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
+Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
 \end{figure}
+In Figure \ref{fig:ROCComp} are represented the ROC curves of the four methods we wanted to compare, for each of the four settings we mentioned earlier. We have truncated the ROC curves as we are interested only in the accuracy of the methods for a small error rate. 
 
-We can see that with every parameters combination, our method performs better than the single-call method. We can see that some combinations of parameters yield better results than others. For example, we can see that when the maximum proportion of response variance explained by the SNPs is bigger, the method identifies better the SNPs associated with the trait (right two compared to left two). In the same way, the method identifies better the active SNPs when their number is lower (top two compared to bottom two).
-
+Firstly, we will compare the single locus and the multiple locus methods. We can clearly see in Figure \ref{fig:ROCComp} that the multiple locus is much mote accurate than the single locus. The multiple locus considers many different modes, in our case $100$, and attributes to each mode a weight associated to the likelihood of the data being obtained from said mode.
 
 It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
 
 \begin{center}
 \begin{figure}[h]
-\includegraphics[width=2.7in]{images/s_locus.png}
-\includegraphics[width=2.7in]{images/m_locus.png}
+\includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_locus.png}
+\includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_locus.png}
 \caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 \end{center}
@@ -363,8 +382,8 @@ For both of the methods, we have used simulated annealing with an initial temper
 
 \begin{center}
 \begin{figure}[h!]
-\includegraphics[width=2.7in]{images/s_anneal.png}
-\includegraphics[width=2.7in]{images/m_anneal.png}
+\includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_anneal.png}
+\includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_anneal.png}
 \caption{\label{fig:anneal_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus}function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right), both strategies augmented with simulated annealing. In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 \end{center}

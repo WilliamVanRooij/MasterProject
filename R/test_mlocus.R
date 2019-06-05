@@ -7,12 +7,12 @@ require(ROCR)
 # rm(list= ls())
 
 RNGkind("L'Ecuyer-CMRG")
-seed <- 167
+seed <- 166
 set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 
@@ -99,7 +99,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 10
+iter <- 50
 {
 
   c_pred <- NULL
@@ -115,27 +115,30 @@ iter <- 10
   single_lab_a <-  NULL
 }
 
-for(k in 1:iter){
-#set.seed(k)
+for(seed in sample(1:1e3,iter)){
+
+  set.seed(seed)
   
-  vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
+  
+  vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
   #vec_rho <- c(0.99,0.99)
   
   nb_cpus <- 4;
   
   ind_d0 <-  sample(1:d, d0)
   
-  ind_p0 <- c(3,13,17,23,43)
-  #ind_p0 <- sample(1:50, p0)
+  #ind_p0 <- c(3,13,17,23,43)
+  #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
+  ind_p0 <- sample(1:p, p0)
   
   p0_av <- 15
   
-  vec_maf <- runif(p, 0.4, 0.5)
-  #vec_maf <- NULL
+  #vec_maf <- runif(p, 0.4, 0.5)
+  vec_maf <- NULL
   
   vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
@@ -195,8 +198,8 @@ user_seed <- sample(1:1e3, 100)
     
 
 
-single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = 166, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
-single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= 166, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
+single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
+single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
 
 
 single_pred <- cbind(single_pred, single_vb_g$gam_vb)
@@ -229,11 +232,11 @@ if(T){ # ROC CURVES
   
 par(pty="s")
 #pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
-plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5")))
+plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8")),xlim=c(0,0.2))
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
 plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
 plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
-legend(0.4,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
+legend(0.075,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
 #dev.off()
 
 par(pty="m")
