@@ -171,7 +171,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     parameters <- c("beta","gamma","tau","sigma2.inv","omega")
     
     out_bugs <- bugs(data = data, inits=inits, parameters.to.save = parameters, 
-                     model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=1000, n.burnin = 200, 
+                     model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=5000, n.burnin = 2000, 
                      codaPkg = TRUE, working.directory = getwd(), bugs.seed=13,
                      useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm, debug=F)
     
@@ -268,7 +268,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
     q
   }
 
-if(TRUE){
+if(FALSE){
   par(mfrow=c(1,2))
   hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,col="lightgrey",main=expression(paste("Estimations for ", beta[1])),xlab=expression(beta[1]))
   lines(d1_solo,lwd=2,lty=2,col="green")
@@ -281,6 +281,20 @@ if(TRUE){
   abline(v=beta_init[2],col="red",lwd=2)
   par(mfrow=c(1,1))
   }
-
+if(TRUE){
+  par(mfrow=c(1,2))
+  plot(d1_m,lwd=2,lty=2,col="black", xlim=c(min(out_coda[,"beta[1]"][[1]]),max(out_coda[,"beta[1]"][[1]])),main=expression(paste("Estimations for ", beta[1])))
+  hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,col="white",xlab=expression(beta[1]),add=T)
+  lines(d1_solo,lwd=2,lty=2,col="orange")
+  lines(d1_m,lwd=2,lty=2,col="black")
+  abline(v=beta_init[1],col="red",lwd=2)
+    
+  plot(d2_m,lwd=2,lty=2,col="black", xlim=c(min(out_coda[,"beta[2]"][[1]]),max(out_coda[,"beta[2]"][[1]])),main=expression(paste("Estimations for ", beta[2])))
+  hist(out_coda[,"beta[2]"][[1]],breaks=50,freq=F,col="white",xlab=expression(beta[2]),add=T)
+  lines(d2_solo,lwd=2,lty=2,col="orange")
+  lines(d2_m,lwd=2,lty=2,col="black")
+  abline(v=beta_init[2],col="red",lwd=2)
+  par(mfrow=c(1,1))
+}
 
 

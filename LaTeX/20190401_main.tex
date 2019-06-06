@@ -314,9 +314,17 @@ $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\the
 \log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J.
 \end{equation*}
 
-We have a choice to make for the temperature schedule to consider, we have chosen to take a geometric spacing,
+We have different options for the temperature schedule including a geometric spacing,
 \begin{equation*}
 T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
+\end{equation*}
+an harmonic spacing,
+\begin{equation*}
+T_l = 1 + \Delta(l-1), \quad \Delta \frac{T_L-1}{L-1},
+\end{equation*}
+and a linear spacing,
+\begin{equation*}
+T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1},
 \end{equation*}
 where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps necessary to lower the temperature to the initial temperature $T = 1$, where the initial algorithm is ran until convergence.
 
@@ -331,23 +339,8 @@ Our method is basically calling multiple times that \texttt{locus} function and 
 
 We have drawn at random the initial parameters for the optimal approximations $q^*(\boldsymbol{\theta})$. We have used H. Ruffieux's function \texttt{locus} to calculate the probabilities of association between the SNPs and the traits, as well as the evidence lower bound for each initialisation. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation.
 
-We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We did $100$ random initialisations of the parameters.
+We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
 
-We wanted to compare four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations that we thought would be interesting to compare. Two of the settings were constituted of $15$ associated SNPs, whereas the two other had $50$ associated SNPs. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$.
-
-\begin{figure}[h!]
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_8.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_5.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_8.pdf}
-\caption{\label{fig:ROCComp}Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
-\end{figure}
-In Figure \ref{fig:ROCComp} are represented the ROC curves of the four methods we wanted to compare, for each of the four settings we mentioned earlier. We have truncated the ROC curves as we are interested only in the accuracy of the methods for a small error rate. 
-
-Firstly, we will compare the single locus and the multiple locus methods. We can clearly see in Figure \ref{fig:ROCComp} that the multiple locus is much mote accurate than the single locus. The multiple locus considers many different modes, in our case $100$, and attributes to each mode a weight associated to the likelihood of the data being obtained from said mode.
-
-It should be noted that for our method, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
 
 \begin{center}
 \begin{figure}[h]
@@ -356,6 +349,7 @@ It should be noted that for our method, paralleled computation is possible, whic
 \caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 \end{center}
+
 In Figure \ref{fig:simple_locus}, we have plotted the probabilities of association of the $50$ first SNPs, out of $500$ used, with a single trait $t$. In the construction of the data, we have enforced the five real associated SNPs to be in the $50$ first SNPs, for observations reasons, they are marked in red. The real associated SNPs are the same for both of the plots.
 
 On the left, we have used a single call of the \texttt{locus} function, it is equivalent to choosing a single model $M$ and calculating
@@ -376,23 +370,37 @@ We can also see that the two grey pikes of the left plot can be seen on the righ
 
 The block wise correlation structure is also visible in the probabilities of association for the weighted average method. We can see that four SNPs of the middle block have all non null probabilities of association with the trait. This phenomena can be explained by the strong correlations between these SNPs misleading the algorithm into designating a wrong SNP with a strong correlation to the right one.
 
-In Figure \ref{fig:anneal_locus}, we have plotted the probabilities of association of the same $50$ SNPs as in Figure \ref{fig:simple_locus}, obtained from our simulated annealing augmented strategy. The same five SNPs have been selected to build our data, they are in red in the plots. We have also calculated these probabilities for $500$ SNPs but for visualisation purposes we only show the $50$ first.
 
-For both of the methods, we have used simulated annealing with an initial temperature of $2$, a geometric spacing, and ten steps. Then, we use the obtained parameters to continue with the usual algorithm. We have used simulated annealing for both the single and multiple calls of the \texttt{locus} function.
 
-\begin{center}
+We wanted to compare four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations that we thought would be interesting to compare. Two of the settings were constituted of $15$ associated SNPs, whereas the two other had $50$ associated SNPs. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$.
+
+The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, we have chosen a geometric spacing with ten steps.
+
 \begin{figure}[h!]
-\includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_anneal.png}
-\includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_anneal.png}
-\caption{\label{fig:anneal_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus}function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right), both strategies augmented with simulated annealing. In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_8.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_5.pdf}
+\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_8.pdf}
+\caption{\label{fig:ROCComp}Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
+Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
 \end{figure}
-\end{center}
-On the left plot, we can see that the annealing part has changed the mode obtained from a single call of the function. Compared to Figure \ref{fig:simple_locus}, we can see that the first spike of the left plot is one of the correct SNPs. This can be explained by the correlation between the second and third SNPs that misguided the first algorithm on the wrong SNP, but the simulated annealing smoothed the density function enough for the algorithm to find another optimum corresponding to having the right SNP as associated with the trait.
+In Figure \ref{fig:ROCComp} are represented the ROC curves of the four methods we wanted to compare, for each of the four settings we mentioned earlier. We have truncated the ROC curves as we are interested only in the accuracy of the methods for a small error rate. We have the same settings a we had for Figure \ref{fig:simple_locus}, as well as just one trait. To fully check the accuracy of the different methods, we could calculate the association of SNPs with more traits.
 
-Other than the change in associated SNPs, we can see that there is no visible change in the probabilities between the usual algorithm and the simulated annealing augmented single use of the function. The simulated annealing could not have a temperature high enough to smooth the density function such that the optimum obtained is the global optimum.
+Firstly, we compare the single locus and the multiple locus methods. We can clearly see in Figure \ref{fig:ROCComp} that the multiple locus is more accurate than the single locus. The multiple locus considers many different modes, in our case $100$, and attributes to each mode a weight associated to the likelihood of the data being obtained from said mode. We hope that the real mode is contained in the considered $100$ modes, then the likelihood of the data originating from said mode will be high and the real associated SNPs will be more represented.
 
-When using the simulated annealing in the weighted averaging method, we can see that the resulting probabilities of association are less accurate that with the standard strategy. A possible reason for this could be that the simulated annealing single call yields the wrong SNPs more often than when using the standard method, and when averaging over all the considered models, the result might be wrong. Even with small weights, if there is a lot of models favouring the wrong SNP, it will show in the average.
+Secondly, we can see that when starting both the single locus and the multiple locus with a simulated annealing step, the multiple locus is still more accurate than the single locus, although the difference is smaller than it is without the simulated annealing step. This means that the annealing step does not prevent the multiple locus to consider multiple different models. It also means that the simulated annealing augmented single locus does not yield the right model every time. This could be because the initial temperature we have chosen was not high enough to smooth the densities enough to access the right modes.
+
+Thirdly, the augmented single locus method is more accurate than the single locus method. The simulated annealing step allows the method to reach modes that cannot be reached by the single locus method with certain starting parameters. This allows the real mode to be reached more often when using a simulated annealing step, hence, to be more accurate.
+
+Fourthly, we can see that the setting where we are looking for $50$ SNPs associated with the trait and a maximum proportion of the response variance explained by the SNPs is $50\%$ have all the methods similarly accurate. The accuracy ``gained'' when adding the simulated annealing step or when averaging over multiple initialisations is not relevant. 
+
+Finally, we see that the augmented multiple locus is very close in accuracy to multiple locus. The advantage of starting with a simulated annealing step is not necessarily yielding more accurate results. Based on the graphs, we can even say it might be less accurate. The simulated annealing step might diminish the number of modes considered for the average, putting more weight in the wrong models, hence leading the algorithm on the wrong mode.
+
+It should be noted that for our method, should it be simulated annealing augmented or not, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
  
+\begin{figure}
+\includegraphics[width=5in]{images/annealing.pdf}
+\end{figure}
 % =========================================
 \newpage
 \chapter{Next steps}
