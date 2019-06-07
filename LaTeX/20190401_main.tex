@@ -47,10 +47,8 @@ Current technology allows us to numerically represent the human genome, a whole 
 The strong correlation structure, observable in Figure \ref{fig:corr}, means that two SNPs in a same correlation block will be hard to differentiate. The goal is two represent the probabilities of association between a SNP and a trait, we should be able to observe the block-wise correlation in our results, the probabilities of association should be high even when the mode is not the real one.
 
 \begin{figure}[h!]
-\begin{center}
-\includegraphics[width=5in,bb = 0 0 800px 800px]{images/corr_real_SNPs.png}
+\includegraphics[width=5in,bb = 0 0 200px 200px]{images/corr_real_SNPs.png}
 \caption{\label{fig:corr} Visualisation of the correlation structure in the SNPs. We can clearly see the block-wise correlation structure.}
-\end{center}
 \end{figure}
 
 We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts, or genes. The data used for eQTL studies consist generally of several hundred thousands SNPs and thousands of transcripts of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs and $q$ is the number of transcripts of expressions.
@@ -339,7 +337,7 @@ Our method is basically calling multiple times that \texttt{locus} function and 
 
 We have drawn at random the initial parameters for the optimal approximations $q^*(\boldsymbol{\theta})$. We have used H. Ruffieux's function \texttt{locus} to calculate the probabilities of association between the SNPs and the traits, as well as the evidence lower bound for each initialisation. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation.
 
-We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
+We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. It is important to note that the correlations defined here are correlations between the underlying variables, so the correlations between the SNPs are a little bit weaker. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
 
 
 \begin{center}
@@ -397,16 +395,29 @@ Fourthly, we can see that the setting where we are looking for $50$ SNPs associa
 Finally, we see that the augmented multiple locus is very close in accuracy to multiple locus. The advantage of starting with a simulated annealing step is not necessarily yielding more accurate results. Based on the graphs, we can even say it might be less accurate. The simulated annealing step might diminish the number of modes considered for the average, putting more weight in the wrong models, hence leading the algorithm on the wrong mode.
 
 It should be noted that for our method, should it be simulated annealing augmented or not, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
- 
-\begin{figure}
-\includegraphics[width=5in]{images/annealing.pdf}
+
+Instead of comparing the accuracy of different methods, we now want to assess the accuracy of our method compared to simulated values. To do so, we have generated some data with H. Ruffieux's \texttt{echoseq R}-package, and extracted the matrix $\boldsymbol{\beta}$ to have the real parameters. We have simulated $300$ observations of four SNPs, with a equicorrelated SNPs with a strong correlation of $0.955$. A strong correlation is what can induce an error in the selection of the associated SNPs, and in verifying the accuracy of our methods, it is necessary to test in extreme situations.
+
+We compare the posterior distributions of the parameters estimations obtained from our methods with posteriors distributions obtained from MCMC inference. The two inference methods have a different convergence and stooping criteria, so the comparison should be studied prudently. Our method is based on variational inference, which has a convergence criterion defined as a tolerance to be given. The MCMC inference does not necessarily visit the whole model space, so to counter that problem, we run $10^5$ iterations and burn the first half.
+
+To be able to perform MCMC on our data, we have chosen the number of parameters to be small, i.e. $p=4,\, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{images/no_annealing.pdf}
+\caption{\label{fig:no_ann}Comparison of single (blue) and multiple (orange) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
 \end{figure}
+
+In Figure \ref{fig:no_ann}, we have plotted single and multiple locus calculated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC simulated posteriors and the real values of $\boldsymbol{\beta}$. The orange and blue lines of $\beta_2$ and $\beta_4$ are superposed.
+
+Firstly, we can see that multiple locus finds the right distribution every time but once, for $\beta_4$, where it finds the same estimation as the MCMC method, and the single locus method. However, the single locus only finds the right estimation once, for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the accuracy of the multiple locus is better that the single locus.
+
+Secondly, when the single and multiple locus do not yield the same value for the parameters, the result of single locus is visible in the distribution of multiple locus. This is given by the fact that multiple locus considers the mode obtained from single locus in its averaging, and in that case, the mode obtained from single locus was relevant.
+
 % =========================================
 \newpage
 \chapter{Next steps}
 For the remainder of this project, we will compare the accuracy of our approach and its computational cost to other methods, such as annealing and non-weighted averaging for strong correlations. We will also try to combine annealing with our method.\cite{glob}
 
-To be able to tell if our algorithm adequatly explores the local modes, we will represent them with the level curves similarly as V. Rockova \cite{rockova} did.
+To be able to tell if our algorithm adequately explores the local modes, we will represent them with the level curves similarly as V. Rockova \cite{rockova} did.
 
 We plan to optimize the code that we implemented, to have an acceptable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's R-package (http://github.com/hruffieux/locus).
 

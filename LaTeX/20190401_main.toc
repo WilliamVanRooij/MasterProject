@@ -9,4 +9,4 @@
 \contentsline {chapter}{\numberline {4}Multimodality}{11}
 \contentsline {section}{\numberline {4.1}Simulated Annealing}{13}
 \contentsline {chapter}{\numberline {5}Simulations}{15}
-\contentsline {chapter}{\numberline {6}Next steps}{21}
+\contentsline {chapter}{\numberline {6}Next steps}{22}
