@@ -340,13 +340,11 @@ We have drawn at random the initial parameters for the optimal approximations $q
 We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. It is important to note that the correlations defined here are correlations between the underlying variables, so the correlations between the SNPs are a little bit weaker. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
 
 
-\begin{center}
 \begin{figure}[h]
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_locus.png}
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_locus.png}
 \caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
-\end{center}
 
 In Figure \ref{fig:simple_locus}, we have plotted the probabilities of association of the $50$ first SNPs, out of $500$ used, with a single trait $t$. In the construction of the data, we have enforced the five real associated SNPs to be in the $50$ first SNPs, for observations reasons, they are marked in red. The real associated SNPs are the same for both of the plots.
 
@@ -408,9 +406,31 @@ To be able to perform MCMC on our data, we have chosen the number of parameters 
 
 In Figure \ref{fig:no_ann}, we have plotted single and multiple locus calculated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC simulated posteriors and the real values of $\boldsymbol{\beta}$. The orange and blue lines of $\beta_2$ and $\beta_4$ are superposed.
 
-Firstly, we can see that multiple locus finds the right distribution every time but once, for $\beta_4$, where it finds the same estimation as the MCMC method, and the single locus method. However, the single locus only finds the right estimation once, for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the accuracy of the multiple locus is better that the single locus.
+Firstly, we can see that multiple locus finds the right distribution for every $\beta_s$ but once, for $\beta_4$, where it finds the same estimation as the MCMC inference and the single locus methods. However, the single locus only finds the right estimation once, for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the accuracy of the multiple locus is better that the single locus.
 
-Secondly, when the single and multiple locus do not yield the same value for the parameters, the result of single locus is visible in the distribution of multiple locus. This is given by the fact that multiple locus considers the mode obtained from single locus in its averaging, and in that case, the mode obtained from single locus was relevant.
+Secondly, when the single and multiple locus do not yield the same value for the parameters, the result of single locus is visible in the distribution of multiple locus. This is given by the fact that multiple locus considers the mode obtained from single locus in its averaging, and in that case, the mode obtained from single locus was relevant. This can be read in Figure \ref{fig:simple_locus}, where we can see that the single locus selects a wrong SNP and that even if the multiple locus selects the right SNP, we can still see in the probabilities of association calculated by the multiple locus, the SNP selected by the single locus method.
+
+Finally, $\beta_4$ is supposed to be non null, but the MCMC simulations and the approximations given by the single and multiple locus methods are all null. The real mode was probably too close to an incorrect one and the strong correlation gave the wrong mode too much weight, giving the illusion that it was the right mode. This could be caused by the ``spike and slab'' distribution of $\beta_{st}\mid \gamma_{st}, \sigma^2, \tau_t$, that depends on $\gamma_{st}$ to be either really close to zero not. As $\gamma_{st}$ must be a integer, we have to round the estimation to the closest integer. It can yield problems when the estimation of $\gamma_{st}$ is close to $0.5$, as a small difference in the estimation can cause a big difference in the result.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{images/annealing.pdf}
+\caption{\label{fig:ann}Comparison of simulated annealing augmented single (green) and multiple (red) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
+\end{figure}
+In Figure \ref{fig:ann} are plotted the same posteriors as in Figure \ref{fig:no_ann}, but this time we have added a simulated annealing step to the 
+single and multiple locus methods. We have used the same settings than for Figure \ref{fig:no_ann}, hence why the histograms and the real $
+\boldsymbol{\beta}$ are the same for the two situations. We have chosen an initial temperature $T_L = 5$, and we are going to perform ten geometric steps.
+
+We can now see that for all four $\beta_s$, the single locus yields a posterior density that is more aligned with the multiple locus method. The posterior given by the single locus has strong density at the same places than the multiple locus posterior. The mode yielded by the simulated annealing augmented single locus seems to have be consequent in the weighted average of the simulated annealing augmented multiple locus.
+
+As for the standard methods, the simulated annealing augmented methods seem to yield a correct posterior for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior around with values condensed around zero, whereas $\beta_4 \neq 0$.
+
+When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, we can see that the annealing changed the density of the posterior yielded by the single locus method. In Figure \ref{fig:no_ann}, the density of the posterior for $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they match the real $\boldsymbol{\beta}$. The first simulated annealing steps helped the method get passed the local optima the algorithm yielded and reach what we believe to be the global optima of the posterior density.
+
+Even if the simulated annealing augmented single locus posterior seem to have its values around the real values for $\beta_1$ and $\beta_3$, the simulated annealing augmented multiple locus posterior has some values where the standard single locus posterior had some values. This  means that even in the simulated annealing single locus posterior we represented here has the right values, there is another initialisation of the simulated annealing augmented single locus method that yields a posterior with values around the wrong $/boldsymbol{/beta}$.
+
+For $\beta_1$ and $\beta_3$, with the simulated annealing steps, the multiple locus method yields a posterior with a higher density on the true $\boldsymbol{\beta}$ and a lower density on the estimation yielded by the single locus method. The simulated annealing augmented single locus yielding the right $\boldsymbol{\beta}$ gives more weight in the weighted average of the multiple locus method and hence the result shows this change.
+
+
 
 % =========================================
 \newpage
