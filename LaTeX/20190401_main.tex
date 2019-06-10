@@ -39,62 +39,56 @@ For the past years, data science has been increasingly present in the world. Fro
 
 Often, when trying to find a model for data, we have many more observations than parameters to fit, a \textit{large n, small p} situation. This is the most common type of statistical analysis. Bayesian hierarchical modelling is a strong tool to identify the dependencies across multiple sources of informations, but, the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not then apply, because of both statistical and computational constraints.
 
-In this report, we will focus on the \textit{small n - large p} situation in the context of genetic association. We will focus on high dimensional Bayesian inference, with its statistical advantages and its computational problem that often dissuades users to adopt this solution in statistical applications.
+In this report, we will focus on the \textit{small n, large p} situation in the context of genetic association. We will consider high-dimensional Bayesian inference, with its statistical advantages and its computational problem that often dissuades users to adopt this solution in statistical applications.
 
 \section{Motivation}
-Current technology allows us to numerically represent the human genome, a whole new set of data is available to study the association between the genome and various diseases or phenotypes.  Some of these newly available data are \textit{genetic variants}, a change at a specific location on  the genome (locus), where the different versions are called \textit{alleles}. We will focus on the most common genetic variant, the \textit{single nucleotide polymorphism} (SNP), a variation in the nucleotide that is present to some appreciable extent in the population. Some combinations of SNPs are inherited together, which yields block-wise dependence structures. We will calculate the association between SNPs and transcript expressions, called \textit{traits}.
+Current technology allows us to numerically represent the human genome: a whole new set of data is available to study the association between the genome and various diseases or phenotypes.  Some of these newly available data measure \textit{genetic variants}, changes at specific locations on  the genome (loci), the different versions of which are called \textit{alleles}. We will focus on the most common category of genetic variants, namely, \textit{single nucleotide polymorphism} (SNP), variations in the nucleotides that are present to some appreciable extent in the population. Some combinations of SNPs are inherited together, which yields block-wise dependence structures. We will infer associations between SNPs and transcript expression levels, called \textit{traits}.
 
-The strong correlation structure, observable in Figure \ref{fig:corr}, means that two SNPs in a same correlation block will be hard to differentiate. The goal is two represent the probabilities of association between a SNP and a trait, we should be able to observe the block-wise correlation in our results, the probabilities of association should be high even when the mode is not the real one.
+In Figure \ref{fig:corr} are represented the correlations between real SNPs, this is the seventh chromosome from region ENm014, from Yoruba population (HapMap project) \cite{hapmap}. We can clearly see the block structure of the correlations, by the dark squares on the diagonal. Outside of the blocks, the correlations are not null but very small. A strong block correlation structure means that two SNPs in a same correlation block will be hard to differentiate. The goal is to represent the probabilities of association between a SNP and a trait, we should be able to convey the uncertainty implied by the block-wise correlation in our results.
 
 \begin{figure}[h!]
 \includegraphics[width=5in,bb = 0 0 200px 200px]{images/corr_real_SNPs.png}
-\caption{\label{fig:corr} Visualisation of the correlation structure in the SNPs. We can clearly see the block-wise correlation structure.}
+\caption{\label{fig:corr} Block correlation structure of SNPs taken from Yoruba population HapMap, ENm014 region, chromosome $7$ \cite{hapmap}. The darker the dot is, the stronger the correlation between the two corresponding SNPs is.}
 \end{figure}
 
-We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts, or genes. The data used for eQTL studies consist generally of several hundred thousands SNPs and thousands of transcripts of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs and $q$ is the number of transcripts of expressions.
+We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies consist generally of several hundred thousand SNPs and thousand transcript expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of transcripts of expressions, and $n$ is the number of samples.
 
-Bayesian inference involves many integrals, but these usually need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are a standard technique for the approximation of integrals and can be fast and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, MCMC algorithms become very time-consuming.
-
-When performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iteration. The cost of these calculations increases with the number of parameters. Moreover, the more dimensions the problem has, the less accurate the approximations become, requiring more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, which means all parameters need to be checked and stored, which is often impossible when their number is very high.
+Bayesian inference involves many integrals, which usually need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are a standard technique for the approximation of integrals and can be fast and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, MCMC algorithms become very time-consuming. Indeed, when performing MCMC inference, likelihoods and sometimes gradients need to be calculated at each iteration. The cost of these calculations increases with the number of parameters. Moreover, the more dimensions the problem has, the less accurate the approximations become, requiring more iterations to keep the precision needed. For the algorithm to end, all the parameters need to have converged, meaning that they all need to be checked and stored, which is often impossible when their number is very high.
 
 In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \cite{varInf}. 
 
 %==========================================
 \newpage
 \chapter{Model}
-Our goal is to estimate the association between a SNP $s$ and a trait $t$. To do so, we let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be the design matrix, representing the SNPs, and $\boldsymbol{y} = (y_1,\ldots,y_q)$ be the response variables, representing the traits. The SNPs have a strong local correlation on the genome.  We consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of the linear model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t$, i.e.,
+Our goal is to estimate the association between a SNP $s$ and a trait $t$. To do so, we let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be the design matrix, representing the SNPs, and $\boldsymbol{y} = (y_1,\ldots,y_q)$ be the response variables, representing the traits. We consider $\boldsymbol{y}$ as the response matrix and $\boldsymbol{X}$ as the candidate predictors of a hierarchical model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\boldsymbol{\tau}_t$, i.e.,
 \begin{equation*}
 \label{eq:model}
 \boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q},\quad\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n),
 \end{equation*}
-where $\boldsymbol{\beta}_{st}$ represents the association between SNP $s$ and trait $t$. The parameters $\tau_t$ and $\sigma^{-2}$ have the following prior distributions,
-\begin{align*}
-\tau_t &\sim \text{Gamma}(\eta_t,\kappa_t),\\
-\sigma^{-2} &\sim \text{Gamma}(\lambda,\nu).
-\end{align*}
+where $\boldsymbol{\beta}_{st}$ measures the association between SNP $s$ and trait $t$. The parameters $\tau_t$ and $\sigma^{-2}$ are assigned Gamma priors.
 
-We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix which says which pairs of SNPs and traits are associated. The SNP $s$ and trait $t$ are associated if and only if $\gamma_{st} = 1$. To enforce sparsity in $\boldsymbol{\beta}$, we set a ``spike-and-slab'' prior distribution on $\beta_{st}$, i.e.,
+We introduce $\boldsymbol{\gamma}_{p\times q}$, a binary matrix to indicate which pairs of SNPs and traits are associated. The SNP $s$ and trait $t$ are associated if and only if $\gamma_{st} = 1$. To enforce sparsity on $\boldsymbol{\beta}$, we set a ``spike-and-slab'' prior distribution on $\beta_{st}$, i.e.,
 \begin{equation*}
 \beta_{st} \mid \gamma_{st},\sigma^2, \tau_t \sim \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0,
 \end{equation*}
 where $\delta_0$ is a Dirac distribution.
 
-We call $\omega_s$ the parameter controlling to the proportion of responses associated with the predictor $X_s$. Then, the prior distribution of $\gamma_{st}$ given $\omega_s$ is:
-\begin{equation*}
-\gamma_{st} \mid \omega_s \sim  \text{Bernoulli}(\omega_s).
-\end{equation*}
-We choose $\omega_s$ to follow a Beta distribution,
+The parameter $\omega_s$ controls to the proportion of responses associated with the predictor $X_s$, and follows a Beta distribution,
 \begin{equation*}
 \omega_s \sim \text{Beta}(a_s, b_s),
 \end{equation*}
-with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we define $p^* \ll p$ as the expected number of predictors involved in the model, we want to set $a_s$ and $b_s$ such that the prior probability that $X_s$ is associated with at least one response is equal to $p^*/p$. We fix the mean of the distribution but let the variance be free, the solution still has one degree of freedom so multiple solutions are possible, e.g.,
+with parameters $a_s$ and $b_s$ chosen to enforce sparsity. Then, the prior distribution of $\gamma_{st}$ is
+\begin{equation*}
+\gamma_{st} \mid \omega_s \sim  \text{Bernoulli}(\omega_s).
+\end{equation*}
+
+If we assume $p^* \ll p$, an expected number of predictors involved in the model, we set $a_s$ and $b_s$ such that the prior probability that $X_s$ is associated with at least one response is equal to $p^*/p$. We fix the mean of the distribution but let the variance be free, the solution still has one degree of freedom so multiple solutions are possible, e.g.,
 \begin{equation*}
 a_s = 1,\;b_s = q(p-p^*)/p^*.
 \end{equation*}
 
 
-
-We are interested in estimating the association between the SNPs and the traits, i.e. $\boldsymbol{\beta}$. It is common to estimate the parameters based on the observations $\boldsymbol{y}$, the associated density function is
+We are interested in estimating the associations between the SNPs and the traits, i.e. $\boldsymbol{\beta}$. It is common to estimate the parameters based on the observations $\boldsymbol{y}$, the associated density function is
 \begin{align*}
 p(\boldsymbol{\beta}\mid\boldsymbol{y})&=\int\dots\int p(\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2}\mid\boldsymbol{y})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},\\
 &=\frac{1}{p(\boldsymbol{y})}\int\dots\int p(\boldsymbol{y},\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},\\
@@ -117,7 +111,7 @@ and $\delta_0$ is the Dirac distribution.
 % =========================================
 \newpage
 \chapter{Variational Inference}
-When computing the posterior density of parameters $\boldsymbol{\theta}$ according to observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimization problem that minimizes a measure of ``closeness'' as objective function.
+When computing the posterior density of parameters $\boldsymbol{\theta}$ according to the observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimization problem that minimizes a measure of ``closeness'' as objective function.
 
 If we have observations $\boldsymbol{y}$ and parameters $\boldsymbol{\theta}$, we need to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the ``closeness'' measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
 
@@ -139,8 +133,7 @@ Minimizing the Kullback--Leibler divergence can be complicated depending on the 
 \end{align*}
 We introduce the evidence lower bound:
 \begin{equation*}
-\mathcal{L}(q) = \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right]
-=\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
+\mathcal{L}(q) = \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] =\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta}.
 \end{equation*}
 When decomposing the Kullback--Leibler divergence, we obtain
 \begin{equation*}
@@ -223,7 +216,7 @@ Based on this result, the algorithm updates one parameter $\theta_j$ at a time w
 \BlankLine
 }
 \Return{$q(\boldsymbol{\theta})$}
-\caption{Coordinate ascent variational inference \label{alg:CAVI}}
+\caption{\label{alg:CAVI}Coordinate ascent variational inference}
 \end{algorithm}
 At every iteration, $\mathcal{L}(q)$ is guaranteed to increase. The algorithm yields a local optimum depending on the initialization of the $q_j(\theta_j)$, $j=1,\ldots,J$. Having different initializations could yield different optima that correspond to different models.
 
@@ -259,15 +252,15 @@ The posterior probability for model $M_k$ is given by:
 p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=1}^K p(\boldsymbol{y} \mid M_j)\; p(M_j)},
 \label{eq:post_prob}
 \end{equation}
-where $p(\boldsymbol{y} \mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probabilities of the model $M_k$. It can, for example, depend on the complexity of the model, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$.  
+where $p(\boldsymbol{y} \mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probability of the model $M_k$. It can, for example, depend on the complexity of the model, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$.  
 
 We know that the evidence lower bound and the Kullback--Leibler divergence are related and that minimizing the Kullback--Leibler divergence is equivalent to maximizing the evidence lower bound, and that they verify: 
 \begin{equation*}
 \KL(q\parallel p) = \log p (\boldsymbol{y}) - \mathcal{L}(q).
 \end{equation*}
-Since we minimized the Kullback--Leibler divergence, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y})$ in Equation \ref{eq:post_prob}.
+Since we minimized the Kullback--Leibler divergence, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y}\mid M_k)$ in Equation \ref{eq:post_prob}.
 
-Our quantity of interest is $\gamma_{st}$, i.e. we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{algo:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
+Our quantity of interest is $\gamma_{st}$, i.e. we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{alg:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
 
 We can consider each optimum to be a model representing the data, and we can apply a form of Bayesian model averaging to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in Equation \ref{eq:post_prob}, and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models we have obtained in the algorithm.
 
@@ -305,7 +298,7 @@ that can be written as
 \begin{equation*}
 \mathcal{L}_T(q) = T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const,	
 \end{equation*}
-where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $v_j$.
+where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $\theta_j$.
 
 $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, which is equivalent to when
 \begin{equation*}
@@ -331,13 +324,11 @@ To cope with strongly correlated structures and represent the incertitude of the
 % =========================================
 \newpage
 \chapter{Simulations}
-In her R-package \texttt{locus}, H. Ruffieux has implemented a function \texttt{locus} that estimates the probabilities of association between a SNP and a trait. We will use this function to build our own method and also to have a comparison. If our method would not perform better than this implementation, it because irrelevant.
+Our method is based on the \texttt{locus R}-package \cite{r_locus} and calls multiple times the variational algorithm before combining all the results in an weighted average. For each call, we initialize the parameters differently, and hope to obtain different optimums. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation. We will call our method ``multiple locus'', due to the multiple calls of the variational algorithm, and ``single locus'', the method consisting in calling just once the algorithm.
 
-Our method is basically calling multiple times that \texttt{locus} function and combine all the results in an weighted average. For each call, we initialized the parameters differently, and hoped to obtain different optimums. We will call this method ``multiple locus'', the single call method will be ``single locus'' and when augmented with simulated annealing, we will just add ``annealing'' before the name.
+We first tested our method on simulated data, to be able to compare the results calculated with the truth. We have used the \texttt{echoseq R}-package \cite{r_echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. This package generates molecular quantitative data based on given association parameters. 
 
-We have drawn at random the initial parameters for the optimal approximations $q^*(\boldsymbol{\theta})$. We have used H. Ruffieux's function \texttt{locus} to calculate the probabilities of association between the SNPs and the traits, as well as the evidence lower bound for each initialisation. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation.
-
-We first tested our method on generated data, to be able to compare the results calculated with the truth. We have used H. Ruffieux's R-package \texttt{echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. We have generated $300$ observations of $500$ SNPs, with autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. It is important to note that the correlations defined here are correlations between the underlying variables, so the correlations between the SNPs are a little bit weaker. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
+We have generated $300$ observations of $500$ SNPs, with latent variables autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. It is important to note that the correlations defined here are correlations between the underlying variables, so the correlations between the SNPs are a little bit weaker. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
 
 
 \begin{figure}[h]
@@ -366,11 +357,7 @@ We can also see that the two grey pikes of the left plot can be seen on the righ
 
 The block wise correlation structure is also visible in the probabilities of association for the weighted average method. We can see that four SNPs of the middle block have all non null probabilities of association with the trait. This phenomena can be explained by the strong correlations between these SNPs misleading the algorithm into designating a wrong SNP with a strong correlation to the right one.
 
-
-
-We wanted to compare four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations that we thought would be interesting to compare. Two of the settings were constituted of $15$ associated SNPs, whereas the two other had $50$ associated SNPs. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$.
-
-The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, we have chosen a geometric spacing with ten steps.
+We compared four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations: two of the settings involved $15$ associated SNPs, whereas the remaining two had $50$ associated SNPs. To ease the computation, we have chosen to consider only one trait. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$. The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, we have chosen a geometric spacing with ten steps.
 
 \begin{figure}[h!]
 \includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
@@ -400,7 +387,7 @@ We compare the posterior distributions of the parameters estimations obtained fr
 
 To be able to perform MCMC on our data, we have chosen the number of parameters to be small, i.e. $p=4,\, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{images/no_annealing.pdf}
+\includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/no_annealing.pdf}
 \caption{\label{fig:no_ann}Comparison of single (blue) and multiple (orange) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
 \end{figure}
 
@@ -413,7 +400,7 @@ Secondly, when the single and multiple locus do not yield the same value for the
 Finally, $\beta_4$ is supposed to be non null, but the MCMC simulations and the approximations given by the single and multiple locus methods are all null. The real mode was probably too close to an incorrect one and the strong correlation gave the wrong mode too much weight, giving the illusion that it was the right mode. This could be caused by the ``spike and slab'' distribution of $\beta_{st}\mid \gamma_{st}, \sigma^2, \tau_t$, that depends on $\gamma_{st}$ to be either really close to zero not. As $\gamma_{st}$ must be a integer, we have to round the estimation to the closest integer. It can yield problems when the estimation of $\gamma_{st}$ is close to $0.5$, as a small difference in the estimation can cause a big difference in the result.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{images/annealing.pdf}
+\includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/annealing.pdf}
 \caption{\label{fig:ann}Comparison of simulated annealing augmented single (green) and multiple (red) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
 \end{figure}
 In Figure \ref{fig:ann} are plotted the same posteriors as in Figure \ref{fig:no_ann}, but this time we have added a simulated annealing step to the 
@@ -426,23 +413,103 @@ As for the standard methods, the simulated annealing augmented methods seem to y
 
 When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, we can see that the annealing changed the density of the posterior yielded by the single locus method. In Figure \ref{fig:no_ann}, the density of the posterior for $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they match the real $\boldsymbol{\beta}$. The first simulated annealing steps helped the method get passed the local optima the algorithm yielded and reach what we believe to be the global optima of the posterior density.
 
-Even if the simulated annealing augmented single locus posterior seem to have its values around the real values for $\beta_1$ and $\beta_3$, the simulated annealing augmented multiple locus posterior has some values where the standard single locus posterior had some values. This  means that even in the simulated annealing single locus posterior we represented here has the right values, there is another initialisation of the simulated annealing augmented single locus method that yields a posterior with values around the wrong $/boldsymbol{/beta}$.
+Even if the simulated annealing augmented single locus posterior seem to have its values around the real values for $\beta_1$ and $\beta_3$, the simulated annealing augmented multiple locus posterior has some values where the standard single locus posterior had some values. This  means that even in the simulated annealing single locus posterior we represented here has the right values, there is another initialisation of the simulated annealing augmented single locus method that yields a posterior with values around the wrong $\boldsymbol{\beta}$.
 
 For $\beta_1$ and $\beta_3$, with the simulated annealing steps, the multiple locus method yields a posterior with a higher density on the true $\boldsymbol{\beta}$ and a lower density on the estimation yielded by the single locus method. The simulated annealing augmented single locus yielding the right $\boldsymbol{\beta}$ gives more weight in the weighted average of the multiple locus method and hence the result shows this change.
-
-
-
-% =========================================
+%
+%
+%
+% ===========================================================================================================================
+%
+%
+%
 \newpage
-\chapter{Next steps}
-For the remainder of this project, we will compare the accuracy of our approach and its computational cost to other methods, such as annealing and non-weighted averaging for strong correlations. We will also try to combine annealing with our method.\cite{glob}
+\chapter{Conclusion}
+In this paper, we wanted to build an accurate way to estimate association between SNPs and traits in a \textit{small n, large p, large q} situation. We defined a hierarchical model linking SNPs $\boldsymbol{X} = (X_1,\dots,X_p)$ and traits $\boldsymbol{y} = (y_1, \dots, y_q)$, where $p$ is the number of SNPs and $q$ is the number of traits,
+$$
+\boldsymbol{y} = \boldsymbol{X\beta} + \boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}_t \sim \mathcal{N}\left(0,\tau_t^{-1}I_n\right), \quad t=1,\dots,q,
+$$
+where $\tau_t$ is the residual precision of the model, following a Gamma prior. We have, for all $t = 1,\dots, q$, and $s=1,\dots,p$
 
-To be able to tell if our algorithm adequately explores the local modes, we will represent them with the level curves similarly as V. Rockova \cite{rockova} did.
+\begin{align*}
+\boldsymbol{y}_t \mid \boldsymbol{\beta}_t,\tau_t \quad &\sim \quad \mathcal{N}_n\left(\boldsymbol{X}\boldsymbol{\beta}_t,\tau_t^{-1}\boldsymbol{I}_n\right),\\
+\beta_{st} \mid \gamma_{st},\tau_t,\sigma^{-2} \quad &\sim \quad \gamma_{st}\mathcal{N}\left(0,\sigma^2\tau_t^{-1}\right)+(1-\gamma_{st})\delta_0,\\
+\gamma_{st} \mid \omega_s \quad &\sim \quad \mathrm{Bernoulli}(\omega_s),\\
+\omega_s \quad &\sim \quad \mathrm{Beta}(a_s,b_s),\\
+\tau_t \quad &\sim \quad \mathrm{Gamma}(\eta_t,\kappa_t),\\
+\sigma^{-2} \quad &\sim \quad \mathrm{Gamma}(\lambda, \nu),
+\end{align*}
+where $\gamma_{st}$ is an indicator of association between SNP $s$ and trait $t$, and $\delta_0$ is the Dirac distribution.
 
-We plan to optimize the code that we implemented, to have an acceptable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's R-package (http://github.com/hruffieux/locus).
+The usual tool to solve this inference problem is MCMC. However, in a \textit{small n, large p, large q} situation, the computational cost is too high so we chose to use variational inference. It consists in approximating the posterior density $p(\boldsymbol{\theta}\mid\boldsymbol{y})$ by a simpler density $q(\boldsymbol{\theta})$ by minimizing, as a ``closeness'' measure, the Kullback--Leibler divergence
+$$
+\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
+$$
+We introduced the evidence lower bound:
+$$
+\mathcal{L}(q) = \mathbb{E}\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] =\int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol{y},\boldsymbol{\theta})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta},
+$$
+which allows a decomposition of the Kullback--Leibler divergence:
+$$
+\KL(q\parallel p) = \log(p) - \mathcal{L}(q).
+$$
+The Kullback--leibler divergence not being tractable whereas the lower bound is, we decided to maximize the lower bound instead of minimizing the Kullback--Leibler divergence. That gives the same result thanks to the previous decomposition.
 
-Finally, to be able to apply this method on real-life data would be the target of the whole project.
+We then assumed most of the parameters independence
+$$
+q(\boldsymbol{\theta}) =\left\lbrace\prod_{s=1}^p \prod_{t=1}^q q(\beta_{st}, \gamma_{st})\right\rbrace \left\lbrace\prod_{s=1}^p  q(\omega_s)\right\rbrace \left\lbrace\prod_{t=1}^q q(\tau_t)\right\rbrace q(\sigma^{-2}),
+$$
+and used the coordinate ascent mean-field algorithm to solve this optimization problem. We ended up with the following posterior distributions:
+\begin{align*}
+\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} &\sim \mathcal{N}\left(\mu_{\beta, st},\sigma^2_{\beta, st}\right),\\
+\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} &\sim \delta_0,\\
+\gamma_{st} \mid \boldsymbol{y} &\sim \text{Bernoulli}(\gamma_{st}^{(1)}),\\
+\omega_s\mid\boldsymbol{y} &\sim \text{Beta}(a_s^*,b_s^*),\\
+\tau_t\mid \boldsymbol{y} &\sim \text{Gamma}(\eta^*_t, \kappa^*_t),\\
+\sigma^{-2} \mid \boldsymbol{y} &\sim \text{Gamma}(\lambda^*, \nu^*).
+\end{align*}
+
+To estimate these posterior distributions, we used the \texttt{R}-package \texttt{locus}, that given the data $\boldsymbol{X}$, $\boldsymbol{y}$, and some initial parameters, uses variational inference to calculate the probabilities of association between the SNPs and the traits. We augmented this method by combining the results of multiple initialisations in a weighted average.
+
+Our idea was that the right model exists and is reachable through a certain parameters initialisation. Soupposing we had multiple models $M_k$, $k=1, \dots, K$, we performed a weighted average on the expected value of $\gamma_{st}$, am indicator of association between SNP $s$ and trait $t$
+$$
+\mathbb{E}\left[\Delta \mid \boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\Delta \mid M_k, \boldsymbol{y}\right]\;p(M_k \mid \boldsymbol{y}),
+$$
+with 
+$$
+p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=1}^K p(\boldsymbol{y} \mid M_j)\; p(M_j)},
+$$
+where $p(\boldsymbol{y}\mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probability of model $M_k$.
+
+We then used simulated annealing to try to increase the accuracy of our method. The idea is to introduce a temperature $T$ that yields a series of heated distributions
+$$
+p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T},
+$$
+and influences the differences of the modes. The temperature starts from initial temperature $T$, smoothing the density of interest, and lowers along the $L$ steps until it reaches the original density. High temperatures yield an easier search for the global optimum. The lower bound becomes
+$$
+\mathcal{L}_T(q) = T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const,	
+$$
+where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $\theta_j$. The lower bound is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, which is equivalent to when
+$$
+\log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J,
+$$
+where $J$ is the number of parameters.
+
+We compared the accuracy of four methods: the original variational implementation from the package \texttt{locus} (single locus), our weighted average augmented method (multiple locus), and their simulated annealing counterparts. 
+
+We arrived to the conclusion that the multiple locus method helps better visualise the block correlation structure when the latent variable correlations are strong, as the strong correlation induced incertitude is readable in the probabilities of association. The accuracy of the multiple locus method is better than the single locus method, but when augmenting the methods with simulated annealing, the gap gets smaller. The multiple locus method would probably reach the mode found by the single locus method, if said mode was the correct one, its weight in the average would be considerable, if the mode was not the correct one, it would have less weight than a more probable mode, hence, the better accuracy of the multiple locus method is understandable.
+
+The simulated annealing augmented single locus method performs better than the standard single locus method, but the simulated annealing augmented multiple locus has approximately the same accuracy than the standard multiple locus method. The reason behind this is that the standard method reaches already a lot of modes, so chances are that the right mode is reached and the weight attributed to that model will be important as the data belongs to that model.
+
+An important point for the multiple locus method is that parallel computation is possible, so the time needed to compute the probabilities of association is greatly diminished compared to computing every iteration one after the other. The method has to wait until the last iteration as converge, but it would still be quicker.
+
+\section{Next steps}
+To be able to tell if our algorithm adequately explores the local modes, we want to represent them with the level curves similarly as V. Rockova \cite{rockova} did.
+
+We plan to optimize the code that we implemented, to have an acceptable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's \texttt{R}-package (http://github.com/hruffieux/locus).
+
+Finally, if the results are acceptable, we would like to be able to apply this method on real-life data would be the cherry on top of the cake.
 \newpage
 \bibliography{references}
-\bibliographystyle{plain}
+\bibliographystyle{apalike}
 \end{document}

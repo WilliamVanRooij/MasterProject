@@ -27,7 +27,7 @@ n_iter <- 10000
 burn_in <- 5000
 
 n <- 300 
-p <- 4
+p <- 2
 stopifnot(p > 1)
 vec_pat <- c(TRUE, sample(c(TRUE, FALSE), p - 1, replace = TRUE)) # c(FALSE, TRUE) # pattern for true beta: FALSE = beta = 0, T: beta != 0
 vec_pat
@@ -93,9 +93,9 @@ if(TRUE){
   eta <- as.numeric(s_vb$list_hyper$eta)
   
   ### UNCOMMENT ON MAC
-  # WINE="/usr/local/bin/wine"
-  # WINEPATH="/usr/local/bin/winepath"
-  # OpenBUGS.pgm="/Applications/OpenBUGS323/OpenBUGS.exe"
+  WINE="/usr/local/bin/wine"
+  WINEPATH="/usr/local/bin/winepath"
+  OpenBUGS.pgm="/Applications/OpenBUGS323/OpenBUGS.exe"
   
   
   data <- list(y = y_mcmc, X = X_mcmc, p=p, n=n, eps=eps, a=a, b=b, lambda=lambda, kappa=kappa, eta=eta, nu=nu)
@@ -112,7 +112,7 @@ if(TRUE){
   out_bugs <- bugs(data = data, inits=inits, parameters.to.save = parameters, 
                    model.file="BUGSmodelBIS.txt", n.chains = 1, n.iter=n_iter, n.burnin = burn_in, 
                    codaPkg = TRUE, working.directory = getwd(), bugs.seed = 13,
-                   #useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm,   ### UNCOMMENT ON MAC
+                   useWINE = TRUE, WINE=WINE, WINEPATH=WINEPATH, OpenBUGS.pgm = OpenBUGS.pgm,   ### UNCOMMENT ON MAC
                    debug = F)
   
   out_coda <- read.bugs(out_bugs)

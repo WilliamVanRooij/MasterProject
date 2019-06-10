@@ -137,7 +137,7 @@ y <- matrix(rnorm(n, mean=X %*% beta_init, sd=1/sqrt(tau)),nrow=n)
   single_vb_g <-locus(Y = as.matrix(y), X=X, p0_av = p0_av, link = "identity", list_init = s_list_init, verbose = FALSE, save_hyper=TRUE, save_init = TRUE,full_output=TRUE)
   
   
-  if(TRUE){
+  if(FALSE){
     y <- as.vector(y)
     X <- as.matrix(X)
     n <- as.numeric(length(y))
@@ -281,7 +281,7 @@ if(FALSE){
   abline(v=beta_init[2],col="red",lwd=2)
   par(mfrow=c(1,1))
   }
-if(TRUE){
+if(FALSE){
   par(mfrow=c(1,2))
   plot(d1_m,lwd=2,lty=2,col="black", xlim=c(min(out_coda[,"beta[1]"][[1]]),max(out_coda[,"beta[1]"][[1]])),main=expression(paste("Estimations for ", beta[1])))
   hist(out_coda[,"beta[1]"][[1]],breaks=50,freq=F,col="white",xlab=expression(beta[1]),add=T)

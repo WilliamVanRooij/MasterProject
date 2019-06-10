@@ -3,63 +3,80 @@ library(parallel)
 require(echoseq)
 require(locus)
 require(ROCR)
-require(gsubfn)
-require(rstan)
 
-rm(list= ls())
+# rm(list= ls())
 
 RNGkind("L'Ecuyer-CMRG")
-set.seed(123);
+seed <- 166
+set.seed(seed);
 
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                     TO DO                                                                        #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
-
-# Check the Windows part of the function 
-
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                   VARIABLES                                                                      #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
 
 n <- 300; 
+#p <- 500; p0 <- 15; 
 p <- 2; p0 <- 1; 
 d <- 1; d0 <- 1
 
 
+log_sum_exp_ <- function(x) { # avoid numerical underflow or overflow
+  if ( max(abs(x)) > max(x) )
+    offset <- min(x)
+  else
+    offset <- max(x)
+  log(sum(exp(x - offset))) + offset
+}
+
+get_p_m_y <- function(vec_elbo) {
+  
+  exp(vec_elbo - log_sum_exp_(vec_elbo))
+}
+
+
+mlocus <- function(fseed) {
+  
+  tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
+  
+  sig2_beta_vb_init <- 1 / rgamma(d, shape = 2, rate = 1 / tau_vb_init)
+  
+  gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
+  
+  mu_beta_vb_init <- matrix(rnorm(n = p * d , mean=0, sd = 1), nrow = p)
+  
+  list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
+                          sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
+  
+  vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=TRUE, anneal = NULL, save_init = T)
+  return(list(locus = vb_g, beta_init = gam_vb_init*mu_beta_vb_init))
+}
+
+
+
 iter <- 1
 
+cor_type <- "autocorrelated"; 
 
-for (k in sample(1:1e3,iter)){
+
+for(seed in sample(1:1e3,iter)){
   
-  set.seed(k)  
+  set.seed(seed)
   
-  seed <-  k;
-  
-  cor_type <- "autocorrelated"; 
-  
-  #vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
-  vec_rho <- c(0.9)
+  vec_rho <- c(0.99,0.99)
   
   nb_cpus <- 4;
   
-  ind_d0 <-  sample(1:d, d0)
-  
-  ind_p0 <- c(1)
+  ind_d0 <- sample(1:d, d0)
+  ind_p0 <- sample(1:p, p0)
   
   p0_av <- 1
   
-  user_seed <- sample(1:1e3, 100)
+  #vec_maf <- runif(p, 0.4, 0.5)
+  vec_maf <- NULL
   
-  vec_prob_sh <-  0.1 # proba that each SNP will be associated with another active phenotype
+  vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
   max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
-                             user_seed = seed)
+                             user_seed = seed, vec_maf = vec_maf)
   
   list_phenos <- generate_phenos(n, d,  user_seed = seed)
   
@@ -68,127 +85,43 @@ for (k in sample(1:1e3,iter)){
                                family = "gaussian", max_tot_pve = max_tot_pve,
                                block_phenos = TRUE, user_seed = seed)
   
-  # ================================================================================================================================================ #
-  #                                                                                                                                                  #
-  #                                                                  FUNCTIONS                                                                       #
-  #                                                                                                                                                  #
-  # ================================================================================================================================================ #
   
-  make_ld_plot <- function(X, meas) {
-    
-    stopifnot(meas %in% c("r", "D'"))
-    
-    require(LDheatmap)
-    require(chopsticks)
-    
-    colnames(X)<- paste(1:ncol(X), "  ", sep="")
-    require(snpStats)
-    gX <- as(X, "SnpMatrix")
-    
-    cat("LD plot display:\n")
-    ld <- LDheatmap(gX, flip=TRUE, name="", title=NULL, LDmeasure = meas,
-                    add.map= T, geneMapLocation = 0.01, geneMapLabelX=1000)
-  }
+  user_seed <- sample(1:1e3, 100)
   
-  mlocus <- function(fseed) {
-    
-    tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
-    
-    sig2_beta_vb_init <- 1 / rgamma(d, shape = 2, rate = 1 / tau_vb_init)
-    
-    gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = d * (p - p0_av)/p0_av), nrow = p)
-    
+  if(T){
 
-    mu_beta_vb_init <- matrix(rnorm(n = p * d , mean=0, sd = 1), nrow = p)
-    
-    list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
-                            sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
-    
-    vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, full_output = TRUE)
-    return(list(locus = vb_g, gam_init = gam_vb_init,mu = mu_beta_vb_init, sig = sig2_beta_vb_init))
-  }
-  
-  mac = (Sys.info()['sysname'] != "Windows")
-  
-  if(!mac) {
-    
-    cores <- detectCores()
-    cl <- makeCluster(cores)
-    out <- clusterApply(cl=cl, x=user_seed , fun=mlocus) # are you sure you still get a vector here? maybe see below?
-    plot(out, main='Probabilities of link between a phenotype and SNPs',type='h',lwd=2,lend=1, ylim = c(0,1))
-    points(ind_p0, out[ind_p0], col = "red")
-    
-  }
-  
-  # MAC
-  
-  if(mac) {
-    
     m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
     
-  
+    
+    elbo <- NULL
+    gam <- NULL
     out <- 0
     lb_exp <- 0
-    gam_init <- NULL
-    gam <- 0
-    beta_init <- 0
-    mu_ <- 0
-    sig_init <- sig <- mu_init <- mu <- NULL
+    beta_init <- NULL
+    beta_final <- NULL
     
-    if(FALSE){
+    
+    if(TRUE){
       for(i in c(1:length(user_seed))) {
-        out <- out + m_vb_g[[i]]$locus$gam_vb
-        lb_exp <- lb_exp + 1
+        gam <- rbind(gam, as.vector(m_vb_g[[i]]$locus$gam_vb))
+        #lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
+        elbo <- c(elbo, m_vb_g[[i]]$locus$lb_opt)
+        beta_init <- cbind(beta_init, m_vb_g[[i]]$beta_init)
+        beta_final <- cbind(beta_final, m_vb_g[[i]]$locus$beta_vb)
         
       }
     }
     
-    if(TRUE){
-      for(i in c(1:length(user_seed))) {
-        out <- out + m_vb_g[[i]]$locus$gam_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-        lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
-        gam_init <- cbind(gam_init,m_vb_g[[i]]$gam_init)
-        gam <- gam + m_vb_g[[i]]$locus$gam_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-        sig_init <- cbind(sig_init,m_vb_g[[i]]$sig)
-        mu_init <- cbind(mu_init,m_vb_g[[i]]$mu)
-        beta_init <- beta_init + m_vb_g[[i]]$locus$beta_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-        mu_ <- mu_ + m_vb_g[[i]]$locus$mu_beta_vb*exp(m_vb_g[[i]]$locus$lb_opt)
-
-      }
+    vec_w_part <- get_p_m_y(elbo)
+    out <- colSums(sweep(gam, 1, vec_w_part, "*"))
+    
+    if(T){
+      plot(c(beta_init[1,],beta_init[2,]),c(beta_final[1,],beta_final[2,]), type = "l")
+      plot(beta_final[1,], beta_final[2,], col = "red")
     }
     
-    gam <- gam/lb_exp
-    beta_init <- beta_init/lb_exp
-    mu_ <- mu_/lb_exp
-    out <- out / lb_exp
 
   }
-
-  single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, full_output = TRUE)
-  single_vb_g
-  
-  plot(gam_init[1,], gam_init[2,], xlim=c(0,1), ylim=c(0,1))
-  points(gam[1,], gam[2,], col='red')
-  points(single_vb_g$gam_vb[1,],single_vb_g$gam_vb[2,],col='blue',pch=4)
-  lines(c(0,1),c(0.5,0.5),lty=2)
-  lines(c(0.5,0.5),c(0,1),lty=2)
-  
-  
 }
 
-if(TRUE){
-  y <-  dat_g$phenos
-  y <- as.vector(y)
-  
-  stan_dat <- list(N=n,
-                   q=d,
-                   p=p,
-                   y=y,
-                   x=dat_g$snps)
-  
-  fit <- stan(file='prior.stan', data=stan_dat)
-  
-#  pairs(fit)
-print(fit)
-pairs(fit, pars=c("gamma","beta"))
-}
+

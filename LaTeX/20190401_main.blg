@@ -1,46 +1,77 @@
 This is BibTeX, Version 0.99d (TeX Live 2018)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: 20190401_main.aux
-The style file: plain.bst
+The style file: apalike.bst
 Database file #1: references.bib
-You've used 4 entries,
-            2118 wiz_defined-function locations,
-            519 strings with 4424 characters,
-and the built_in function-call counts, 866 in all, are:
-= -- 81
-> -- 28
-< -- 1
-+ -- 12
-- -- 8
-* -- 41
-:= -- 160
-add.period$ -- 10
-call.type$ -- 4
-change.case$ -- 15
-chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 39
-empty$ -- 77
-format.name$ -- 8
-if$ -- 175
-int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 3
-newline$ -- 21
-num.names$ -- 8
-pop$ -- 17
+Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
+while executing---line 1023 of file apalike.bst
+Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1023 of file apalike.bst
+Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+while executing---line 1098 of file apalike.bst
+You've used 7 entries,
+            1935 wiz_defined-function locations,
+            503 strings with 4598 characters,
+and the built_in function-call counts, 1915 in all, are:
+= -- 185
+> -- 55
+< -- 7
++ -- 20
+- -- 16
+* -- 127
+:= -- 366
+add.period$ -- 18
+call.type$ -- 7
+change.case$ -- 41
+chr.to.int$ -- 7
+cite$ -- 7
+duplicate$ -- 86
+empty$ -- 136
+format.name$ -- 25
+if$ -- 356
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 35
+num.names$ -- 21
+pop$ -- 34
 preamble$ -- 1
-purify$ -- 12
+purify$ -- 43
 quote$ -- 0
-skip$ -- 28
+skip$ -- 72
 stack$ -- 0
-substring$ -- 35
-swap$ -- 5
-text.length$ -- 1
+substring$ -- 103
+swap$ -- 6
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
+type$ -- 42
 warning$ -- 0
-while$ -- 9
-width$ -- 5
-write$ -- 40
+while$ -- 15
+width$ -- 0
+write$ -- 81
+(There were 15 error messages)

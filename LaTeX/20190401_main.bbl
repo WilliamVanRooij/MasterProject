@@ -1,21 +1,38 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{}
 
-\bibitem{lewin}
-{B. Lewin, J. Krebs, S. T. Kilpatrick, and E. S. Goldstein}.
-\newblock {\em Lewin's Genes}, volume~10.
-\newblock Jones and Bartlett, Sudbury, United States, 2011.
+\bibitem[Altshuler and Donnelly, 2005]{hapmap}
+Altshuler, D. and Donnelly, P. (2005).
+\newblock A haplotype map of the human genome.
+\newblock {\em International HapMap Consortium}.
 
-\bibitem{varInf}
-{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}.
-\newblock Variational inference: A review for statisticians, 2018.
+\bibitem[{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}, 2018]{varInf}
+{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe} (2018).
+\newblock Variational inference: A review for statisticians.
 
-\bibitem{rockova}
-Veronika Rocková.
-\newblock Particle em for variable selection, 2017.
+\bibitem[Hélène~Ruffieux, 2018]{glob}
+Hélène~Ruffieux, Anthony C.~Davison, J. H. J. I. B. P. F. S. R. L.~B. (2018).
+\newblock A global-local approach for detecting hotspots in multiple-response
+  regression.
 
-\bibitem{kl51}
-{S. Kullback and R. A. Leibler}.
+\bibitem[Rocková, 2017]{rockova}
+Rocková, V. (2017).
+\newblock Particle em for variable selection.
+
+\bibitem[Ruffieux, 2018]{r_echoseq}
+Ruffieux, H. (2018).
+\newblock {\em echoseq: Replication and simulation of genetic variants,
+  molecular expression levels and other phenotypic data}.
+\newblock R package version 0.2.3.
+
+\bibitem[Ruffieux, 2019]{r_locus}
+Ruffieux, H. (2019).
+\newblock {\em locus: Large-scale variational inference for combined selection
+  of covariate and response variables in regression models}.
+\newblock R package version 0.9.0.
+
+\bibitem[{S. Kullback and R. A. Leibler}, 1951]{kl51}
+{S. Kullback and R. A. Leibler} (1951).
 \newblock On information and sufficiency.
-\newblock {\em The Annals of Mathematical Statistics}, 22:79--86, 1951.
+\newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
 
 \end{thebibliography}

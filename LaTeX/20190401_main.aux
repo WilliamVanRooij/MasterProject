@@ -6,9 +6,12 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Situation}{2}}
+\citation{hapmap}
+\citation{hapmap}
+\citation{hapmap}
 \citation{varInf}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Motivation}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces  Visualisation of the correlation structure in the SNPs. We can clearly see the block-wise correlation structure.}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces  Block correlation structure of SNPs taken from Yoruba population HapMap, ENm014 region, chromosome $7$ \cite  {hapmap}. The darker the dot is, the stronger the correlation between the two corresponding SNPs is.}}{4}}
 \newlabel{fig:corr}{{1.1}{4}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Model}{5}}
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -25,7 +28,7 @@
 \newlabel{fig:mean_field}{{3.1}{9}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{9}}
 \newlabel{alg:CAVI}{{1}{10}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Coordinate ascent variational inference }}{10}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Coordinate ascent variational inference}}{10}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Multimodality}{11}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -34,6 +37,8 @@
 \newlabel{eq:post_prob}{{4.2}{11}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Simulated Annealing}{13}}
 \newlabel{eq:ann_elbo}{{4.3}{13}}
+\citation{r_locus}
+\citation{r_echoseq}
 \@writefile{toc}{\contentsline {chapter}{\numberline {5}Simulations}{15}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -44,15 +49,20 @@
 \newlabel{fig:ROCComp}{{5.2}{18}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparison of single (blue) and multiple (orange) locus calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{20}}
 \newlabel{fig:no_ann}{{5.3}{20}}
-\citation{glob}
-\citation{rockova}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Next steps}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparison of simulated annealing augmented single (green) and multiple (red) locus calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{21}}
+\newlabel{fig:ann}{{5.4}{21}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{23}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
+\citation{rockova}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Next steps}{26}}
 \bibdata{references}
-\bibcite{lewin}{1}
-\bibcite{varInf}{2}
-\bibcite{rockova}{3}
-\bibcite{kl51}{4}
-\bibstyle{plain}
+\bibcite{hapmap}{Altshuler and Donnelly, 2005}
+\bibcite{varInf}{{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}, 2018}
+\bibcite{glob}{H\IeC {\'e}l\IeC {\`e}ne~Ruffieux, 2018}
+\bibcite{rockova}{Rockov\IeC {\'a}, 2017}
+\bibcite{r_echoseq}{Ruffieux, 2018}
+\bibcite{r_locus}{Ruffieux, 2019}
+\bibcite{kl51}{{S. Kullback and R. A. Leibler}, 1951}
+\bibstyle{apalike}
