@@ -116,8 +116,8 @@ for(seed in sample(1:1e3,iter)){
     out <- colSums(sweep(gam, 1, vec_w_part, "*"))
     
     if(T){
-      plot(c(beta_init[1,],beta_init[2,]),c(beta_final[1,],beta_final[2,]), type = "l")
-      plot(beta_final[1,], beta_final[2,], col = "red")
+      plot(beta_init[1,c(5,86)],beta_init[2,c(86,5)], type = "p",xlim=c(0.7,1.2),ylim=c(-0.05,0.05))
+      points(beta_final[1,c(5,86)], beta_final[2,c(5,86)], col = "red")
     }
     
 
