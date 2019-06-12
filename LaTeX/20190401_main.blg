@@ -3,44 +3,26 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: 20190401_main.aux
 The style file: apalike.bst
 Database file #1: references.bib
-Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Irina Irincheeva" for entry eff_inf
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Irina Irincheeva" for entry eff_inf
 while executing---line 1023 of file apalike.bst
 Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
 while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1023 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
 while executing---line 1023 of file apalike.bst
 Name 1 in "D. Altshuler, and P. Donnelly" has a comma at the end for entry hapmap
 while executing---line 1098 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1098 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1098 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
-while executing---line 1098 of file apalike.bst
-Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Jamie Inshaw, Benjamin P. Fairfax, Sylvia Richardson, Leonardo Bottolo" for entry glob
+Too many commas in name 1 of "Hélène Ruffieux, Anthony C. Davison, Jörg Hager, Irina Irincheeva" for entry eff_inf
 while executing---line 1098 of file apalike.bst
 You've used 7 entries,
             1935 wiz_defined-function locations,
-            503 strings with 4598 characters,
-and the built_in function-call counts, 1915 in all, are:
+            503 strings with 4543 characters,
+and the built_in function-call counts, 1911 in all, are:
 = -- 185
 > -- 55
 < -- 7
-+ -- 20
++ -- 18
 - -- 16
 * -- 127
 := -- 366
@@ -64,7 +46,7 @@ purify$ -- 43
 quote$ -- 0
 skip$ -- 72
 stack$ -- 0
-substring$ -- 103
+substring$ -- 101
 swap$ -- 6
 text.length$ -- 0
 text.prefix$ -- 0
@@ -74,4 +56,4 @@ warning$ -- 0
 while$ -- 15
 width$ -- 0
 write$ -- 81
-(There were 15 error messages)
+(There were 6 error messages)

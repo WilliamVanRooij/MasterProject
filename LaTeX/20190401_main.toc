@@ -7,7 +7,10 @@
 \contentsline {section}{\numberline {3.1}Mean-field approximation}{8}
 \contentsline {section}{\numberline {3.2}Coordinate ascent algorithm}{9}
 \contentsline {chapter}{\numberline {4}Multimodality}{11}
-\contentsline {section}{\numberline {4.1}Simulated Annealing}{13}
+\contentsline {section}{\numberline {4.1}Problem statement}{11}
+\contentsline {section}{\numberline {4.2}Annealed variational inference}{11}
+\contentsline {section}{\numberline {4.3}Averaged variational inference}{11}
+\contentsline {section}{\numberline {4.4}Simulated Annealing}{13}
 \contentsline {chapter}{\numberline {5}Simulations}{15}
 \contentsline {chapter}{\numberline {6}Conclusion}{23}
 \contentsline {section}{\numberline {6.1}Next steps}{26}

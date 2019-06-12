@@ -7,6 +7,7 @@
 \usepackage{verbatim}
 \usepackage{lmodern}
 \usepackage{tikz}
+\usepackage{graphicx}
 \usepackage[ruled,vlined]{algorithm2e}
 \usetikzlibrary{patterns}
 
@@ -25,20 +26,37 @@
 \begin{document}
 \SetEndCharOfAlgoLine{}
 
-\title{Bayesian averaging for variational inference applied to genomic data}
-\author{William van Rooij - EPFL}
+\begin{titlepage}
+\centering
+{\LARGE Averaged variational inference for hierarchical modelling of genomic data}\\
+\vspace{1cm}
+{\Large Master thesis}\\
+\vspace{1cm}
+{William van Rooij - EPFL}\\
+\vfill
+{Supervisors: Hélène Ruffieux - Anthony C. Davison}\\
+\vspace{1cm}
+{Expert: Eugenia Migliavaccca}
+\vfill
+{\large \today\par}
 
-\maketitle
+\end{titlepage}
+
+
 
 \newpage
 \begin{abstract}
-In expression quantitative trait locus (eQTL) analyses, we study the effects of genetic variants, in our case single nucleotide polymorphisms (SNPs), on the expression of transcripts or genes. For eQTL studies, the data used consists generally of several hundred thousand SNPs and thousand transcript expression outcomes. We suppose that the data follows a hierarchical model linking the SNPs and traits.
+Expression quantitative trait locus (eQTL) analyses study the effects of genetic variants on the expression of transcripts or genes. The data used to this end generally consists of several hundred thousand genetic variants and thousand transcript expression outcomes. 
 
-We are then confronted to a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of transcripts of expressions, and $n$ is the number of samples. In this situation, it is not possible to use MCMC to perform bayesian inference as its computational cost is too big. 
+In this work, we suppose that the data follows a hierarchical regression model linking the genetic variants and outcomes. We are then confronted to a \textit{small n, large p, large q} situation, where $p$ is the number of genetic variants, $q$ is the number of expression levels, and $n$ is the number of samples. In this situation, MCMC algorithms are not suitable for Bayesian inference as their computational cost is too big. 
 
-In this document, we build a method to measure the association between SNPs and traits based on a method developed by H. Ruffieux that uses variational inference to estimate the posterior distribution of the parameters. We perform a weighted average on the result of multiple different parameter initialisations. We also augment our method with simulated annealing.
+Here, we build a method to measure the association between genetic variants and traits based on a method developed by Ruffieux et al.\\
+\cite{eff_inf} that uses variational inference to estimate the posterior distribution of the parameters. We perform a weighted average on the result of multiple different parameter initialisations. We also augment our method with simulated annealing.
 
-We perform an accuracy comparison between the previously mentioned methods and an MCMC inference comparison on small dimensions to verify the accuracy of our methods.
+We evaluate the performance of our proposal by comparing it to the existing variational approach of Ruffieu et al. \cite{eff_inf}, and also asses its accuracy by comparing it to MCMC inference on a small problem.
+
+The code for all our numerical experiments is freely accessible at \\
+https://github.com/WilliamVanRooij/MasterProject.
 \end{abstract}
 \tableofcontents
 \newpage
@@ -241,7 +259,9 @@ In our case, the posterior distributions of our model's parameters are:
 
 \newpage
 \chapter{Multimodality}
-
+\section{Problem statement}
+\section{Annealed variational inference}
+\section{Averaged variational inference}
 Bayesian model averaging is a strategy to account for multiple competing models in an inference problem. It consists of weighting the different models in a weighted average with the probability that the data corresponds to each model. The more the model corresponds to the observed data, the more it will stand out in the result.
 
 Assume that the data $\boldsymbol{y}$ correspond to multiple models $M_k$, $k= 1,\ldots,K$, and $\Delta$ is the quantity of interest. We have the posterior distribution:
