@@ -138,7 +138,8 @@ and $\delta_0$ is the Dirac distribution.
 % =========================================
 \newpage
 \chapter{Variational Inference}
-When computing the posterior density of parameters $\boldsymbol{\theta}$ according to the observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimization problem that minimizes a measure of ``closeness'' as objective function.
+\section{General principles} \label{sec:gen_princ}
+When computing the posterior density of parameters $\boldsymbol{\theta}$ according to the observed data $\boldsymbol{y}$, variational inference simplifies the computation by approximating the posterior density $p(\boldsymbol{\theta}\mid \boldsymbol{y})$ with a simpler density $q(\boldsymbol{\theta})$. It gives an approximation to the posterior distribution as a result of an optimisation problem that minimizes a measure of ``closeness'' as objective function.
 
 If we have observations $\boldsymbol{y}$ and parameters $\boldsymbol{\theta}$, we need to determine the posterior distribution of the parameters conditional on the observations $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. Given a family of densities $\mathcal{D}$ over the parameters, we want to find the distribution $q \in \mathcal{D}$ that minimizes the ``closeness'' measure compared to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
 
@@ -148,7 +149,7 @@ Variational inference minimizes the Kullback--Leibler divergence as a ``closenes
 \end{equation*} 
 It is described as a "directed divergence" as it is asymmetric, i.e., $\KL(p\parallel q) \neq \KL(q \parallel p)$.
 
-Determining the family $\mathcal{D}$ can be difficult, as we need the family to be simple enough to be optimized efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ with respect to the Kullback--Leibler divergence. The approximation will then be
+Determining the family $\mathcal{D}$ can be difficult, as we need the family to be simple enough to be optimised efficiently, but flexible enough for the approximation $q \in \mathcal{D}$ to be close to $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ with respect to the Kullback--Leibler divergence. The approximation will then be
 \begin{equation*}
 q^*(\boldsymbol{\theta} ) = \argmin_{q(\boldsymbol{\theta}) \in \mathcal{D}} \KL\left[ q(\boldsymbol{\theta}) \parallel p(\boldsymbol{\theta} \mid \boldsymbol{y})\right].
 \end{equation*}
@@ -166,7 +167,7 @@ When decomposing the Kullback--Leibler divergence, we obtain
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
 \end{equation*}
-This means that the Kullback--Leibler divergence is the difference between the marginal log-likelihood with no effect on the optimization and a function $\mathcal{L}(q)$. Hence, minimizing the Kullback--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lies in the complexity of the problems, minimizing the Kullback--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
+This means that the Kullback--Leibler divergence is the difference between the marginal log-likelihood with no effect on the optimisation and a function $\mathcal{L}(q)$. Hence, minimizing the Kullback--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lies in the complexity of the problems, minimizing the Kullback--Leibler divergence is not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. In such a case, we prefer to use $\mathcal{L}(q)$ as an objective function.
 
 Jensen's inequality provides another way to see that $\mathcal{L}(q)$ is a lower bound for the marginal log-likelihood, which is why we call it the evidence lower bound, or variational lower bound,
 \begin{align*}
@@ -179,13 +180,13 @@ Jensen's inequality provides another way to see that $\mathcal{L}(q)$ is a lower
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$.
 
 \section{Mean-field approximation}
-The complexity of the optimization problem is directly bound to the complexity of the family of densities $\mathcal{D}$ to which $q(\boldsymbol{\theta})$ belongs. We introduce the mean-field variational family, where the parameters are mutually independent.
+The complexity of the optimisation problem is directly bound to the complexity of the family of densities $\mathcal{D}$ to which $q(\boldsymbol{\theta})$ belongs. We introduce the mean-field variational family, where the parameters are mutually independent.
 
 Let $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ be a partition of $\boldsymbol{\theta}$, $q \in \mathcal{D}$ and $\mathcal{D}$ a mean-field variational family, then,
 \begin{equation*}
 q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j).
 \end{equation*}
-We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimization of the evidence lower bound.
+We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q_j)$. Hence, the variational family does not directly represent the observed data, they are both linked through the optimisation of the evidence lower bound.
 
 Concretely, we assume the independence of most of the parameters,
 \begin{equation*}
@@ -208,10 +209,10 @@ q(\boldsymbol{\theta}) =\left\lbrace\prod_{s=1}^p \prod_{t=1}^q q(\beta_{st}, \g
 \caption{\label{fig:mean_field}To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref{fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We see that the mean of the approximation is the same as the real mean, but the covariance does not match the covariance of the real posterior.}
 \end{figure}
 
-We have transformed, using the evidence lower bound and the mean-field approximation our problem into a optimization problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascent algorithm.
+We have transformed, using the evidence lower bound and the mean-field approximation our problem into a optimisation problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascent algorithm.
 % =========================================
 \section{Coordinate ascent algorithm}
-Coordinate ascent mean-field variational inference  is one of commonly used to solve this optimization problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
+Coordinate ascent mean-field variational inference  is one of commonly used to solve this optimisation problem. The algorithm iterates on the parameters of the mean-field approximation, optimizing them one at the time. It yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
 \begin{lemma}
 
 If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ satisfies:
@@ -259,62 +260,39 @@ In our case, the posterior distributions of our model's parameters are:
 
 \newpage
 \chapter{Multimodality}
-\section{Problem statement}
+\section{Problem statement} \label{sec:pro_stat}
+When applied to highly correlated data, variational inference underestimates posterior variances. Suppose $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ is the posterior distribution of $\boldsymbol{\theta} = (\theta_1,\theta_2)$ and one of its mean-field approximation $$
+q(\boldsymbol{\theta}) = q(\theta_1)q(\theta_2).
+$$
+As we can see in Figure \ref{fig:mean_field}, the covariance structure is altered and the marginal variances are smaller that those of $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. This results from the optimisation of the reverse Kullback--Leibler divergence
+$$
+\KL (q\parallel p) = - \int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol(\theta\mid\boldsymbol{y})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta},
+$$
+that penalizes putting mass in $q(\cdot)$ where $p(\cdot)$ has little mass.
+
+The lower bound $\mathcal{L}(q)$ tends to be highly multimodal. The ascent algorithm (Algorithm \ref{alg:CAVI}) risks to get stuck on local modes. The posterior variance underestimation reinforces this risk, putting a lot of mass on one single hypothesis.
+
+To handle this multimodality better, we will explore two routes to enhance variational inference, without changing the model. The first one is to introduce a simulated annealing procedure to explore more modes. The second one is to average over multiple parameter initialisations with weights accounting for the likelihood of the obtained mode. We describe these two options next.
 \section{Annealed variational inference}
-\section{Averaged variational inference}
-Bayesian model averaging is a strategy to account for multiple competing models in an inference problem. It consists of weighting the different models in a weighted average with the probability that the data corresponds to each model. The more the model corresponds to the observed data, the more it will stand out in the result.
+Simulated annealing aims at improving the exploration of multimodal parameter spaces, using heated distributions to sweep the local modes away. We next describe how it can be coupled with variational inference to achieve this aim.
 
-Assume that the data $\boldsymbol{y}$ correspond to multiple models $M_k$, $k= 1,\ldots,K$, and $\Delta$ is the quantity of interest. We have the posterior distribution:
-\begin{equation}
-p(\Delta \mid \boldsymbol{y}) = \sum_{k=1}^K p(\Delta \mid M_k,\boldsymbol{y}) \; p(M_k \mid \boldsymbol{y}).
-\label{eq:post_dist}
-\end{equation}
-This corresponds to a weighted average of the posterior distribution under each of the considered models with weights corresponding to the posterior models probabilities.
-
-Instead of $p(\Delta \mid \boldsymbol{y})$ in Equation \ref{eq:post_dist}, we might be interested in approximating:
+We start with the same strategy as in Section \ref{sec:gen_princ} i.e., minimizing the reverse Kullback--Leibler divergence,
 \begin{equation*}
-\mathbb{E}\left[\Delta \mid \boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\Delta \mid M_k, \boldsymbol{y}\right]\;p(M_k \mid \boldsymbol{y}).
+\KL(q \parallel q) = -\int q(\boldsymbol{\theta}) \log\left\lbrace\frac{p(\boldsymbol{\theta}\mid\boldsymbol{y})}{q(\boldsymbol{\theta})}\right\rbrace \mathrm{d}\boldsymbol{\theta},
 \end{equation*}
-
-The posterior probability for model $M_k$ is given by:
-\begin{equation}
-p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=1}^K p(\boldsymbol{y} \mid M_j)\; p(M_j)},
-\label{eq:post_prob}
-\end{equation}
-where $p(\boldsymbol{y} \mid M_k)$ is the likelihood of model $M_k$, and $p(M_k)$ is the prior probability of the model $M_k$. It can, for example, depend on the complexity of the model, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$.  
-
-We know that the evidence lower bound and the Kullback--Leibler divergence are related and that minimizing the Kullback--Leibler divergence is equivalent to maximizing the evidence lower bound, and that they verify: 
-\begin{equation*}
-\KL(q\parallel p) = \log p (\boldsymbol{y}) - \mathcal{L}(q).
-\end{equation*}
-Since we minimized the Kullback--Leibler divergence, we can use $\mathcal{L}(q)$ as an approximation for $\log p(\boldsymbol{y}\mid M_k)$ in Equation \ref{eq:post_prob}.
-
-Our quantity of interest is $\gamma_{st}$, i.e. we want to know if the SNP $s$ and the trait $t$ are associated. Using Algorithm \ref{alg:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm.
-
-We can consider each optimum to be a model representing the data, and we can apply a form of Bayesian model averaging to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in Equation \ref{eq:post_prob}, and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models we have obtained in the algorithm.
-
-As we are dealing with strongly correlated structures, some modes will be strongly plausible even if they are not the real mode. This incertitude should be visible when observing the resulting approximations for $\mathbb{E}\left[\gamma_st\mid \boldsymbol{y}\right]$. Indeed, we should see the real mode standing out, but we should have some other modes visible as well, more or less visible according to their plausibility.
-\newpage
-\section{Simulated Annealing}
-To identify data dependence structures, instead of altering the model, we can change the inference strategy. When dealing with highly correlated data, our coordinate ascent algorithm often gets stuck in local modes. We use a simulated annealing procedure to augment our method and improve the modes exploration.
-
-We start with the same strategy as earlier, i.e. minimizing the reverse Kullback--Leibler divergence,
-\begin{equation*}
-\KL(q \parallel q) = -\int q(\boldsymbol{\theta}) \log\left\lbrace\frac{p(\boldsymbol{\theta}\mid\boldsymbol{y})}{q(\boldsymbol{\theta})}\right\rbrace \mathrm{d}\boldsymbol{\theta}.
-\end{equation*}
-we end up with the lower bound as objective function,
+and end up with the lower bound as objective function,
 \begin{equation*}
 \mathcal{L}(q) = \mathbb{E}_q\left[ \log p(\boldsymbol{y}, \boldsymbol{\theta})\right] - \mathbb{E}_q\left[\log q(\boldsymbol{\theta})\right],
 \end{equation*}
-which is composed of the expected log joint distribution, which motivates the approximation to take more mass where the variables explain more the data, and the entropy, that encourages the dispersion of the approximation. 
+which is composed of the expected log joint distribution, which implies that the approximation will put more mass where the variables best explain the data, and the entropy, that encourages the ``dispersion'' of the approximation. 
 
-The idea of simulated annealing is to introduce a temperature $T$ that yields a series of heated distributions,
+The idea of simulated annealing is to introduce a temperature $T$ to obtain a series of heated distributions,
 \begin{equation*}
 p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T},
 \end{equation*}
-and influences the differences of the modes. The temperature starts high, smoothing the density of interest, and gets lower along the process until it reaches the original density. The high temperatures yield an easier search for the global optimum. The temperature multiplies the entropy term, allowing for more disparate approximations to be considered,
+and control the ``frequency'' of the modes. The temperature starts high, smoothing the density of interest, and gets lower along the process until the original density is reached. The high temperatures facilitate the search for the global optimum. The temperature multiplies the entropy term, allowing for more disparate approximations
 \begin{equation}
-\mathcal{L}_T(q) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta},\; T\geq 1,
+\mathcal{L}_T(q_T) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta},\quad T\geq 1,
 \label{eq:ann_elbo}
 \end{equation}
 where $q_T$ is the heated variational distribution, it applies a penalty on the log joint distribution when the temperature $T > 1$, and relaxes the penalty as $T$ goes down until $T = 1$, where the penalty becomes null.
@@ -323,13 +301,13 @@ With the same process we used without the annealing, we can write (\ref{eq:ann_e
 \begin{equation*}
 \mathcal{L}_T(q) = \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const,
 \end{equation*}
-that can be written as
+that can be written further as
 \begin{equation*}
 \mathcal{L}_T(q) = T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const,	
 \end{equation*}
 where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $\theta_j$.
 
-$\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, which is equivalent to when
+The objective for $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, which is equivalent to when
 \begin{equation*}
 \log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J.
 \end{equation*}
@@ -347,46 +325,84 @@ and a linear spacing,
 T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1},
 \end{equation*}
 where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps necessary to lower the temperature to the initial temperature $T = 1$, where the initial algorithm is ran until convergence.
+\section{Averaged variational inference}
+Bayesian model averaging is a strategy to account for multiple competing models in an inference problem. It consists of weighting the different models in a weighted average accounting for the likelihood that the data corresponds to each model. The more the model corresponds to the observed data, the more it will stand out in the result.
 
-To cope with strongly correlated structures and represent the incertitude of the modes, we use simulated annealing combined with our weighted average and retrieve a combination of different models yielded from different initialisations. However, two different initialisations that gave different modes could give the same mode when using simulated annealing as the density function is ``smoothed'' by the temperature. The number of different modes considered in the weighted average will hence be less than when not performing the simulated annealing step before hand.
+Assume that the data $\boldsymbol{y}$ may have been obtained from one of multiple models $M_k$, $k= 1,\ldots,K$, and $\Delta$ is the quantity of interest. The posterior distribution:
+\begin{equation}
+p(\Delta \mid \boldsymbol{y}) = \sum_{k=1}^K p(\Delta \mid M_k,\boldsymbol{y}) \; p(M_k \mid \boldsymbol{y})
+\label{eq:post_dist}
+\end{equation}
+corresponds to a weighted average of the posterior distribution under each of the considered models with weights corresponding to the posterior model probabilities.
+
+Instead of $p(\Delta \mid \boldsymbol{y})$ in (\ref{eq:post_dist}), we might be interested in summaries like the posterior mean:
+\begin{equation*}
+\mathbb{E}\left[\Delta \mid \boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\Delta \mid M_k, \boldsymbol{y}\right]\;p(M_k \mid \boldsymbol{y}).
+\end{equation*}
+
+The posterior probability for model $M_k$ is given by:
+\begin{equation}
+p(M_k \mid \boldsymbol{y}) = \frac{p(\boldsymbol{y} \mid M_k)\; p(M_k)}{\sum_{j=1}^K p(\boldsymbol{y} \mid M_j)\; p(M_j)},
+\label{eq:post_prob}
+\end{equation}
+where $p(\boldsymbol{y} \mid M_k)$ is the likelihood under model $M_k$, and $p(M_k)$ is the prior probability of model $M_k$. It may, for example, be chosen based on the model complexity, to favour the simpler models, or, if we consider the models to be equiprobable, it would be equal to $p(M_k) = 1/K$, $k = 1,\ldots,K$, if we consider all models as equiprobable a priori.  
+
+In Section \ref{sec:gen_princ}, we saw that the evidence lower bound and the Kullback--Leibler divergence are related, 
+\begin{equation*}
+\KL(q\parallel p) = \log p (\boldsymbol{y}) - \mathcal{L}(q),
+\end{equation*}
+and that minimizing the Kullback--Leibler divergence is equivalent to maximizing the evidence lower bound.
+
+Hence, by assuming $\mathcal{L}(q)$ us a tight lower bound on the marginal log likelihood, we can use it as an approximation for $\log p(\boldsymbol{y}\mid M_k)$ in (\ref{eq:post_prob}).
+
+We propose to address the concerns described in Section \ref{sec:gen_princ} by performing a form of averaging of variational inference summaries. Namely, say our quantity of interest is $\gamma_{st}$, to assess the association between SNP $s$ and trait $t$. Using Algorithm \ref{alg:CAVI}, we initialise the distributions $q_j(\theta_j)$ with different starting points, and consider the optimums yielded by the algorithm. If we consider that each optimum yields a model representing the data, we can apply an averaging procedure to combine them all using the method we described here above. We approximate $\log p(\boldsymbol{y})$ by $\mathcal{L}(q)$ in (\ref{eq:post_prob}), and obtain an approximation for $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]$ considering all the models obtained through the algorithm.
+
+In highly multimodal scenarios, as induced by strong correlation structure, the uncertainty in the selected variables will be conveyed in the resulting approximations for $\mathbb{E}\left[\gamma_st\mid \boldsymbol{y}\right]$.
+
+To cope with strongly correlated structures and represent the uncertainty of the modes, we use simulated annealing combined with our weighted averaging procedure and retrieve a combination of different models yielded from different initialisations.
 
 % =========================================
 \newpage
 \chapter{Simulations}
-Our method is based on the \texttt{locus R}-package \cite{r_locus} and calls multiple times the variational algorithm before combining all the results in an weighted average. For each call, we initialize the parameters differently, and hope to obtain different optimums. Then we used the evidence lower bounds as weights in our variant of Bayesian model averaging to combine the results of each initialisation. We will call our method ``multiple locus'', due to the multiple calls of the variational algorithm, and ``single locus'', the method consisting in calling just once the algorithm.
+\section{Preliminary illustration}
+Our method is based on the \texttt{locus R}-package \cite{r_locus} and calls multiple times the variational algorithm before combining all the results in an weighted average. For each call, we initialize the parameters differently, in order to possibly obtain different optimums. Then we use the evidence lower bound of the different calls as weights to combine the posterior summaries of each initialisation. We will call our method ``multiple variational Bayes'', due to the multiple calls of the variational algorithm, and ``variational Bayes'', the method consisting just a single call of the algorithm.
 
-We first tested our method on simulated data, to be able to compare the results calculated with the truth. We have used the \texttt{echoseq R}-package \cite{r_echoseq} to generate block wise strongly autocorrelated SNPs and traits, as well as their associations. This package generates molecular quantitative data based on given association parameters. 
+For all simulations presented in this Chapter, we, on purpose, simulate data with very strong correlation patterns to evaluate the benefit of our method in the extreme multimodality scenarios it is designed for.
 
-We have generated $300$ observations of $500$ SNPs, with latent variables autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. It is important to note that the correlations defined here are correlations between the underlying variables, so the correlations between the SNPs are a little bit weaker. As we want to visualise the probabilities of association, we generated just one trait. We have selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
+We first tested our method on simulated data, to be able to compare the results with the truth. We used the \texttt{echoseq R}-package \cite{r_echoseq} to generate blocks of strongly autocorrelated SNPs and traits, as well as associations between them. The SNPs are coded as discrete variables describing their state, we create dependence between them using realisations of multivariate normal variables followed by a quantile thresholding rule.
+
+We have generated $300$ observations of $500$ SNPs, with latent variable block autocorrelations between $0.95$ and $0.99$, by blocks of $10$ SNPs. For simplicity, we generated just one trait; the extension to multiple traits should produce similar conclusions. We selected five SNPs to be associated with the trait, for better visualisation, all five SNPs are in the $50$ first SNPs.
 
 
 \begin{figure}[h]
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_locus.png}
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_locus.png}
-\caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
+\caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt{locus} function (left) and when doing a weighted average on multiple calls of the \texttt{locus} function namely, averaged variational inference (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 
-In Figure \ref{fig:simple_locus}, we have plotted the probabilities of association of the $50$ first SNPs, out of $500$ used, with a single trait $t$. In the construction of the data, we have enforced the five real associated SNPs to be in the $50$ first SNPs, for observations reasons, they are marked in red. The real associated SNPs are the same for both of the plots.
+Figure \ref{fig:simple_locus} shows the probabilities of association of the $50$ first SNPs, out of $500$ used.
 
 On the left, we have used a single call of the \texttt{locus} function, it is equivalent to choosing a single model $M$ and calculating
 \begin{equation*}
 \mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \mathbb{E}\left[\gamma_{st}\mid M,\boldsymbol{y}\right]\;p\left(M\mid\boldsymbol{y}\right).
 \end{equation*}
 
-On the right, we have used the weighted averaging method over a range of $100$ different initial parameters yielding $K$ different models $ M_k$, $k~=~1\ldots,K$. We then calculated
+On the right, we have used the weighted averaging method over a range of $100$ different initial parameters yielding $100$ models $ M_k$, $k~=~1\ldots,100$. We then calculated
 \begin{equation*}
-\mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \sum_{k=1}^K\mathbb{E}\left[\gamma_{st}\mid M_k\right]\;p\left(M_k\mid\boldsymbol{y}\right).
+\mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \sum_{k=1}^100\mathbb{E}\left[\gamma_{st}\mid M_k\right]\;p\left(M_k\mid\boldsymbol{y}\right).
 \end{equation*}
 
-We can see that when using a single call of the \texttt{locus} function, the SNPs found to be associated with the trait are not the right ones. This can be explained by the strong correlations in the block structure. The strong correlations can mislead the function into yielding the wrong SNP in the same correlation block.
+We see that when using a single call of the \texttt{locus} function, the algorithm wrongly selects two SNPs and misses four SNPs simulated as associated with the response. This can be explained by the strong correlations in the block structure creating a highly multimodal posterior. The strong correlations can mislead the function into yielding the wrong SNP in the same correlation block.
 
-When using a weighted average on multiple models yielded by multiple initialisations the function \texttt{locus}, we can see that we consider different models containing the one we used to build the data. We can see that three of the five real SNPs associated with the trait are found by the algorithm.
+Our averaged variational inference algorithm does better; it identifies three of the five relevant SNPs.
 
-We can also see that the two grey pikes of the left plot can be seen on the right plot. This can be explained by the fact that the model found on the left plot has been considered in the weighted average of the right plot. Apparently, a few other iterations of the function have also mislead the SNP corresponding to the second spike of the left plot to be associated with the trait, as its probability of association is non negligible. The first spike of the left plot is not as present in other occurrences of the function as we can see that it is considerably small.
+The two grey peaks of the left plot appear with a lower probability on the right plot; suggesting that the model found by classical variational inference has been considered in the weighted scheme of the averaged variational inference procedure. There seems to be a few other initialization configurations that have also mislead the SNP selection as the second spike of the left plot indicates a nonzero probability of association.
 
-The block wise correlation structure is also visible in the probabilities of association for the weighted average method. We can see that four SNPs of the middle block have all non null probabilities of association with the trait. This phenomena can be explained by the strong correlations between these SNPs misleading the algorithm into designating a wrong SNP with a strong correlation to the right one.
+The block wise correlation structure is also better conveyed in the probabilities of association for the averaged variational method. We can see that four SNPs of the middle block have all non null probabilities of association with the trait. 
 
-We compared four methods, single locus, multiple locus and their simulated annealing augmented counterparts. We chose four different situations: two of the settings involved $15$ associated SNPs, whereas the remaining two had $50$ associated SNPs. To ease the computation, we have chosen to consider only one trait. We also had a pair of settings where the proportion of the response variance that could be explained by the SNPs could be up to $50\%$ and, for another pair, up to $80\%$. The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, we have chosen a geometric spacing with ten steps.
+\section{Variable selection performance} \label{sec:varSelPerf}
+
+We compared four methods, classical variational inference (LOCUS), averaged variational inference (averaged LOCUS) and their simulated annealing augmented counterparts (annealed LOCUS and averaged annealed LOCUS). We chose four different situations: two of the settings involved $15$ associated SNPs (settings A, B), whereas the remaining two had $50$ associated SNPs (settings C, D). To ease the computation, we consider only one trait. For a pair of settings, the proportion of the response variance explained by the SNPs could go up to $50\%$ (settings A, C) and, for another pair, up to $80\%$ (settings B, D). The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, we have chosen a geometric spacing with ten steps. The sensitivity to these choices could be assessed in dedicated experiments.
 
 \begin{figure}[h!]
 \includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
@@ -396,55 +412,56 @@ We compared four methods, single locus, multiple locus and their simulated annea
 \caption{\label{fig:ROCComp}Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
 Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
 \end{figure}
-In Figure \ref{fig:ROCComp} are represented the ROC curves of the four methods we wanted to compare, for each of the four settings we mentioned earlier. We have truncated the ROC curves as we are interested only in the accuracy of the methods for a small error rate. We have the same settings a we had for Figure \ref{fig:simple_locus}, as well as just one trait. To fully check the accuracy of the different methods, we could calculate the association of SNPs with more traits.
 
-Firstly, we compare the single locus and the multiple locus methods. We can clearly see in Figure \ref{fig:ROCComp} that the multiple locus is more accurate than the single locus. The multiple locus considers many different modes, in our case $100$, and attributes to each mode a weight associated to the likelihood of the data being obtained from said mode. We hope that the real mode is contained in the considered $100$ modes, then the likelihood of the data originating from said mode will be high and the real associated SNPs will be more represented.
+Figure \ref{fig:ROCComp} represent the ROC curves of the four methods, for each of the four settings we mentioned earlier. We truncated the ROC curves as we are interested only in the performance of the methods for small false positive rate. The remaining settings are the same for Figure \ref{fig:simple_locus}. It would be interesting to run other simulations to fully check the variable selection performance of the different methods.
 
-Secondly, we can see that when starting both the single locus and the multiple locus with a simulated annealing step, the multiple locus is still more accurate than the single locus, although the difference is smaller than it is without the simulated annealing step. This means that the annealing step does not prevent the multiple locus to consider multiple different models. It also means that the simulated annealing augmented single locus does not yield the right model every time. This could be because the initial temperature we have chosen was not high enough to smooth the densities enough to access the right modes.
+Firstly, we compare LOCUS and averaged LOCUS. We can clearly see in Figure \ref{fig:ROCComp} that averaged LOCUS's variable selection's performance is better than LOCUS's, as it considers many different initialisations, in our case $100$, and attributes to each resulting mode a weight associated to the likelihood of the data being obtained from the corresponding model. We hope that the real model can be obtained from one of the obtained modes, then the likelihood of the data originating from said model will be high and the real associated SNPs will be more represented.
 
-Thirdly, the augmented single locus method is more accurate than the single locus method. The simulated annealing step allows the method to reach modes that cannot be reached by the single locus method with certain starting parameters. This allows the real mode to be reached more often when using a simulated annealing step, hence, to be more accurate.
+Secondly, we can see that when starting both LOCUS and averaged LOCUS with a simulated annealing step, averaged LOCUS remains more powerful than LOCUS, although the improvement is smaller than it is without simulated annealing. This means that the annealing step does not prevent averaged LOCUS's algorithm to end up selecting multiple different models, in this strongly correlated data scenario. This could be because the chosen initial temperature is not sufficiently high to smooth the densities enough to access the right modes.
 
-Fourthly, we can see that the setting where we are looking for $50$ SNPs associated with the trait and a maximum proportion of the response variance explained by the SNPs is $50\%$ have all the methods similarly accurate. The accuracy ``gained'' when adding the simulated annealing step or when averaging over multiple initialisations is not relevant. 
+Thirdly, annealed LOCUS's variable selection is better than LOCUS's. The simulated annealing step allows the method to reach modes that cannot be reached by the single locus method with certain starting parameters. 
 
-Finally, we see that the augmented multiple locus is very close in accuracy to multiple locus. The advantage of starting with a simulated annealing step is not necessarily yielding more accurate results. Based on the graphs, we can even say it might be less accurate. The simulated annealing step might diminish the number of modes considered for the average, putting more weight in the wrong models, hence leading the algorithm on the wrong mode.
+Fourthly, in the less sparse setting with $50\%$ of variance explained by the predictors (setting C), the simulated effect sizes are weaker and all methods show similar, lower, performances: the averaging or annealing procedures do not lead to much improvement.
 
-It should be noted that for our method, should it be simulated annealing augmented or not, paralleled computation is possible, which can drastically diminish the time needed to compute it. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
+Finally, we see that averaged annealed LOCUS's variable selection is very close in performance to averaged LOCUS's: the their confidence intervals overlap. In setting A, the averaged annealed LOCUS might even be less powerful: the simulated annealing step might diminish the number of modes considered for the average, putting more weight in the wrong models, hence leading the algorithm on the wrong mode.
+\section{Comparison with MCMC inference}
+Section \ref{sec:varSelPerf} evaluated variable selection performance of the different methods, we now want to compare the accuracy by confronting it with MCMC inference. To do so, we generated some with the \texttt{echoseq R}-package, and extracted the matrix $\boldsymbol{\beta}$ to have the real parameters. We simulated $300$ observations of four SNPs, with a equicorrelated SNPs with correlation coefficient of $0.955$. Such a strong correlation level can mislead the methods in the selection of the associated SNPs.
 
-Instead of comparing the accuracy of different methods, we now want to assess the accuracy of our method compared to simulated values. To do so, we have generated some data with H. Ruffieux's \texttt{echoseq R}-package, and extracted the matrix $\boldsymbol{\beta}$ to have the real parameters. We have simulated $300$ observations of four SNPs, with a equicorrelated SNPs with a strong correlation of $0.955$. A strong correlation is what can induce an error in the selection of the associated SNPs, and in verifying the accuracy of our methods, it is necessary to test in extreme situations.
+We compare the posterior distributions of $\beta_1,\dots,\beta_4$ obtained by our methods with the posterior distributions obtained by MCMC inference. The two inference methods have a different convergence and stopping criteria, so the comparison should be studied prudently. Our method is based on variational inference, which has a convergence criterion defined as a tolerance to be given. The MCMC inference does not necessarily visit the whole model space, so to alleviate this problem, we run it for a large number of iterations, namely $10^5$ iterations and burn the first half.
 
-We compare the posterior distributions of the parameters estimations obtained from our methods with posteriors distributions obtained from MCMC inference. The two inference methods have a different convergence and stooping criteria, so the comparison should be studied prudently. Our method is based on variational inference, which has a convergence criterion defined as a tolerance to be given. The MCMC inference does not necessarily visit the whole model space, so to counter that problem, we run $10^5$ iterations and burn the first half.
-
-To be able to perform MCMC on our data, we have chosen the number of parameters to be small, i.e. $p=4,\, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
+For the same reasons, we consider a very small problem i.e., $p=4, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
 \begin{figure}[h]
 \includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/no_annealing.pdf}
-\caption{\label{fig:no_ann}Comparison of single (blue) and multiple (orange) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
+\caption{\label{fig:no_ann}Comparison of LOCUS (blue) and averaged LOCUS (orange) calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
 \end{figure}
 
-In Figure \ref{fig:no_ann}, we have plotted single and multiple locus calculated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC simulated posteriors and the real values of $\boldsymbol{\beta}$. The orange and blue lines of $\beta_2$ and $\beta_4$ are superposed.
+In Figure \ref{fig:no_ann}, we have plotted LOCUS and averaged LOCUS calculated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC simulated posteriors and the real values of $\boldsymbol{\beta}$. The orange and blue lines of $\beta_2$ and $\beta_4$ are superimposed.
 
-Firstly, we can see that multiple locus finds the right distribution for every $\beta_s$ but once, for $\beta_4$, where it finds the same estimation as the MCMC inference and the single locus methods. However, the single locus only finds the right estimation once, for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the accuracy of the multiple locus is better that the single locus.
+Firstly, we can see that averaged LOCUS puts mass near the simulated values of $\beta_s$ for every $\beta_s$ but for $\beta_4$, where it finds the same estimation as the MCMC inference and the single locus methods. However, LOCUS only agreed to some extent with the MCMC distribution only for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the performance of the averaged LOCUS is better that the performance of LOCUS.
 
-Secondly, when the single and multiple locus do not yield the same value for the parameters, the result of single locus is visible in the distribution of multiple locus. This is given by the fact that multiple locus considers the mode obtained from single locus in its averaging, and in that case, the mode obtained from single locus was relevant. This can be read in Figure \ref{fig:simple_locus}, where we can see that the single locus selects a wrong SNP and that even if the multiple locus selects the right SNP, we can still see in the probabilities of association calculated by the multiple locus, the SNP selected by the single locus method.
+Secondly, when LOCUS and averaged LOCUS do not yield the same value for the parameters, the result of LOCUS is visible in the distribution of averaged LOCUS. This is given by the fact that averaged LOCUS considers the mode obtained from LOCUS in its averaging, and in that case, the mode obtained from LOCUS was relevant. This can be read in Figure \ref{fig:simple_locus}, where we can see that LOCUS selects a wrong SNP and that even if averaged LOCUS selects the right SNP, we can still see in the probabilities of association it calculated, the SNP selected by LOCUS.
 
-Finally, $\beta_4$ is supposed to be non null, but the MCMC simulations and the approximations given by the single and multiple locus methods are all null. The real mode was probably too close to an incorrect one and the strong correlation gave the wrong mode too much weight, giving the illusion that it was the right mode. This could be caused by the ``spike and slab'' distribution of $\beta_{st}\mid \gamma_{st}, \sigma^2, \tau_t$, that depends on $\gamma_{st}$ to be either really close to zero not. As $\gamma_{st}$ must be a integer, we have to round the estimation to the closest integer. It can yield problems when the estimation of $\gamma_{st}$ is close to $0.5$, as a small difference in the estimation can cause a big difference in the result.
+Finally, $\beta_4$ is supposed to be non null, but the MCMC simulations and the approximations given by LOCUS and averaged LOCUS methods are all null. The strong correlation gave the wrong mode too much weight, giving the illusion that it was the global mode. This could be caused by the ``spike and slab'' distribution of $\beta_{st}\mid \gamma_{st}, \sigma^2, \tau_t$, that depends on $\gamma_{st}$ to be either really close to zero or not.
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/annealing.pdf}
-\caption{\label{fig:ann}Comparison of simulated annealing augmented single (green) and multiple (red) locus calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
+\caption{\label{fig:ann}Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) calculated posteriors for $\boldsymbol{\beta}$, MCMC simulated (histograms) $\boldsymbol{\beta}$ posteriors as well as the real (dashed black line) $\boldsymbol{\beta}$ values.}
 \end{figure}
-In Figure \ref{fig:ann} are plotted the same posteriors as in Figure \ref{fig:no_ann}, but this time we have added a simulated annealing step to the 
-single and multiple locus methods. We have used the same settings than for Figure \ref{fig:no_ann}, hence why the histograms and the real $
-\boldsymbol{\beta}$ are the same for the two situations. We have chosen an initial temperature $T_L = 5$, and we are going to perform ten geometric steps.
+Figure \ref{fig:ann} shows the same posteriors as Figure \ref{fig:no_ann}, but with a simulated annealing step added to LOCUS and averaged LOCUS methods. We have used the same settings than for Figure \ref{fig:no_ann}, hence why the histograms and the real $
+\boldsymbol{\beta}$ are the same for the two situations. We chose an initial temperature $T_L = 5$, and used ten geometric steps.
 
-We can now see that for all four $\beta_s$, the single locus yields a posterior density that is more aligned with the multiple locus method. The posterior given by the single locus has strong density at the same places than the multiple locus posterior. The mode yielded by the simulated annealing augmented single locus seems to have be consequent in the weighted average of the simulated annealing augmented multiple locus.
+We can now see that for all four $\beta_s$, LOCUS yields a posterior density that is more aligned with averaged LOCUS. The posterior given by LOCUS tends to put mass at the same place than the averaged LOCUS posterior.
 
-As for the standard methods, the simulated annealing augmented methods seem to yield a correct posterior for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior around with values condensed around zero, whereas $\beta_4 \neq 0$.
+As for the standard methods, the simulated annealing augmented methods overlap the simulated values for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior with values condensed around zero, whereas $\beta_4 \neq 0$.
 
-When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, we can see that the annealing changed the density of the posterior yielded by the single locus method. In Figure \ref{fig:no_ann}, the density of the posterior for $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they match the real $\boldsymbol{\beta}$. The first simulated annealing steps helped the method get passed the local optima the algorithm yielded and reach what we believe to be the global optima of the posterior density.
+When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, the annealing changed the density of the posterior yielded by the LOCUS method. In Figure \ref{fig:no_ann}, the density of the posterior for $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they overlap the simulated $\boldsymbol{\beta}$. 
 
-Even if the simulated annealing augmented single locus posterior seem to have its values around the real values for $\beta_1$ and $\beta_3$, the simulated annealing augmented multiple locus posterior has some values where the standard single locus posterior had some values. This  means that even in the simulated annealing single locus posterior we represented here has the right values, there is another initialisation of the simulated annealing augmented single locus method that yields a posterior with values around the wrong $\boldsymbol{\beta}$.
+%Even if the simulated annealing augmented single locus posterior seem to have its values around the real values for $\beta_1$ and $\beta_3$, the simulated annealing augmented multiple locus posterior has some values where the standard single locus posterior had some values. This  means that even in the simulated annealing single locus posterior we represented here has the right values, there is another initialisation of the simulated annealing augmented single locus method that yields a posterior with values around the wrong $\boldsymbol{\beta}$. ECRIRE QUE MEME SI PAS VISIBLE SUR CE CAS LA IL EXISTE UNE AUTRE INITIALISATION QUI DONNERAIT AUSSI LE MAUVAIS MODE, CAR LA DENSITE N'EST PAS NULLE ENTRE 1 ET 1.5 CHEZ BETA_1
 
 For $\beta_1$ and $\beta_3$, with the simulated annealing steps, the multiple locus method yields a posterior with a higher density on the true $\boldsymbol{\beta}$ and a lower density on the estimation yielded by the single locus method. The simulated annealing augmented single locus yielding the right $\boldsymbol{\beta}$ gives more weight in the weighted average of the multiple locus method and hence the result shows this change.
+
+Our method, whether with simulated annealing or not, can be implemented in parallel, which can drastically diminish the runtime. Even if the method has to wait until the last iteration to converge, we would still be quicker than calculating the iterations one after the other.
+
 %
 %
 %
@@ -488,7 +505,7 @@ We then assumed most of the parameters independence
 $$
 q(\boldsymbol{\theta}) =\left\lbrace\prod_{s=1}^p \prod_{t=1}^q q(\beta_{st}, \gamma_{st})\right\rbrace \left\lbrace\prod_{s=1}^p  q(\omega_s)\right\rbrace \left\lbrace\prod_{t=1}^q q(\tau_t)\right\rbrace q(\sigma^{-2}),
 $$
-and used the coordinate ascent mean-field algorithm to solve this optimization problem. We ended up with the following posterior distributions:
+and used the coordinate ascent mean-field algorithm to solve this optimisation problem. We ended up with the following posterior distributions:
 \begin{align*}
 \beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} &\sim \mathcal{N}\left(\mu_{\beta, st},\sigma^2_{\beta, st}\right),\\
 \beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} &\sim \delta_0,\\
@@ -535,7 +552,7 @@ An important point for the multiple locus method is that parallel computation is
 \section{Next steps}
 To be able to tell if our algorithm adequately explores the local modes, we want to represent them with the level curves similarly as V. Rockova \cite{rockova} did.
 
-We plan to optimize the code that we implemented, to have an acceptable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's \texttt{R}-package (http://github.com/hruffieux/locus).
+We plan to optimise the code that we implemented, to have an acceptable comparison with the other methods commonly used. If the results are satisfactory, we may include the function in H. Ruffieux's \texttt{R}-package (http://github.com/hruffieux/locus).
 
 Finally, if the results are acceptable, we would like to be able to apply this method on real-life data would be the cherry on top of the cake.
 \newpage

@@ -12,7 +12,7 @@ set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 15; 
+p <- 500; p0 <- 5; 
 d <- 1; d0 <- 1
 
 
@@ -120,7 +120,7 @@ for(seed in sample(1:1e3,iter)){
   set.seed(seed)
   
   
-  vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
+  vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
   #vec_rho <- c(0.99,0.99)
   
   nb_cpus <- 4;
@@ -133,12 +133,12 @@ for(seed in sample(1:1e3,iter)){
   
   p0_av <- 1
   
-  #vec_maf <- runif(p, 0.4, 0.5)
-  vec_maf <- NULL
+  vec_maf <- runif(p, 0.4, 0.5)
+  #vec_maf <- NULL
   
   vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.05 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
