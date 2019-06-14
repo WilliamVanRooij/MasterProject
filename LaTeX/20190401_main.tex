@@ -428,7 +428,7 @@ Firstly, we compare LOCUS and averaged LOCUS. We can clearly see in Figure \ref{
 
 Secondly, we can see that when starting both LOCUS and averaged LOCUS with a simulated annealing step, averaged LOCUS remains more powerful than LOCUS, although the improvement is smaller than it is without simulated annealing. This means that the annealing step does not prevent averaged LOCUS's algorithm to end up selecting multiple different models, in this strongly correlated data scenario. This could be because the chosen initial temperature is not sufficiently high to smooth the densities enough to access the right modes.
 
-Thirdly, annealed LOCUS's variable selection is better than LOCUS's. The simulated annealing step allows the method to reach modes that cannot be reached by the single locus method with certain starting parameters. 
+Thirdly, annealed LOCUS's variable selection is better than LOCUS's. The simulated annealing step allows the method to reach modes that cannot be reached by the LOCUS method with certain starting parameters. 
 
 Fourthly, in the less sparse setting with $50\%$ of variance explained by the predictors (setting C), the simulated effect sizes are weaker and all methods show similar, lower, performances: the averaging or annealing procedures do not lead to much improvement.
 
@@ -447,7 +447,7 @@ For the same reasons, we consider a very small problem i.e., $p=4, q=1$. We are 
 
 In Figure \ref{fig:no_ann}, we have plotted LOCUS and averaged LOCUS calculated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC simulated posteriors and the real values of $\boldsymbol{\beta}$. The orange and blue lines of $\beta_2$ and $\beta_4$ are superimposed.
 
-Firstly, we can see that averaged LOCUS puts mass near the simulated values of $\beta_s$ for every $\beta_s$ but for $\beta_4$, where it finds the same estimation as the MCMC inference and the single locus methods. However, LOCUS only agreed to some extent with the MCMC distribution only for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the performance of the averaged LOCUS is better that the performance of LOCUS.
+Firstly, we can see that averaged LOCUS puts mass near the simulated values of $\beta_s$ for every $\beta_s$ but for $\beta_4$, where it finds the same estimation as the MCMC inference and the LOCUS methods. However, LOCUS only agreed to some extent with the MCMC distribution only for $\beta_2$. This confirms what we read in the ROC curves of Figure \ref{fig:ROCComp}, where we saw that the performance of the averaged LOCUS is better that the performance of LOCUS.
 
 Secondly, when LOCUS and averaged LOCUS do not yield the same value for the parameters, the result of LOCUS is visible in the distribution of averaged LOCUS. This is given by the fact that averaged LOCUS considers the mode obtained from LOCUS in its averaging, and in that case, the mode obtained from LOCUS was relevant. This can be read in Figure \ref{fig:simple_locus}, where we can see that LOCUS selects a wrong SNP and that even if averaged LOCUS selects the right SNP, we can still see in the probabilities of association it calculated, the SNP selected by LOCUS.
 
