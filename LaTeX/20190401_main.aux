@@ -13,67 +13,76 @@
 \citation{hapmap}
 \citation{varInf}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Motivation}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces  Block correlation structure of SNPs taken from Yoruba population HapMap, ENm014 region, chromosome $7$ \cite  {hapmap}. The darker the dot is, the stronger the correlation between the two corresponding SNPs is.}}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces  Block correlation structure of SNPs taken from Yoruba population HapMap, ENm014 region, chromosome $7$ \citep  {hapmap}. The darker the dot, the stronger the correlation between the two corresponding SNPs.}}{5}}
 \newlabel{fig:corr}{{1.1}{5}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Model}{6}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Hierarchical sparse regression for multiple response}{6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{eq:model}{{2}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Model}{6}}
+\newlabel{eq:model}{{2.1}{6}}
+\citation{bay_lin}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Parameters of interest for variable selection}{7}}
 \citation{kl51}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Variational Inference}{8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Variational Inference}{9}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}General principles}{8}}
-\newlabel{sec:gen_princ}{{3.1}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}General principles}{9}}
+\newlabel{sec:gen_princ}{{3.1}{9}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Mean-field approximation}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref  {fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We see that the mean of the approximation is the same as the real mean, but the covariance does not match the covariance of the real posterior.}}{10}}
-\newlabel{fig:mean_field}{{3.1}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Coordinate ascent algorithm}{11}}
-\newlabel{alg:CAVI}{{1}{11}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Coordinate ascent variational inference}}{11}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Multimodality}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces To visualise the mean-field approximation, we consider a two dimensional Gaussian distribution, represented in clear in Figure \ref  {fig:mean_field}. The mean-field approximation of the posterior distribution is represented by the barred circle. We see that the mean of the approximation is the same as the real mean, but the covariance does not match the covariance of the real posterior.}}{11}}
+\newlabel{fig:mean_field}{{3.1}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Coordinate ascent algorithm}{12}}
+\newlabel{alg:CAVI}{{1}{12}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Coordinate ascent variational inference}}{12}}
+\citation{helen}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Multimodality}{14}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Problem statement}{13}}
-\newlabel{sec:pro_stat}{{4.1}{13}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Annealed variational inference}{14}}
-\newlabel{eq:ann_elbo}{{4.1}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Averaged variational inference}{15}}
-\newlabel{eq:post_dist}{{4.2}{15}}
-\newlabel{eq:post_prob}{{4.3}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Problem statement}{14}}
+\newlabel{sec:pro_stat}{{4.1}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Annealed variational inference}{15}}
+\newlabel{sec:ann}{{4.2}{15}}
+\newlabel{eq:ann_elbo}{{4.1}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Averaged variational inference}{16}}
+\newlabel{eq:post_dist}{{4.2}{16}}
+\newlabel{eq:post_prob}{{4.3}{17}}
 \citation{r_locus}
 \citation{r_echoseq}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Simulations}{17}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Simulations}{18}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Preliminary illustration}{17}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt  {locus} function (left) and when doing a weighted average on multiple calls of the \texttt  {locus} function namely, averaged variational inference (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}}{18}}
-\newlabel{fig:simple_locus}{{5.1}{18}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Variable selection performance}{19}}
-\newlabel{sec:varSelPerf}{{5.2}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}}{20}}
-\newlabel{fig:ROCComp}{{5.2}{20}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparison of LOCUS (blue) and averaged LOCUS (orange) calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{22}}
-\newlabel{fig:no_ann}{{5.3}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{23}}
-\newlabel{fig:ann}{{5.4}{23}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{25}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Preliminary illustration}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Probabilities of association of the $50$ first SNPs with a single trait calculated with a single call of the \texttt  {locus} function (left) and when doing a weighted average on multiple calls of the \texttt  {locus} function namely, averaged variational inference (right). In red are the five real associated SNPs. Underneath are the correlations between the different SNPs, they are the same for the two sides as the SNPs used are the same.}}{19}}
+\newlabel{fig:simple_locus}{{5.1}{19}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Variable selection performance}{20}}
+\newlabel{sec:varSelPerf}{{5.2}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Comparison of ROC curves between multiple and single locus, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}}{21}}
+\newlabel{fig:ROCComp}{{5.2}{21}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparison of LOCUS (blue) and averaged LOCUS (orange) calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{23}}
+\newlabel{fig:no_ann}{{5.3}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) calculated posteriors for $\boldsymbol  {\beta }$, MCMC simulated (histograms) $\boldsymbol  {\beta }$ posteriors as well as the real (dashed black line) $\boldsymbol  {\beta }$ values.}}{24}}
+\newlabel{fig:ann}{{5.4}{24}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Running times}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces  Running times of the four methods: LOCUS (blue), annealed LOCUS (green), averaged LOCUS (orange), and averaged annealed LOCUS (red), computed on $500$ SNPs, a single trait, $100$ different initialisations, and averaged over $20$ iterations.}}{26}}
+\newlabel{fig:runtime}{{5.5}{26}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{27}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
 \citation{rockova}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Next steps}{28}}
 \bibdata{references}
-\bibcite{hapmap}{Altshuler and Donnelly, 2005}
-\bibcite{varInf}{{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}, 2018}
-\bibcite{eff_inf}{H\IeC {\'e}l\IeC {\`e}ne~Ruffieux, 2017}
-\bibcite{rockova}{Rockov\IeC {\'a}, 2017}
-\bibcite{r_echoseq}{Ruffieux, 2018}
-\bibcite{r_locus}{Ruffieux, 2019}
-\bibcite{kl51}{{S. Kullback and R. A. Leibler}, 1951}
+\bibcite{hapmap}{{1}{2005}{{Altshuler and Donnelly}}{{}}}
+\bibcite{varInf}{{2}{2018}{{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}}{{}}}
+\bibcite{bay_lin}{{3}{2015}{{Isma\IeC {\"e}l~Castillo}}{{}}}
+\bibcite{kl51}{{4}{1951}{{Kullback and Leibler}}{{}}}
+\bibcite{rockova}{{5}{2017}{{Rockov\IeC {\'a}}}{{}}}
+\bibcite{r_echoseq}{{6}{2018a}{{Ruffieux}}{{}}}
+\bibcite{helen}{{7}{2018b}{{Ruffieux}}{{}}}
+\bibcite{r_locus}{{8}{2019}{{Ruffieux}}{{}}}
+\bibcite{eff_inf}{{9}{2017}{{Ruffieux et~al.}}{{}}}
 \bibstyle{apalike}

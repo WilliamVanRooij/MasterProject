@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  13 JUN 2019 17:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  14 JUN 2019 15:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -159,6 +159,13 @@ Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@line=\toks21
 \verbatim@in@stream=\read1
 )
+(/usr/local/texlive/2018/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip50
+\bibsep=\skip51
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count107
+)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
@@ -256,10 +263,10 @@ ode.tex
 \pgf@yc=\dimen133
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count107
-\c@pgf@countb=\count108
-\c@pgf@countc=\count109
-\c@pgf@countd=\count110
+\c@pgf@counta=\count108
+\c@pgf@countb=\count109
+\c@pgf@countc=\count110
+\c@pgf@countd=\count111
 \t@pgf@toka=\toks26
 \t@pgf@tokb=\toks27
 \t@pgf@tokc=\toks28
@@ -280,8 +287,8 @@ File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
 code.tex
 File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count111
-\pgfsyssoftpath@bigbuffer@items=\count112
+\pgfsyssoftpath@smallbuffer@items=\count112
+\pgfsyssoftpath@bigbuffer@items=\count113
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
 code.tex
@@ -310,7 +317,7 @@ Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen134
-\pgfmath@count=\count113
+\pgfmath@count=\count114
 \pgfmath@box=\box29
 \pgfmath@toks=\toks29
 \pgfmath@stack@operand=\toks30
@@ -335,7 +342,7 @@ code.tex)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
 erarithmetics.code.tex)))
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count114
+\c@pgfmathroundto@lastzeros=\count115
 ))
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
 de.tex
@@ -373,7 +380,7 @@ File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
 \pgfpic=\box30
 \pgf@hbox=\box31
 \pgf@layerbox@main=\box32
-\pgf@picture@serial@count=\count115
+\pgf@picture@serial@count=\count116
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
 ate.code.tex
@@ -408,7 +415,7 @@ File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
 e.tex
 File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
 \pgf@max=\dimen158
-\pgf@sys@shading@range@num=\count116
+\pgf@sys@shading@range@num=\count117
 )
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
 e.tex
@@ -471,7 +478,7 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothan
 dlers.code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count117
+\pgf@plot@mark@count=\count118
 \pgfplotmarksize=\dimen163
 )
 \tikz@lastx=\dimen164
@@ -484,19 +491,19 @@ File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
 \tikz@figbox@bg=\box36
 \tikz@tempbox=\box37
 \tikz@tempbox@bg=\box38
-\tikztreelevel=\count118
-\tikznumberofchildren=\count119
-\tikznumberofcurrentchild=\count120
-\tikz@fig@count=\count121
+\tikztreelevel=\count119
+\tikznumberofchildren=\count120
+\tikznumberofcurrentchild=\count121
+\tikz@fig@count=\count122
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.cod
 e.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count122
-\pgfmatrixcurrentcolumn=\count123
-\pgf@matrix@numberofcolumns=\count124
+\pgfmatrixcurrentrow=\count123
+\pgfmatrixcurrentcolumn=\count124
+\pgf@matrix@numberofcolumns=\count125
 )
-\tikz@expandcount=\count125
+\tikz@expandcount=\count126
 
 (/usr/local/texlive/2018/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarytopaths.code.tex
@@ -504,16 +511,16 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
 (/usr/local/texlive/2018/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count126
+\c@AlgoLine=\count127
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\algocf@hangindent=\skip50
+\algocf@hangindent=\skip52
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
-\c@checkoddpage=\count127
+\c@checkoddpage=\count128
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -521,39 +528,39 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/relsize/relsize.sty
 Package: relsize 2013/03/29 ver 4.1
 )
-\skiptotal=\skip51
-\skiplinenumber=\skip52
-\skiprule=\skip53
-\skiphlne=\skip54
-\skiptext=\skip55
-\skiplength=\skip56
-\algomargin=\skip57
-\skipalgocfslide=\skip58
+\skiptotal=\skip53
+\skiplinenumber=\skip54
+\skiprule=\skip55
+\skiphlne=\skip56
+\skiptext=\skip57
+\skiplength=\skip58
+\algomargin=\skip59
+\skipalgocfslide=\skip60
 \algowidth=\dimen170
 \inoutsize=\dimen171
 \inoutindent=\dimen172
 \interspacetitleruled=\dimen173
 \interspacealgoruled=\dimen174
 \interspacetitleboxruled=\dimen175
-\algocf@ruledwidth=\skip59
+\algocf@ruledwidth=\skip61
 \algocf@inoutbox=\box39
 \algocf@inputbox=\box40
-\AlCapSkip=\skip60
-\AlCapHSkip=\skip61
-\algoskipindent=\skip62
+\AlCapSkip=\skip62
+\AlCapHSkip=\skip63
+\algoskipindent=\skip64
 \algocf@nlbox=\box41
 \algocf@hangingbox=\box42
 \algocf@untilbox=\box43
-\algocf@skipuntil=\skip63
+\algocf@skipuntil=\skip65
 \algocf@capbox=\box44
-\algocf@lcaptionbox=\skip64
-\algoheightruledefault=\skip65
-\algoheightrule=\skip66
-\algotitleheightruledefault=\skip67
-\algotitleheightrule=\skip68
-\c@algocfline=\count128
-\c@algocfproc=\count129
-\c@algocf=\count130
+\algocf@lcaptionbox=\skip66
+\algoheightruledefault=\skip67
+\algoheightrule=\skip68
+\algotitleheightruledefault=\skip69
+\algotitleheightrule=\skip70
+\c@algocfline=\count129
+\c@algocfproc=\count130
+\c@algocf=\count131
 \algocf@algoframe=\box45
 \algocf@algobox=\box46
 )
@@ -565,23 +572,23 @@ File: tikzlibrarypatterns.code.tex 2008/01/15 v3.0.1a (rcs-revision 1.2)
 s.code.tex
 File: pgflibrarypatterns.code.tex 2008/03/03 v3.0.1a (rcs-revision 1.13)
 ))
-\c@lemma=\count131
+\c@lemma=\count132
  (./20190401_main.aux)
 \openout1 = `20190401_main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 26.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 29.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -589,16 +596,16 @@ File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ABD: EveryShipout initializing macros
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count132
+\scratchcounter=\count133
 \scratchdimen=\dimen176
 \scratchbox=\box47
-\nofMPsegments=\count133
-\nofMParguments=\count134
+\nofMPsegments=\count134
+\nofMParguments=\count135
 \everyMPshowfont=\toks34
-\MPscratchCnt=\count135
+\MPscratchCnt=\count136
 \MPscratchDim=\dimen177
-\MPnumerator=\count136
-\makeMPintoPDFobject=\count137
+\MPnumerator=\count137
+\makeMPintoPDFobject=\count138
 \everyMPtoPDFconversion=\toks35
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -659,35 +666,35 @@ e
 [1
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 51.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 54.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 51.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 54.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 51.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 54.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 51.
+(Font)              <10.95> on input line 54.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 51.
+(Font)              <8> on input line 54.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 51.
-LaTeX Font Info:    Try loading font information for U+msa on input line 51.
+(Font)              <6> on input line 54.
+LaTeX Font Info:    Try loading font information for U+msa on input line 54.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 51.
+LaTeX Font Info:    Try loading font information for U+msb on input line 54.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -704,149 +711,116 @@ Chapter 1.
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 77.
+r on input line 80.
 <images/corr_real_SNPs.png, id=28, 192.72pt x 192.72pt>
 File: images/corr_real_SNPs.png Graphic file (type png)
 <use images/corr_real_SNPs.png>
-Package pdftex.def Info: images/corr_real_SNPs.png  used on input line 77.
+Package pdftex.def Info: images/corr_real_SNPs.png  used on input line 80.
 (pdftex.def)             Requested size: 361.34999pt x 361.34798pt.
 
-Overfull \hbox (1.34999pt too wide) in paragraph at lines 77--78
+Overfull \hbox (1.34999pt too wide) in paragraph at lines 80--81
 [][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 78--78
-[]\OT1/lmr/m/n/10.95 Figure 1.1: []Block cor-rel-a-tion struc-ture of SNPs take
-n from
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 78--78
-\OT1/lmr/m/n/10.95 Yor-uba pop-u-la-tion HapMap, ENm014 re-gion, chro-mo-some $
-7$
- []
-
-
-Underfull \hbox (badness 1308) in paragraph at lines 78--78
-\OT1/lmr/m/n/10.95 [[]]. The darker the dot is, the stronger
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Overfull \hbox (71.46088pt too wide) in paragraph at lines 85--86
-\OT1/lmr/m/n/10.95 choose to be vari-ational in-fer-ence [[]]. 
- []
-
 [4] [5 <./images/corr_real_SNPs.png>]
 Chapter 2.
 [6
 
-]
-Overfull \hbox (70.9666pt too wide) detected at line 127
-[]
- []
-
-[7]
+] [7] [8]
 Chapter 3.
+[9
 
-Overfull \hbox (124.64346pt too wide) in paragraph at lines 146--147
-\OT1/lmr/m/n/10.95 ``close-ness'' meas-ure. In-tro-duced in 1951 by Kull-back a
-nd Leibler[[]],
- []
-
-[8
-
-] [9] [10]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 245
+] [10] [11]
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 253
 .
  (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-[11] [12]
+[12] [13]
 Chapter 4.
-[13
+[14
 
-] [14] [15] [16]
+] [15] [16] [17]
 Chapter 5.
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 368
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 377
 .
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 378.
-<images/s_locus.png, id=81, 168.63pt x 157.7895pt>
+r on input line 387.
+<images/s_locus.png, id=85, 168.63pt x 157.7895pt>
 File: images/s_locus.png Graphic file (type png)
 <use images/s_locus.png>
-Package pdftex.def Info: images/s_locus.png  used on input line 378.
+Package pdftex.def Info: images/s_locus.png  used on input line 387.
 (pdftex.def)             Requested size: 195.12877pt x 195.12863pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 379.
-<images/m_locus.png, id=82, 168.63pt x 157.7895pt>
+r on input line 388.
+<images/m_locus.png, id=86, 168.63pt x 157.7895pt>
 File: images/m_locus.png Graphic file (type png)
 <use images/m_locus.png>
-Package pdftex.def Info: images/m_locus.png  used on input line 379.
+Package pdftex.def Info: images/m_locus.png  used on input line 388.
 (pdftex.def)             Requested size: 195.12877pt x 195.12863pt.
 
-Overfull \hbox (32.69087pt too wide) in paragraph at lines 378--380
+Overfull \hbox (32.69087pt too wide) in paragraph at lines 387--389
 [][] [] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[17
+[18
 
-] [18 <./images/s_locus.png> <./images/m_locus.png>]
+] [19 <./images/s_locus.png> <./images/m_locus.png>]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 408.
-<images/ROC_Comp_p0_15_var_0_5.pdf, id=93, 505.89pt x 505.89pt>
+r on input line 417.
+<images/ROC_Comp_p0_15_var_0_5.pdf, id=96, 505.89pt x 505.89pt>
 File: images/ROC_Comp_p0_15_var_0_5.pdf Graphic file (type pdf)
 <use images/ROC_Comp_p0_15_var_0_5.pdf>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.pdf  used on input line 
-408.
+417.
 (pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 409.
-<images/ROC_Comp_p0_15_var_0_8.pdf, id=94, 505.89pt x 505.89pt>
+r on input line 418.
+<images/ROC_Comp_p0_15_var_0_8.pdf, id=97, 505.89pt x 505.89pt>
 File: images/ROC_Comp_p0_15_var_0_8.pdf Graphic file (type pdf)
 <use images/ROC_Comp_p0_15_var_0_8.pdf>
 Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.pdf  used on input line 
-409.
+418.
 (pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 410.
-<images/ROC_Comp_p0_50_var_0_5.pdf, id=95, 505.89pt x 505.89pt>
+r on input line 419.
+<images/ROC_Comp_p0_50_var_0_5.pdf, id=98, 505.89pt x 505.89pt>
 File: images/ROC_Comp_p0_50_var_0_5.pdf Graphic file (type pdf)
 <use images/ROC_Comp_p0_50_var_0_5.pdf>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.pdf  used on input line 
-410.
+419.
 (pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 411.
-<images/ROC_Comp_p0_50_var_0_8.pdf, id=96, 505.89pt x 505.89pt>
+r on input line 420.
+<images/ROC_Comp_p0_50_var_0_8.pdf, id=99, 505.89pt x 505.89pt>
 File: images/ROC_Comp_p0_50_var_0_8.pdf Graphic file (type pdf)
 <use images/ROC_Comp_p0_50_var_0_8.pdf>
 Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.pdf  used on input line 
-411.
+420.
 (pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
 
-Overfull \hbox (18.2382pt too wide) in paragraph at lines 408--413
+Overfull \hbox (18.2382pt too wide) in paragraph at lines 417--422
 [][] []
  []
 
 
-Overfull \hbox (18.2382pt too wide) in paragraph at lines 408--413
+Overfull \hbox (18.2382pt too wide) in paragraph at lines 417--422
 [] [] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19] [20 <./images/ROC_Comp_p0_15_var_0_5.pdf> <./images/ROC_Comp_p0_15_var_0_8
+[20] [21 <./images/ROC_Comp_p0_15_var_0_5.pdf> <./images/ROC_Comp_p0_15_var_0_8
 .pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./images/ROC_Comp_p0_15_var_
@@ -864,14 +838,14 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./images/ROC_Comp_p0_50_var_
 e
 >]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 434.
-<images/no_annealing.pdf, id=128, 845.1575pt x 556.0775pt>
+r on input line 444.
+<images/no_annealing.pdf, id=136, 845.1575pt x 556.0775pt>
 File: images/no_annealing.pdf Graphic file (type pdf)
 <use images/no_annealing.pdf>
-Package pdftex.def Info: images/no_annealing.pdf  used on input line 434.
+Package pdftex.def Info: images/no_annealing.pdf  used on input line 444.
 (pdftex.def)             Requested size: 360.0pt x 270.00012pt.
 
-Overfull \hbox (15.40063pt too wide) in paragraph at lines 432--437
+Overfull \hbox (15.40063pt too wide) in paragraph at lines 442--447
 \OT1/lmr/m/n/10.95 We are in-ter-ested in eval-u-at-ing the pos-terior dis-tri-
 bu-tions of $[] = (\OML/lmm/m/it/10.95 ^^L[]; ^^L[]; ^^L[]; ^^L[]\OT1/lmr/m/n/1
 0.95 )$.
@@ -880,37 +854,35 @@ bu-tions of $[] = (\OML/lmm/m/it/10.95 ^^L[]; ^^L[]; ^^L[]; ^^L[]\OT1/lmr/m/n/1
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21] [22 <./images/no_annealing.pdf>]
+[22] [23 <./images/no_annealing.pdf>]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 447.
-<images/annealing.pdf, id=141, 845.1575pt x 556.0775pt>
+r on input line 457.
+<images/annealing.pdf, id=150, 845.1575pt x 556.0775pt>
 File: images/annealing.pdf Graphic file (type pdf)
 <use images/annealing.pdf>
-Package pdftex.def Info: images/annealing.pdf  used on input line 447.
+Package pdftex.def Info: images/annealing.pdf  used on input line 457.
 (pdftex.def)             Requested size: 360.0pt x 270.00012pt.
- [23 <./images/annealing.pdf>] [24]
+ [24 <./images/annealing.pdf>]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 475.
+<images/runtimes.pdf, id=160, 505.89pt x 505.89pt>
+File: images/runtimes.pdf Graphic file (type pdf)
+<use images/runtimes.pdf>
+Package pdftex.def Info: images/runtimes.pdf  used on input line 475.
+(pdftex.def)             Requested size: 289.07999pt x 289.07971pt.
+ [25]
+[26 <./images/runtimes.pdf>]
 Chapter 6.
-[25
+[27
 
-]
-Overfull \hbox (0.34595pt too wide) in paragraph at lines 501--503
-\OT1/lmr/m/n/10.95 The Kullback--leibler di-ver-gence not be-ing tract-able whe
-reas the lower bound
- []
-
-[26] [27] [28] (./20190401_main.bbl
-Underfull \hbox (badness 4416) in paragraph at lines 9--11
-[]\OT1/lmr/m/n/10.95 David M. Blei,
- []
-
-) [29
+] [28] (./20190401_main.bbl) [29
 
 ] (./20190401_main.aux) ) 
 Here is how much of TeX's memory you used:
- 14487 strings out of 492649
- 283691 string characters out of 6129622
- 345091 words of memory out of 5000000
- 18030 multiletter control sequences out of 15000+600000
+ 14838 strings out of 492649
+ 288017 string characters out of 6129622
+ 351845 words of memory out of 5000000
+ 18376 multiletter control sequences out of 15000+600000
  63310 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,20n,59p,881b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -933,10 +905,10 @@ e1/public/lm/lmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm
 al/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/
 2018/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2018/texmf
 -dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (31 pages, 940882 bytes).
+Output written on 20190401_main.pdf (31 pages, 946541 bytes).
 PDF statistics:
- 228 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
+ 240 PDF objects out of 1000 (max. 8388607)
+ 162 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 67 words of extra memory for PDF output out of 10000 (max. 10000000)
 

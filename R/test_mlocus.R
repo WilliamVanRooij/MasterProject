@@ -99,7 +99,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 1
+iter <- 100
 {
 
   c_pred <- NULL
@@ -114,6 +114,9 @@ iter <- 1
   single_pred_a <-  NULL
   single_lab_a <-  NULL
 }
+
+runtime_s_a <- runtime_s <- runtime_m_a <- runtime_m <- 0
+
 
 for(seed in sample(1:1e3,iter)){
 
@@ -154,11 +157,12 @@ for(seed in sample(1:1e3,iter)){
 user_seed <- sample(1:1e3, 100)
   
   if(T){
-
+      time0_m_a <- proc.time()
       m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus)
-    
+      runtime_m_a <- runtime_m_a + proc.time() - time0_m_a
+      time0_m <- proc.time()
       m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
-    
+      runtime_m <- runtime_m + proc.time() - time0_m
     
     elbo <- NULL
     gam <- NULL
@@ -197,10 +201,12 @@ user_seed <- sample(1:1e3, 100)
     
     
 
-
+time0_s_a <- proc.time()
 single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
+runtime_s_a <- runtime_s_a + proc.time() - time0_s_a
+time0_s <- proc.time()
 single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
-
+runtime_s <- runtime_s + proc.time() - time0_s
 
 single_pred <- cbind(single_pred, single_vb_g$gam_vb)
 single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
@@ -236,14 +242,14 @@ plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
 plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
 plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
-legend(0.075,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
+legend(0.075,0.2, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS"), col=c('blue', 'green','orange', 'red'),lwd=1)
 #dev.off()
 
 par(pty="m")
 
 }
-par(mfrow=c(2,2))
-if(T){
+par(mfrow=c(1,1))
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_locus.png", width=715, height=350 )
   plot(out[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Multiple LOCUS", ylab='')
@@ -251,7 +257,7 @@ if(T){
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("s_locus.png", width=715, height=350 )
   plot(single_vb_g$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Single LOCUS", ylab='')
@@ -259,7 +265,7 @@ if(T){
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_annealed.png", width=715, height=350 )
   plot(out_a[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
@@ -267,11 +273,17 @@ if(T){
   #dev.off()
 }
 
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("s_annealed.png", width=715, height=350 )
   plot(single_vb_g_a$gam_vb[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed single LOCUS", ylab='')
   points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
-
+if(T){
+  #pdf("runtimes.pdf")
+  plot(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),type="h",lwd=50,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods", xaxt="n",xlab="",ylab="Runtimes",ylim=c(0.002,0.028))
+  text(x=c(1,2,3,4),y=c(runtime_s[2]/iter+0.0007,runtime_s_a[2]/iter+0.0007,runtime_m[2]/iter+0.0007,runtime_m_a[2]/iter+0.0007),labels=round(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),3))
+  legend(1.1,0.025, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS"), col=c('blue', 'green','orange', 'red'),lwd=4)
+  #dev.off()
+}

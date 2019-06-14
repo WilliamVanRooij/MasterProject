@@ -9,20 +9,31 @@ Altshuler, D. and Donnelly, P. (2005).
 {David M. Blei, Alp Kucukelbir, Jon D. McAuliffe} (2018).
 \newblock Variational inference: A review for statisticians.
 
-\bibitem[Hélène~Ruffieux, 2017]{eff_inf}
-Hélène~Ruffieux, Anthony C.~Davison, J. H. I.~I. (2017).
-\newblock Efficient inference for genetic association studies with multiple
-  outcomes.
+\bibitem[Ismaël~Castillo, 2015]{bay_lin}
+Ismaël~Castillo, Johannes Schmidt-Hieber, A. v. d.~V. (2015).
+\newblock Bayesian linear regression with sparse priors.
+\newblock {\em Annals of Statistics}, 43.
+
+\bibitem[Kullback and Leibler, 1951]{kl51}
+Kullback, S. and Leibler, R.~A. (1951).
+\newblock On information and sufficiency.
+\newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
 
 \bibitem[Rocková, 2017]{rockova}
 Rocková, V. (2017).
 \newblock Particle em for variable selection.
 
-\bibitem[Ruffieux, 2018]{r_echoseq}
-Ruffieux, H. (2018).
+\bibitem[Ruffieux, 2018a]{r_echoseq}
+Ruffieux, H. (2018a).
 \newblock {\em echoseq: Replication and simulation of genetic variants,
   molecular expression levels and other phenotypic data}.
 \newblock R package version 0.2.3.
+
+\bibitem[Ruffieux, 2018b]{helen}
+Ruffieux, H. (2018b).
+\newblock {\em Large-scale Bayesian Inference for Genetic Association
+  withMultiple Outcomes}.
+\newblock PhD thesis, EPFL.
 
 \bibitem[Ruffieux, 2019]{r_locus}
 Ruffieux, H. (2019).
@@ -30,9 +41,9 @@ Ruffieux, H. (2019).
   of covariate and response variables in regression models}.
 \newblock R package version 0.9.0.
 
-\bibitem[{S. Kullback and R. A. Leibler}, 1951]{kl51}
-{S. Kullback and R. A. Leibler} (1951).
-\newblock On information and sufficiency.
-\newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
+\bibitem[Ruffieux et~al., 2017]{eff_inf}
+Ruffieux, H., Davison, A.~C., Hager, J., and Irincheeva, I. (2017).
+\newblock Efficient inference for genetic association studies with multiple
+  outcomes.
 
 \end{thebibliography}
