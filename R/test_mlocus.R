@@ -99,7 +99,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 100
+iter <- 20
 {
 
   c_pred <- NULL
@@ -280,7 +280,7 @@ if(F){
   points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
-if(T){
+if(F){
   #pdf("runtimes.pdf")
   plot(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),type="h",lwd=50,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods", xaxt="n",xlab="",ylab="Runtimes",ylim=c(0.002,0.028))
   text(x=c(1,2,3,4),y=c(runtime_s[2]/iter+0.0007,runtime_s_a[2]/iter+0.0007,runtime_m[2]/iter+0.0007,runtime_m_a[2]/iter+0.0007),labels=round(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),3))
