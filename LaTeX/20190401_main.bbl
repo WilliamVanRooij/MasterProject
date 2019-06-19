@@ -1,16 +1,17 @@
 \begin{thebibliography}{}
 
-\bibitem[Altshuler and Donnelly, 2005]{hapmap}
-Altshuler, D. and Donnelly, P. (2005).
+\bibitem[Altshuler et~al., 2005]{hapmap}
+Altshuler, D., Donnelly, P., and {International HapMap Consortium} (2005).
 \newblock A haplotype map of the human genome.
-\newblock {\em International HapMap Consortium}.
+\newblock {\em Nature}, 437:1299.
 
-\bibitem[{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe}, 2018]{varInf}
-{David M. Blei, Alp Kucukelbir, Jon D. McAuliffe} (2018).
+\bibitem[Blei et~al., 2017]{varInf}
+Blei, D.~M., Kucukelbir, A., and McAuliffe, J.~D. (2017).
 \newblock Variational inference: A review for statisticians.
+\newblock {\em Journal of the American Statistical Association}, 112:859--877.
 
-\bibitem[Ismaël~Castillo, 2015]{bay_lin}
-Ismaël~Castillo, Johannes Schmidt-Hieber, A. v. d.~V. (2015).
+\bibitem[Castillo et~al., 2015]{bay_lin}
+Castillo, I., Schmidt-Hieber, J., and van~der Vaart, A. (2015).
 \newblock Bayesian linear regression with sparse priors.
 \newblock {\em Annals of Statistics}, 43.
 
@@ -18,10 +19,6 @@ Ismaël~Castillo, Johannes Schmidt-Hieber, A. v. d.~V. (2015).
 Kullback, S. and Leibler, R.~A. (1951).
 \newblock On information and sufficiency.
 \newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
-
-\bibitem[Rocková, 2017]{rockova}
-Rocková, V. (2017).
-\newblock Particle em for variable selection.
 
 \bibitem[Ruffieux, 2018a]{r_echoseq}
 Ruffieux, H. (2018a).
@@ -31,8 +28,8 @@ Ruffieux, H. (2018a).
 
 \bibitem[Ruffieux, 2018b]{helen}
 Ruffieux, H. (2018b).
-\newblock {\em Large-scale Bayesian Inference for Genetic Association
-  withMultiple Outcomes}.
+\newblock {\em Large-scale variational inference for Bayesian joint regression
+  modelling of high-dimensional genetic data}.
 \newblock PhD thesis, EPFL.
 
 \bibitem[Ruffieux, 2019]{r_locus}
@@ -51,5 +48,6 @@ Ruffieux, H., Davison, A., Hager, J., Inshaw, J., Fairfax, B., Richardson, S.,
 Ruffieux, H., Davison, A.~C., Hager, J., and Irincheeva, I. (2017).
 \newblock Efficient inference for genetic association studies with multiple
   outcomes.
+\newblock {\em Biostatistics}, 18:618--636.
 
 \end{thebibliography}

@@ -1,21 +1,21 @@
 \babel@toc {british}{}
-\contentsline {chapter}{\numberline {1}Introduction}{3}
-\contentsline {section}{\numberline {1.1}Situation}{3}
-\contentsline {section}{\numberline {1.2}Motivation}{4}
-\contentsline {chapter}{\numberline {2}Hierarchical sparse regression for multiple responses}{6}
-\contentsline {section}{\numberline {2.1}Model}{6}
-\contentsline {section}{\numberline {2.2}Parameters of interest for variable selection}{7}
-\contentsline {chapter}{\numberline {3}Variational Inference}{9}
-\contentsline {section}{\numberline {3.1}General principles}{9}
-\contentsline {section}{\numberline {3.2}Mean-field approximation}{10}
-\contentsline {section}{\numberline {3.3}Coordinate ascent algorithm}{11}
-\contentsline {chapter}{\numberline {4}Multimodality}{13}
-\contentsline {section}{\numberline {4.1}Problem statement}{13}
-\contentsline {section}{\numberline {4.2}Annealed variational inference}{14}
-\contentsline {section}{\numberline {4.3}Averaged variational inference}{15}
-\contentsline {chapter}{\numberline {5}Simulations}{18}
-\contentsline {section}{\numberline {5.1}Preliminary illustration}{18}
-\contentsline {section}{\numberline {5.2}Variable selection performance}{20}
-\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{22}
-\contentsline {section}{\numberline {5.4}Running times}{24}
-\contentsline {chapter}{\numberline {6}Conclusion}{26}
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {1.1}Situation}{2}
+\contentsline {section}{\numberline {1.2}Motivation}{2}
+\contentsline {chapter}{\numberline {2}Hierarchical sparse regression for multiple responses}{5}
+\contentsline {section}{\numberline {2.1}Model}{5}
+\contentsline {section}{\numberline {2.2}Parameters of interest for variable selection}{6}
+\contentsline {chapter}{\numberline {3}Variational Inference}{7}
+\contentsline {section}{\numberline {3.1}General principles}{7}
+\contentsline {section}{\numberline {3.2}Mean-field approximation}{8}
+\contentsline {section}{\numberline {3.3}Coordinate ascent}{8}
+\contentsline {chapter}{\numberline {4}Multimodality}{11}
+\contentsline {section}{\numberline {4.1}Problem statement}{11}
+\contentsline {section}{\numberline {4.2}Annealed variational inference}{11}
+\contentsline {section}{\numberline {4.3}Averaged variational inference}{13}
+\contentsline {chapter}{\numberline {5}Simulations}{14}
+\contentsline {section}{\numberline {5.1}Preliminary illustration}{14}
+\contentsline {section}{\numberline {5.2}Variable selection performance}{15}
+\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{17}
+\contentsline {section}{\numberline {5.4}Running times}{19}
+\contentsline {chapter}{\numberline {6}Conclusion}{21}
