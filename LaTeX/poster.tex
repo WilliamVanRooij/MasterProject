@@ -1,0 +1,28 @@
+\documentclass[portrait, a0, final]{a0poster}
+
+\usepackage{a0poster}
+
+
+\begin{document}
+\begin{minipage}{0.49\linewidth}
+\section{Situation}
+For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science into the way business is done. With the expansion of computer performance, we are able to implement faster computation and can work with more complex models. The volume of available, hence analysable, data is also growing, which allows more accurate inference.
+
+Often, when trying to find a model for data, we have many more observations than parameters to fit: a \textit{large n, small p} situation. This is the most common type of statistical analysis. Bayesian hierarchical modelling is a valuable tool to identify the dependencies across multiple sources of information, but the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not apply then, because of both statistical and computational constraints.
+
+In this thesis, we will focus on the \textit{small n, large p} situation in the context of genetic association. We will tackle high-dimensional regression in the Bayesian framework, with its statistical advantages and its computational problem, which often dissuades users from adopting this solution in statistical applications.
+
+\section{Motivation}
+Current technology allows us to numerically represent the human genome: a whole new set of data is available to study the influence of the genome on diseases or phenotypes.  Some of these newly-available data measure \textit{genetic variants}, changes at specific locations on  the genome (loci), the different versions of which are called \textit{alleles}. We will focus on the most common category of genetic variants, namely, \textit{single nucleotide polymorphisms} (SNPs), i.e., variations in the nucleotides that are present to some appreciable extent in the population. Some combinations of SNPs are inherited together, which yields block-wise dependence structures.
+
+Figure  shows the correlations between real SNPs, located in region ENm014 on the seventh chromosome , from a Yoruba population . We clearly see a local block structure; outside the blocks, the correlations are not null but very small. A strong block correlation structure means that two SNPs in the same block may be statistically hard to differentiate. The goal is to represent the probabilities of association between a SNP and a trait of interest, while conveying the uncertainty implied by the block correlation in our results.
+
+We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies generally consist of several hundred thousand SNPs and thousands of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of expression outcomes, and $n$ is the number of samples.
+
+Bayesian inference involves many integrals, which usually need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are a standard technique for the approximation of integrals and can be fast and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, MCMC algorithms tend to become very time-consuming. Indeed, when performing MCMC inference, likelihoods and sometimes gradients typically need to be calculated at each iteration, and the cost of these calculations increases with the number of parameters. Moreover, the higher the dimension, the less accurate the approximations, and more iterations are needed to reach a given precision. For the algorithm to end, all the parameters need to have converged, meaning that they all need to be checked and stored, which is often impossible when their number is very high.
+
+\end{minipage}
+\begin{minipage}{0.49\linewidth}
+Second column
+\end{minipage}
+\end{document}

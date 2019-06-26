@@ -7,7 +7,8 @@
 \usepackage{verbatim}
 \usepackage{lmodern}
 \usepackage{tikz}
-%\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage[ruled,vlined]{algorithm2e}
 \usetikzlibrary{patterns}
 
 
@@ -17,10 +18,12 @@
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
 \begin{document}
-\title{Master Project:\\Statistical analysis on genomic data}
-\subtitle{Mid-term presentation}
+\SetEndCharOfAlgoLine{}
+
+\title{Averaged Variational Inference for Hierarchical Modelling of Genetic Association}
+\subtitle{Master thesis}
 \author{William van Rooij}
-\institute{EPFL}
+\institute{École Polythecnique Fédérale de Lausanne}
 \date{12.04.19}
 \logo{\includegraphics[width=30px]{images/EPFL_Logo.png}}
 \maketitle
@@ -116,22 +119,28 @@ $$
 
 \begin{frame}
 \frametitle{Coordinate ascent variational inference - CAVI}
-\begin{itemize}
-\item If we fix $q_l(\theta_l)$, $l \neq j$, the optimal for $q_j(\theta_j)$ verifies: $q^*_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j},\boldsymbol{y}\right]\right\rbrace$
-\item \begin{text}
-IN: $p(x,z)$, data set $x$, tolerance $tol$,\\
-OUT: $q(z) = \prod q_j(z_j)$.\\
-INIT: $q_j(z_j)$, \\
-REPEAT:\\
-\quad FOR: $j \in \left\lbrace1, \dots, m\right\rbrace$,\\
-\quad \quad SET: $q_j(z_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(z_j|z_{-j},x)\right]\right\rbrace$.\\
-\quad COMPUTE:\\
-\quad \quad $ELBO^{old}(q) \leftarrow ELBO(q)$.\\
-\quad \quad $ELBO(q) = \mathbb{E}\left[\log p(z,x)\right] - \mathbb{E}\left[\log q(z) \right] $.\\
-UNTIL: $|ELBO(q)-ELBO^{old}(q)|<tol$.\\
-RETURN: $q(z).$
-\end{text}
-\end{itemize}
+\begin{algorithm}[H]
+\SetKwData{ELBO}{$\mathcal{L}(q)$}\SetKwData{OLDELBO}{$\mathcal{L}^{\text{old}}(q)$}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}\SetKwInOut{Init}{initialize}
+\SetKw{Set}{set}
+\Input{$p(\boldsymbol{y},\boldsymbol{\theta})$, dataset $y$, tolerance $\varepsilon$}
+\BlankLine
+\Output{$q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j)$}
+\BlankLine
+\Init{the parameters of each $q(\theta_j)$}
+\BlankLine
+\Repeat{$|$\OLDELBO$-\mathcal{L}(q)| < \varepsilon $}{
+\For{$j\in \left\lbrace 1, \ldots, J \right\rbrace $}{
+\Set{$q_j(\theta_j) \propto \exp\left\lbrace\mathbb{E}_{-j}\left[\log p(\theta_j \mid \boldsymbol{\theta}_{-j}, \boldsymbol{y})\right]\right\rbrace$}}
+\BlankLine
+\OLDELBO$\leftarrow$\ELBO\\
+\ELBO$\leftarrow\mathbb{E}\left[\log p(\boldsymbol{\theta}, \boldsymbol{y})\right]-\mathbb{E}\left[\log q(\boldsymbol{\theta})\right]$
+\BlankLine
+}
+\Return{$q(\boldsymbol{\theta})$}
+\caption{\label{alg:CAVI}Coordinate ascent variational inference}
+\end{algorithm}
 \end{frame}
 
 \begin{frame}
@@ -158,7 +167,7 @@ RETURN: $q(z).$
 \end{frame}
 
 \begin{frame}
-\frametitle{"Bayesian model averaging"}
+\frametitle{Averaged LOCUS}
 \begin{itemize}
 \item Denote $M_k$, $k= 1,\ldots, K$ the models yielded by the local optimums.
 \item $p(\gamma_{st} \mid \boldsymbol{y}) = \sum_{k=1}^{K}p(\gamma_{st}\mid M_k)p(M_k \mid \boldsymbol{y})$,
@@ -169,17 +178,32 @@ RETURN: $q(z).$
 \end{frame}
 
 \begin{frame}
-\frametitle{Implementation}
+\frametitle{Averaged LOCUS}
 \begin{itemize}
 \item Generate SNPs, traits, and associations.
 \item Find the optimums $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
-\item Generate the ELBOs and use them as weights in the weighted average ("BMA").
+\item Generate the ELBOs and use them as weights in the weighted average (Averaged LOCUS).
 \item The function yields probabilities of association between SNPs and traits.
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+\frametitle{Annealed LOCUS \& Averaged annealed LOCUS}
+\begin{itemize}
+\item Temperature $T$,
+\item $p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T}$,
 
+\end{itemize}
+\end{frame}
 
+\begin{frame}
+\frametitle{Meaned LOCUS}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Expected weights averaged LOCUS}
+\end{frame}
 
 \begin{frame}
 \frametitle{Results}
@@ -194,8 +218,6 @@ RETURN: $q(z).$
 \end{itemize}
 \end{frame}
 
-
-
 \begin{frame}
 \frametitle{Weighted averaging with $p_0 = 5$, max var. $=0.5$}
 \begin{figure}
@@ -206,29 +228,12 @@ RETURN: $q(z).$
 
 
 \begin{frame}
-\frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.5$}
-\begin{figure}
-\includegraphics[width=3in]{images/ROC_Comp_p0_15_var_0_5.jpeg}
-\end{figure}
-\end{frame}
-\begin{frame}
 \frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.8$}
 \begin{figure}
-\includegraphics[width=3in]{images/ROC_Comp_p0_15_var_0_8.jpeg}
+\includegraphics[width=3in]{images/ROC_curves.pdf}
 \end{figure}
 \end{frame}
-\begin{frame}
-\frametitle{ROC curves comparison, $p_0 = 50$, max var.$=0.5$}
-\begin{figure}
-\includegraphics[width=3in]{images/ROC_Comp_p0_50_var_0_5.jpeg}
-\end{figure}
-\end{frame}
-\begin{frame}
-\frametitle{ROC curves comparison, $p_0 = 50$, max var.$=0.8$}
-\begin{figure}
-\includegraphics[width=3in]{images/ROC_Comp_p0_50_var_0_8.jpeg}
-\end{figure}
-\end{frame}
+
 
 \begin{frame}
 \frametitle{Results}

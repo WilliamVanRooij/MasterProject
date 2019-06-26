@@ -25,6 +25,8 @@ if(bool_anneal) {
 
 cor_type <- "autocorrelated"; 
 
+sigma_delta <- 1
+
 
 # ================================================================================================================================================ #
 #                                                                                                                                                  #
@@ -107,6 +109,9 @@ iter <- 20
   
   c_pred_m <- NULL
   c_lab_m <- NULL
+
+  c_pred_w <- NULL
+  c_lab_w<- NULL
   
   single_pred <-  NULL
   single_lab <-  NULL
@@ -137,7 +142,7 @@ for(seed in sample(1:1e3,iter)){
   #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
   #ind_p0 <- sample(1:p, p0)
   
-  p0_av <- 1
+  p0_av <- 5
   
   vec_maf <- runif(p, 0.4, 0.5)
   #vec_maf <- NULL
@@ -178,6 +183,8 @@ for(seed in sample(1:1e3,iter)){
     lb_exp_a <- 0
     
     out_m <- 0
+    out_w <- 0
+    w <-  NULL
     
     if(TRUE){
       for(i in c(1:length(user_seed))) {
@@ -195,12 +202,15 @@ for(seed in sample(1:1e3,iter)){
       }
     }
     
-    if(TRUE){
+    if(TRUE){    # Equi-weighted averaged
       for(i in c(1:length(user_seed))){
         out_m <- out_m + m_vb_g[[i]]$gam_vb
+        w <- c(w,exp(-sigma_delta*(sum(as.numeric(m_vb_g[[i]]$gam_vb > mean(m_vb_g[[i]]$gam_vb)))-p0_av)^2))
+        out_w <- out_w + exp(-sigma_delta*(sum(as.numeric(m_vb_g[[i]]$gam_vb > mean(m_vb_g[[i]]$gam_vb)))-p0_av)^2)*m_vb_g[[i]]$gam_vb
       }
       
       out_m <-  out_m/length(user_seed)
+      out_w <- out_w/sum(w)
     }
     
     vec_w_part <- get_p_m_y(elbo)
@@ -233,6 +243,9 @@ for(seed in sample(1:1e3,iter)){
     
     c_pred_m <- cbind(c_pred_m, out_m)
     c_lab_m <- cbind(c_lab_m, c(1:500) %in% ind_p0)
+    
+    c_pred_w <- cbind(c_pred_w, out_w)
+    c_lab_w <- cbind(c_lab_w, c(1:500) %in% ind_p0)
   }
 }
 
@@ -242,6 +255,9 @@ if(T){ # ROC CURVES
   
   pred_m_locus_m <- prediction(c_pred_m, c_lab_m)
   perf_m_locus_m <- performance(pred_m_locus_m, "tpr","fpr")
+  
+  pred_m_locus_w <- prediction(c_pred_w, c_lab_w)
+  perf_m_locus_w <- performance(pred_m_locus_w, "tpr","fpr")
   
   perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
   perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
@@ -259,7 +275,8 @@ if(T){ # ROC CURVES
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
   plot(perf_m_locus_m, avg="vertical", spred.estimate="stderror",spread.scale=2,col='purple',lwd=2,add=T)
-  legend(0.075,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Mean LOCUS"), col=c('blue', 'green','orange', 'red','purple'),lwd=1)
+  plot(perf_m_locus_w, avg="vertical", spred.estimate="stderror",spread.scale=2,col='darkgreen',lwd=2,add=T)
+  legend(0.075,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Meaned LOCUS", "Weighted meaned LOCUS"), col=c('blue', 'green','orange', 'red','purple', 'darkgreen'),lwd=2)
   #dev.off()
   
   par(pty="m")
@@ -297,6 +314,22 @@ if(F){
   points(ind_p0, single_vb_g_a$gam_vb[ind_p0],col='red', type='h', lend=1,lwd=10)
   #dev.off()
 }
+if(T){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("m_annealed.png", width=715, height=350 )
+  plot(out_m[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
+  points(ind_p0, out_m[ind_p0], col = "red",type='h',lend=1,lwd=10)
+  #dev.off()
+}
+if(T){
+  #make_ld_plot(dat_g$snps[,1:50],"r")
+  #png("m_annealed.png", width=715, height=350 )
+  plot(out_w[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
+  points(ind_p0, out_w[ind_p0], col = "red",type='h',lend=1,lwd=10)
+  #dev.off()
+}
+
+
 if(F){
   #pdf("runtimes.pdf")
   plot(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),type="h",lwd=50,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods", xaxt="n",xlab="",ylab="Runtimes",ylim=c(0.002,0.028))

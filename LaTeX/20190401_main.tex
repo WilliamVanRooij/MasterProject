@@ -25,7 +25,7 @@
 \DeclareMathOperator*{\const}{{\rm const}}
 
 \setlength{\parskip}{1em}
-\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[a4paper,top=4cm,bottom=4cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 \title{Averaged Variational Inference for Hierarchical Modelling of Genetic Association}
 \author{William van Rooij}
@@ -52,7 +52,7 @@
 %----------------------------------------------------------------------------------------
 \quad\\[1.5cm]
 %\textsc{\LARGE MSc Thesis}\\[1.5cm] % Name of your university/college
-\textsc{\Large École polytechnique fédérale de Lausanne}\\[0.5cm] % Major heading such as course name
+\textsc{\Large École Polytechnique Fédérale de Lausanne}\\[0.5cm] % Major heading such as course name
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -105,7 +105,7 @@ Prof. Anthony Davison
 \begin{abstract}
 Expression quantitative trait locus (eQTL) analyses study the effects of genetic variants on the expression of transcripts or genes. The data used generally consist of several hundred thousand genetic variants and thousands of transcript expression outcomes. 
 
-In this work, we suppose that the data follow a hierarchical regression model linking the genetic variants and outcomes. We are then confronted with a \textit{small n, large p, large q} situation, where $p$ is the number of genetic variants, $q$ is the number of expression levels, and $n$ is the number of samples. In this situation, MCMC algorithms are not suitable for Bayesian inference as their computational cost is too large. 
+In this work, we suppose that the data follow a hierarchical regression model linking the genetic variants and the outcomes. We are then confronted with a \textit{small n, large p, large q} situation, where $p$ is the number of genetic variants, $q$ is the number of expression levels, and $n$ is the number of samples. In this situation, MCMC algorithms are not suitable for Bayesian inference as their computational cost is too large. 
 
 Here, we present a fast variational algorithm to estimate the associations between genetic variants and traits based on \citet{eff_inf}. We perform a weighted average of variational estimates obtained from different parameter initialisations and augment our method with simulated annealing.
 
@@ -118,9 +118,9 @@ https://github.com/WilliamVanRooij/MasterProject.
 \newpage
 \chapter{Introduction}
 \section{Situation}
-For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science into the way business is done. With the expansion of computer performance, we are able to implement faster computation and can work with more complex models. The volume of available, hence analysable ,data is also growing, which allows more accurate inference.
+For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science into the way business is done. With the expansion of computer performance, we are able to implement faster computation and can work with more complex models. The volume of available, hence analysable, data is also growing, which allows more accurate inference.
 
-Often, when trying to find a model for data, we have many more observations than parameters to fit, a \textit{large n, small p} situation. This is the most common type of statistical analysis. Bayesian hierarchical modelling is a valuable tool to identify the dependencies across multiple sources of information, but the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not then apply, because of both statistical and computational constraints.
+Often, when trying to find a model for data, we have many more observations than parameters to fit: a \textit{large n, small p} situation. This is the most common type of statistical analysis. Bayesian hierarchical modelling is a valuable tool to identify the dependencies across multiple sources of information, but the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not apply then, because of both statistical and computational constraints.
 
 In this thesis, we will focus on the \textit{small n, large p} situation in the context of genetic association. We will tackle high-dimensional regression in the Bayesian framework, with its statistical advantages and its computational problem, which often dissuades users from adopting this solution in statistical applications.
 
@@ -131,15 +131,15 @@ Figure \ref{fig:corr} shows the correlations between real SNPs, located in regio
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=5in,bb = 0 0 200px 200px]{images/corr_real_SNPs.png}
+\includegraphics[width=5in]{images/corrRealSNPs.pdf}
 \caption{\label{fig:corr} Block correlation structure of SNPs taken from a Yoruba population HapMap, ENm014 region, chromosome $7$ \citep{hapmap}. The darker the dot, the stronger the correlation between the two corresponding SNPs.}
 \end{figure}
 
-We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies generally consist of several hundred thousand SNPs and thousand expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of expression outcomes, and $n$ is the number of samples.
+We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies generally consist of several hundred thousand SNPs and thousands of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of expression outcomes, and $n$ is the number of samples.
 
 Bayesian inference involves many integrals, which usually need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are a standard technique for the approximation of integrals and can be fast and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, MCMC algorithms tend to become very time-consuming. Indeed, when performing MCMC inference, likelihoods and sometimes gradients typically need to be calculated at each iteration, and the cost of these calculations increases with the number of parameters. Moreover, the higher the dimension, the less accurate the approximations, and more iterations are needed to reach a given precision. For the algorithm to end, all the parameters need to have converged, meaning that they all need to be checked and stored, which is often impossible when their number is very high.
 
-In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \citep{varInf}. 
+In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \citet{varInf}. 
 
 %==========================================
 \newpage
@@ -329,7 +329,7 @@ $$
 $$
 which penalizes putting mass in $q(\cdot)$ where $p(\cdot)$ has little mass.
 
-The lower bound $\mathcal{L}(q)$ tends to be highly multimodal. The ascent algorithm (Algorithm \ref{alg:CAVI}) risks to get stuck in local modes. The posterior variance underestimation reinforces this risk, putting a lot of mass on one single hypothesis.
+The lower bound $\mathcal{L}(q)$ tends to be highly multimodal, so the ascent algorithm (Algorithm~\ref{alg:CAVI}) risks to get stuck in local modes. The posterior variance underestimation reinforces this risk, putting a lot of mass on one single hypothesis.
 
 To handle this multimodality better, we will explore two routes to enhance variational inference, without changing the model. The first is to introduce a simulated annealing procedure to explore more modes; this was proposed by \citet{glob_loc}. The second is to average over multiple parameter initialisations with weights equal to the posterior model probability corresponding to the obtained mode. We describe these two options in Sections \ref{sec:ann} and \ref{sec:var_inf}.
 \section{Annealed variational inference} \label{sec:ann}
@@ -426,7 +426,7 @@ For our first illustration, we generate $300$ observations of $500$ SNPs, by blo
 \centering
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/s_locus.png}
 \includegraphics[width=2.7in, bb= 0 0 175 175]{images/m_locus.png}
-\caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref{sec:var_inf}. In red are the five SNPs simulated as associated with the response. Underneath are the extreme correlation patterns of the SNPs; they are the same for the two sides as the SNPs used are the same.}
+\caption{\label{fig:simple_locus}Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref{sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a red cross. Underneath are the extreme correlation patterns of the SNPs; they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 
 Figure \ref{fig:simple_locus} shows the probabilities of association of the $50$ first SNPs, out of $500$ used: the LOCUS method is equivalent to choosing a single model $M$ and calculating

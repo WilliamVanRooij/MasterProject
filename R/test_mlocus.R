@@ -160,6 +160,7 @@ user_seed <- sample(1:1e3, 100)
       time0_m_a <- proc.time()
       m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus)
       runtime_m_a <- runtime_m_a + proc.time() - time0_m_a
+      
       time0_m <- proc.time()
       m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
       runtime_m <- runtime_m + proc.time() - time0_m
