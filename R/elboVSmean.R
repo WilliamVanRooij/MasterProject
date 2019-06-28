@@ -101,7 +101,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 20
+iter <- 1
 {
   
   c_pred <- NULL
@@ -183,7 +183,7 @@ for(seed in sample(1:1e3,iter)){
     lb_exp_a <- 0
     
     out_m <- 0
-    out_w <- 0
+    elbo_w <- NULL
     w <-  NULL
     
     if(TRUE){
@@ -206,11 +206,10 @@ for(seed in sample(1:1e3,iter)){
       for(i in c(1:length(user_seed))){
         out_m <- out_m + m_vb_g[[i]]$gam_vb
         w <- c(w,exp(-sigma_delta*(sum(as.numeric(m_vb_g[[i]]$gam_vb > mean(m_vb_g[[i]]$gam_vb)))-p0_av)^2))
-        out_w <- out_w + exp(-sigma_delta*(sum(as.numeric(m_vb_g[[i]]$gam_vb > mean(m_vb_g[[i]]$gam_vb)))-p0_av)^2)*m_vb_g[[i]]$gam_vb
+        elbo_w <- c(elbo_w, m_vb_g[[i]]$lb_opt*exp(-sigma_delta*(sum(as.numeric(m_vb_g[[i]]$gam_vb > mean(m_vb_g[[i]]$gam_vb)))-p0_av)^2))
       }
       
       out_m <-  out_m/length(user_seed)
-      out_w <- out_w/sum(w)
     }
     
     vec_w_part <- get_p_m_y(elbo)
@@ -219,7 +218,8 @@ for(seed in sample(1:1e3,iter)){
     vec_w_part_a <- get_p_m_y(elbo_a)
     out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*"))
     
-    
+    vec_w_part_w <- get_p_m_y(elbo_w)
+    out_w <- colSums(sweep(gam, 1, vec_w_part_w, "*"))
     
     
     time0_s_a <- proc.time()
@@ -276,7 +276,7 @@ if(T){ # ROC CURVES
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
   plot(perf_m_locus_m, avg="vertical", spred.estimate="stderror",spread.scale=2,col='purple',lwd=2,add=T)
   plot(perf_m_locus_w, avg="vertical", spred.estimate="stderror",spread.scale=2,col='darkgreen',lwd=2,add=T)
-  legend(0.075,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Meaned LOCUS", "Weighted meaned LOCUS"), col=c('blue', 'green','orange', 'red','purple', 'darkgreen'),lwd=2)
+  legend(0.075,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)", "Weighted meaned LOCUS"), col=c('blue', 'green','orange', 'red','purple', 'darkgreen'),lwd=2)
   #dev.off()
   
   par(pty="m")
@@ -324,7 +324,7 @@ if(T){
 if(T){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_annealed.png", width=715, height=350 )
-  plot(out_w[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Annealed multiple LOCUS", ylab='')
+  plot(out_w[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Meaned multiple LOCUS", ylab='')
   points(ind_p0, out_w[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }

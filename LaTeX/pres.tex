@@ -17,6 +17,8 @@
 
 \DeclareMathOperator*{\KL}{{\rm KL}}
 
+\newcommand*\mean[1]{\bar{#1}}
+
 \begin{document}
 \SetEndCharOfAlgoLine{}
 
@@ -24,26 +26,37 @@
 \subtitle{Master thesis}
 \author{William van Rooij}
 \institute{École Polythecnique Fédérale de Lausanne}
-\date{12.04.19}
+\date{09.07.19}
 \logo{\includegraphics[width=30px]{images/EPFL_Logo.png}}
 \maketitle
 \begin{frame}
 \begin{itemize}
 \item Introduction
+\item Hierarchical model
 \item Variational inference
-\item Mean-field approximation
-\item Implementation
-\item Results
-\item Next steps
+\item Methods
+\item Simulations
+\item Conclusion
 \end{itemize}
 \end{frame}
+
 \begin{frame}
 \frametitle{Introduction}
+\begin{itemize}
+\item Estimate association between genetic variants and diseases or phenotypes.
+\item The most common genetic variants are single nucleotide polymorphisms (SNPs).
+\item Not many observations compared to the number of parameters, i.e., small $n$, large $p$ situation.
+\item Traditional techniques do not apply, so we need to find an alternative.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Hierarchical model}
 \begin{itemize}
 \item We introduce $X = (X_1,\ldots,X_p)$, and $y = (y_1,\ldots,y_q)$.
 \item A SNP $X_s$ and a trait $y_t$, SNPs are strongly correlated.
 \item Estimate the association between SNP $s$ and trait $t$.
-\item $y_{n\times q} = x_{n\times p}\beta_{p \times q} + \epsilon_{n\times q}\text{, }\epsilon_t \sim \mathcal{N}(0,\tau_t^{-1}I_n)$
+\item $\boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n\times p}\boldsymbol{\beta}_{p \times q} + \boldsymbol{\epsilon}_{n\times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}\boldsymbol{I}_n)$
 \item $y$ is a response matrix, $x$ are candidate predictors.
 
 \item Each response $y_t$ is linearly related with the predictors and has a residual precision $\tau_t \sim $ Gamma$(\eta_t, \kappa_t)$.
@@ -51,17 +64,13 @@
 \end{itemize}
 \end{frame}
 \begin{frame}
-\frametitle{Introduction II}
+\frametitle{Hierarchical model II}
 \begin{itemize}
-\item $s = 1,\ldots,p$, $t=1,\ldots,q$,
-\item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t \sim \gamma_{st}\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\delta_0$,
-
-(spike and slab)
-
+\item For all $s = 1,\ldots,p$, $t=1,\ldots,q$,
+\item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t\; \sim\; \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0$,
 \item $\gamma_{st} \mid \omega_{s} \sim $ Bernoulli$(\omega_s)$,
-
 \item $\omega_s \sim $ Beta$(a_s,b_s)$,
-\item $\tau_t \sim $ Gamma$(\eta_t,\kappa_t)$, $\sigma^{-2} \sim $ Gamma$(\lambda,\nu)$,
+\item $\tau_t \sim $ and $\sigma^{-2} \sim $ have Gamma priors,
 \item $a_s, b_s$ chosen to enforce sparsity. We define $p^*$ the expected number of predictors involved in the model. Then, \textit{e.g.}:
 $$
 a_s \equiv 1\text{, }b_s \equiv q(p-p^*)/p^*
@@ -72,10 +81,10 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Introduction III}
+\frametitle{Hierarchical model III}
 \begin{itemize}
 \item Markov Chain Monte Carlo algorithms (MCMC) are the usual way to approximate inference in relatively small datasets.
-\item $p$ and $q$ are large compared to $n$.
+\item small $n$, large $p$, large $q$.
 \item MCMC gets time consuming, computational cost of operations increases with the number of parameters.
 \item Number of iterations needed increases with the number of parameters.
 \item Variational inference is an alternative to MCMC. 
@@ -118,7 +127,7 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Coordinate ascent variational inference - CAVI}
+\frametitle{Coordinate ascent variational inference algorithm}
 \begin{algorithm}[H]
 \SetKwData{ELBO}{$\mathcal{L}(q)$}\SetKwData{OLDELBO}{$\mathcal{L}^{\text{old}}(q)$}
 \SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
@@ -144,7 +153,7 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Coordinate ascent variational inference - CAVI II}
+\frametitle{Coordinate ascent variational inference algorithm II}
 \begin{itemize}
 \item $\mathcal{L}(q)$ is guaranteed to increase at every iteration.
 \item We assume there exists a best model and we want to find it
@@ -155,7 +164,7 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Parameters distributions}
+\frametitle{Parameters posterior distributions}
 \begin{itemize}
 \item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
 \item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
@@ -183,6 +192,7 @@ $$
 \item Generate SNPs, traits, and associations.
 \item Find the optimums $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
 \item Generate the ELBOs and use them as weights in the weighted average (Averaged LOCUS).
+\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
 \item The function yields probabilities of association between SNPs and traits.
 \end{itemize}
 \end{frame}
@@ -197,12 +207,20 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Meaned LOCUS}
-
+\frametitle{Averaged LOCUS with equal weights}
+\begin{itemize}
+\item Instead of using the lower bound as weights, we average over all the models with equal weights.
+\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
+\end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Expected weights averaged LOCUS}
+\begin{itemize}
+\item Weights depending on the number of associated SNPs
+\item $w_j \propto \exp \left\lbrace-(\#\left[\gamma_{st} > \mean{\gamma}_{st}\right]-p_0)^2\right\rbrace$
+\item $p_0$ is the expected number of associated SNPs per trait $t$.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
