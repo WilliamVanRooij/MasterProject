@@ -16,6 +16,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \DeclareMathOperator*{\KL}{{\rm KL}}
+\DeclareMathOperator*{\const}{{\rm const}}
 
 \newcommand*\mean[1]{\bar{#1}}
 
@@ -27,7 +28,7 @@
 \author{William van Rooij}
 \institute{École Polythecnique Fédérale de Lausanne}
 \date{09.07.19}
-\logo{\includegraphics[width=30px]{images/EPFL_Logo.png}}
+\logo{\includegraphics[bb=0 0 600 200,width=30px]{images/EPFL_Logo.png}}
 \maketitle
 \begin{frame}
 \begin{itemize}
@@ -198,11 +199,37 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Annealed LOCUS \& Averaged annealed LOCUS}
+\frametitle{Annealed LOCUS}
 \begin{itemize}
-\item Temperature $T$,
+\item Temperature $T$, ``smoothing'' the density of interest, and gets lower until initial density is reached.
 \item $p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T}$,
+\item $\mathcal{L}_T(q_T) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta}$
 
+\end{itemize}
+\begin{align*}
+\mathcal{L}_T(q) &= \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const,\\
+&= T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const.
+\end{align*}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Annealed LOCUS II}
+\begin{itemize}
+\item Geometric spacing,
+\begin{equation*}
+T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
+\end{equation*}
+\item harmonic spacing,
+\begin{equation*}
+T_l = 1 + \Delta(l-1), \quad \Delta =\frac{T_L-1}{L-1},
+\end{equation*}
+\item linear spacing,
+\begin{equation*}
+T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
+\end{equation*}
+
+\item We can also combine annealing with the Averaged LOCUS method, which we call Averaged annealed LOCUS.
 \end{itemize}
 \end{frame}
 
@@ -214,14 +241,14 @@ $$
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Expected weights averaged LOCUS}
-\begin{itemize}
-\item Weights depending on the number of associated SNPs
-\item $w_j \propto \exp \left\lbrace-(\#\left[\gamma_{st} > \mean{\gamma}_{st}\right]-p_0)^2\right\rbrace$
-\item $p_0$ is the expected number of associated SNPs per trait $t$.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Expected weights averaged LOCUS}
+%\begin{itemize}
+%\item Weights depending on the number of associated SNPs
+%\item $w_j \propto \exp \left\lbrace-(\#\left[\gamma_{st} > \mean{\gamma}_{st}\right]-p_0)^2\right\rbrace$
+%\item $p_0$ is the expected number of associated SNPs per trait $t$.
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Results}
@@ -237,10 +264,10 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Weighted averaging with $p_0 = 5$, max var. $=0.5$}
+\frametitle{LOCUS VS. Averaged LOCUS with $p_0 = 5$, max var. $=0.5$}
 \begin{figure}
-\includegraphics[width=2.1in]{images/CorrSingle.png}
-\includegraphics[width=2.1in]{images/CorrWeights.png}
+\includegraphics[width=2.1in]{images/s_locus.png}
+\includegraphics[width=2.1in]{images/m_locus.png}
 \end{figure}
 \end{frame}
 
@@ -252,6 +279,12 @@ $$
 \end{figure}
 \end{frame}
 
+\begin{frame}
+\frametitle{Runtimes}
+\begin{figure}
+\includegraphics[width=3in]{images/runtimes.pdf}
+\end{figure}
+\end{frame}
 
 \begin{frame}
 \frametitle{Results}
@@ -263,11 +296,18 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Next steps}
+\frametitle{Conclusion}
+\begin{itemize}
+\item On strong correlated structures, Averaged LOCUS performs better than LOCUS.
+\item The weights do not necessarily improve the performance.
+\item Simulated annealing improves the standard LOCUS, but less Averaged LOCUS.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion II}
 \begin{itemize}
 \item Optimization of the code, $\rightarrow$ ev. integration to R-package,
-\item Comparison with annealing and non-weighted averaging for strong correlations.
-\item Do we find the right modes? 2D visualisations (Rocková).
 \item Application to real data.
 
 \end{itemize}

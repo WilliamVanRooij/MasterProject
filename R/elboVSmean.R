@@ -12,7 +12,7 @@ set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 
@@ -101,7 +101,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 1
+iter <- 20
 {
   
   c_pred <- NULL
@@ -149,7 +149,7 @@ for(seed in sample(1:1e3,iter)){
   
   vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
@@ -275,8 +275,8 @@ if(T){ # ROC CURVES
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
   plot(perf_m_locus_m, avg="vertical", spred.estimate="stderror",spread.scale=2,col='purple',lwd=2,add=T)
-  plot(perf_m_locus_w, avg="vertical", spred.estimate="stderror",spread.scale=2,col='darkgreen',lwd=2,add=T)
-  legend(0.075,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)", "Weighted meaned LOCUS"), col=c('blue', 'green','orange', 'red','purple', 'darkgreen'),lwd=2)
+  #plot(perf_m_locus_w, avg="vertical", spred.estimate="stderror",spread.scale=2,col='darkgreen',lwd=2,add=T)
+  legend(0.05,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)"), col=c('blue', 'green','orange', 'red','purple'),lwd=2)
   #dev.off()
   
   par(pty="m")
@@ -321,7 +321,7 @@ if(T){
   points(ind_p0, out_m[ind_p0], col = "red",type='h',lend=1,lwd=10)
   #dev.off()
 }
-if(T){
+if(F){
   #make_ld_plot(dat_g$snps[,1:50],"r")
   #png("m_annealed.png", width=715, height=350 )
   plot(out_w[1:50],type='h',lwd=10,lend=1,xlab='',col='#a4a4a4', xaxt='n',main ="Probability of association - Meaned multiple LOCUS", ylab='')
