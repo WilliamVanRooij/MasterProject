@@ -1,10 +1,5 @@
 \begin{thebibliography}{}
 
-\bibitem[Altshuler et~al., 2005]{hapmap}
-Altshuler, D., Donnelly, P., and {International HapMap Consortium} (2005).
-\newblock A haplotype map of the human genome.
-\newblock {\em Nature}, 437:1299.
-
 \bibitem[Blei et~al., 2017]{varInf}
 Blei, D.~M., Kucukelbir, A., and McAuliffe, J.~D. (2017).
 \newblock Variational inference: A review for statisticians.
@@ -15,16 +10,10 @@ Kullback, S. and Leibler, R.~A. (1951).
 \newblock On information and sufficiency.
 \newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
 
-\bibitem[Ruffieux, 2019]{r_locus}
-Ruffieux, H. (2019).
-\newblock {\em locus: Large-scale variational inference for combined selection
-  of covariate and response variables in regression models}.
-\newblock R package version 0.9.0.
-
-\bibitem[Ruffieux et~al., 2018]{glob_loc}
-Ruffieux, H., Davison, A., Hager, J., Inshaw, J., Fairfax, B., Richardson, S.,
-  and Bottolo, L. (2018).
-\newblock A global-local approach for detecting hotspots in multiple-response
-  regression.
+\bibitem[Ruffieux et~al., 2017]{eff_inf}
+Ruffieux, H., Davison, A.~C., Hager, J., and Irincheeva, I. (2017).
+\newblock Efficient inference for genetic association studies with multiple
+  outcomes.
+\newblock {\em Biostatistics}, 18:618--636.
 
 \end{thebibliography}

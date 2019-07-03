@@ -12,7 +12,7 @@ set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 5; 
+p <- 500; p0 <- 15; 
 d <- 1; d0 <- 1
 
 
@@ -130,9 +130,9 @@ for(seed in sample(1:1e3,iter)){
   
   ind_d0 <-  sample(1:d, d0)
   
-  ind_p0 <- c(3,13,17,23,43)
+  #ind_p0 <- c(3,13,17,23,43)
   #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
-  #ind_p0 <- sample(1:p, p0)
+  ind_p0 <- sample(1:p, p0)
   
   p0_av <- 1
   
@@ -141,7 +141,7 @@ for(seed in sample(1:1e3,iter)){
   
   vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
@@ -224,7 +224,7 @@ c_lab_a <- cbind(c_lab_a, c(1:500) %in% ind_p0)
   }
 }
 
-if(F){ # ROC CURVES
+if(T){ # ROC CURVES
   pred_m_locus <- prediction(c_pred, c_lab)
   pred_s_locus <- prediction(single_pred, single_lab)
   
@@ -239,7 +239,7 @@ if(F){ # ROC CURVES
   
 par(pty="s")
 #pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
-plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8")),xlim=c(0,0.2))
+plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5")),xlim=c(0,0.2))
 plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
 plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
 plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
@@ -283,8 +283,8 @@ if(F){
 }
 if(F){
   #pdf("runtimes.pdf")
-  plot(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),type="h",lwd=50,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods", xaxt="n",xlab="",ylab="Runtimes",ylim=c(0.002,0.028))
-  text(x=c(1,2,3,4),y=c(runtime_s[2]/iter+0.0007,runtime_s_a[2]/iter+0.0007,runtime_m[2]/iter+0.0007,runtime_m_a[2]/iter+0.0007),labels=round(c(runtime_s[2]/iter,runtime_s_a[2]/iter,runtime_m[2]/iter,runtime_m_a[2]/iter),3))
-  legend(1.1,0.025, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS"), col=c('blue', 'green','orange', 'red'),lwd=4)
+  plot(c(runtime_s[3]/iter,runtime_s_a[3]/iter,runtime_m[3]/iter,runtime_m_a[3]/iter),type="h",lwd=50,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods (in seconds)", xaxt="n",xlab="",ylab="Runtimes")
+  text(x=c(1,2,3,4),y=c(runtime_s[3]/iter+0.05,runtime_s_a[3]/iter+0.05,runtime_m[3]/iter+0.05,runtime_m_a[3]/iter+0.05),labels=round(c(runtime_s[3]/iter,runtime_s_a[3]/iter,runtime_m[3]/iter,runtime_m_a[3]/iter),2))
+  legend(1.1,2, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS"), col=c('blue', 'green','orange', 'red'),lwd=4)
   #dev.off()
 }

@@ -138,11 +138,11 @@ for(seed in sample(1:1e3,iter)){
   
   ind_d0 <-  sample(1:d, d0)
   
-  ind_p0 <- c(3,13,17,23,43)
+  #ind_p0 <- c(3,13,17,23,43)
   #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
-  #ind_p0 <- sample(1:p, p0)
+  ind_p0 <- sample(1:p, p0)
   
-  p0_av <- 5
+  p0_av <- 15
   
   vec_maf <- runif(p, 0.4, 0.5)
   #vec_maf <- NULL
@@ -270,7 +270,7 @@ if(T){ # ROC CURVES
   
   par(pty="s")
   #pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
