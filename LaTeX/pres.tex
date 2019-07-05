@@ -11,6 +11,7 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usetikzlibrary{patterns}
 
+\usetheme{Frankfurt}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -25,8 +26,9 @@
 
 \title{Averaged Variational Inference for Hierarchical Modelling of Genetic Association}
 \subtitle{Master thesis}
-\author{William van Rooij}
-\institute{École Polythecnique Fédérale de Lausanne}
+\author{William van Rooij\\
+{\small supervised by Hélène Ruffieux and Anthony Davison}}
+\institute{École Polytechnique Fédérale de Lausanne}
 \date{09.07.19}
 \logo{\includegraphics[bb=0 0 600 200,width=30px]{images/EPFL_Logo.png}}
 \maketitle
@@ -58,7 +60,7 @@
 \item A SNP $X_s$ and a trait $y_t$, SNPs are strongly correlated.
 \item Estimate the association between SNP $s$ and trait $t$.
 \item $\boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n\times p}\boldsymbol{\beta}_{p \times q} + \boldsymbol{\epsilon}_{n\times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}\boldsymbol{I}_n)$
-\item $y$ is a response matrix, $x$ are candidate predictors.
+\item $\boldsymbol{y}$ is a response matrix, $\boldsymbol{X}$ are candidate predictors.
 
 \item Each response $y_t$ is linearly related with the predictors and has a residual precision $\tau_t \sim $ Gamma$(\eta_t, \kappa_t)$.
 
@@ -68,14 +70,12 @@
 \frametitle{Hierarchical model II}
 \begin{itemize}
 \item For all $s = 1,\ldots,p$, $t=1,\ldots,q$,
+\item $\boldsymbol{y}_t \mid \boldsymbol{\beta}_t, \tau_t\; \sim\; \mathcal{N}(\boldsymbol{X\beta}_t,\tau_t^{-1}\boldsymbol{I}_n)$,
 \item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t\; \sim\; \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0$,
 \item $\gamma_{st} \mid \omega_{s} \sim $ Bernoulli$(\omega_s)$,
 \item $\omega_s \sim $ Beta$(a_s,b_s)$,
-\item $\tau_t \sim $ and $\sigma^{-2} \sim $ have Gamma priors,
-\item $a_s, b_s$ chosen to enforce sparsity. We define $p^*$ the expected number of predictors involved in the model. Then, \textit{e.g.}:
-$$
-a_s \equiv 1\text{, }b_s \equiv q(p-p^*)/p^*
-$$
+\item $a_s, b_s$ chosen to enforce sparsity,
+\item $\tau_t$ and $\sigma^{-2}$ have Gamma priors.
 
 \end{itemize}
 
@@ -88,16 +88,21 @@ $$
 \item small $n$, large $p$, large $q$.
 \item MCMC gets time consuming, computational cost of operations increases with the number of parameters.
 \item Number of iterations needed increases with the number of parameters.
-\item Variational inference is an alternative to MCMC. 
+\item Variational inference as an alternative to MCMC. 
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Variational inference}
+\frametitle{Variational Inference}
 \begin{itemize}
 \item Observed data $\boldsymbol{y}$, parameters $\boldsymbol{\theta}$, posterior distribution of parameters $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
-\item Approximate the posterior density with a simpler density $q$, minimizing a "closeness" measure: the Kullback-Leibler divergence.
+\item Approximate the posterior density with a simpler density $q$, minimizing a "closeness" measure: the reverse Kullback--Leibler divergence.
 \item $\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\dfrac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}$.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Variational Inference II}
+\begin{itemize}
 \item Evidence lower bound (ELBO): $\mathcal{L}(q) = \mathbb{E}_q\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}_q\left[\log q(\boldsymbol{\theta})\right]$.
 \item $\KL(q\parallel p) = \log(p) - \mathcal{L}(q)$.
 \item Minimizing KL is equivalent to maximizing ELBO.
@@ -314,6 +319,7 @@ T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
 \end{frame}
 
 \begin{frame}
+\frametitle{Thank you}
 Thank you for your time.
 \end{frame}
 \end{document}

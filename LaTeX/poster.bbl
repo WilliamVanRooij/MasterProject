@@ -5,11 +5,6 @@ Blei, D.~M., Kucukelbir, A., and McAuliffe, J.~D. (2017).
 \newblock Variational inference: A review for statisticians.
 \newblock {\em Journal of the American Statistical Association}, 112:859--877.
 
-\bibitem[Kullback and Leibler, 1951]{kl51}
-Kullback, S. and Leibler, R.~A. (1951).
-\newblock On information and sufficiency.
-\newblock {\em The Annals of Mathematical Statistics}, 22:79--86.
-
 \bibitem[Ruffieux et~al., 2017]{eff_inf}
 Ruffieux, H., Davison, A.~C., Hager, J., and Irincheeva, I. (2017).
 \newblock Efficient inference for genetic association studies with multiple
