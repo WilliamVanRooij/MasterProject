@@ -164,8 +164,6 @@ $$
 \item $\mathcal{L}(q)$ is guaranteed to increase at every iteration.
 \item We assume there exists a best model and we want to find it
 \item CAVI yields a local optimum, depending on the initialization of the parameters.
-\item Another possible solution is annealing, which consists of "heating" the distribution to have only a global maximum.
-\item Annealing yields a unique model, so averaging might better represent the incertitude.
 \end{itemize}
 \end{frame}
 
@@ -184,8 +182,18 @@ $$
 \begin{frame}
 \frametitle{Averaged LOCUS}
 \begin{itemize}
+\item Find the optima $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
+\item Generate the ELBOs and use them as weights in the weighted average.
+\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
+\item The function yields probabilities of association between SNPs and traits.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Averaged LOCUS}
+\begin{itemize}
 \item Denote $M_k$, $k= 1,\ldots, K$ the models yielded by the local optimums.
-\item $p(\gamma_{st} \mid \boldsymbol{y}) = \sum_{k=1}^{K}p(\gamma_{st}\mid M_k)p(M_k \mid \boldsymbol{y})$,
 \item $p(M_k \mid \boldsymbol{y}) = \dfrac{p(\boldsymbol{y} \mid M_k)p(M_k)}{\sum_{j=1}^{K}p(\boldsymbol{y}\mid M_j)p(M_j)},$
 \item $\mathcal{L}(q)$ serves as an approximation of $\log p(\boldsymbol{y} \mid M_k)$, as $\KL(q\parallel p) = \log p(\boldsymbol{y}) - \mathcal{L}(q)$.
 \item $p(M_k)$ is the prior probability of the models, we consider them to be equiprobable: $p(M_k) = 1/K$, $\forall k = 1,\ldots,K$.
@@ -193,20 +201,9 @@ $$
 \end{frame}
 
 \begin{frame}
-\frametitle{Averaged LOCUS}
-\begin{itemize}
-\item Generate SNPs, traits, and associations.
-\item Find the optimums $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
-\item Generate the ELBOs and use them as weights in the weighted average (Averaged LOCUS).
-\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
-\item The function yields probabilities of association between SNPs and traits.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
 \frametitle{Annealed LOCUS}
 \begin{itemize}
-\item Temperature $T$, ``smoothing'' the density of interest, and gets lower until initial density is reached.
+\item Temperature $T$, ``smoothing'' the density of interest, and gets lower until initial density is reached. Then, perform a standard LOCUS from the reached parameters.
 \item $p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T}$,
 \item $\mathcal{L}_T(q_T) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta}$
 
@@ -225,16 +222,8 @@ $$
 \begin{equation*}
 T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
 \end{equation*}
-\item harmonic spacing,
-\begin{equation*}
-T_l = 1 + \Delta(l-1), \quad \Delta =\frac{T_L-1}{L-1},
-\end{equation*}
-\item linear spacing,
-\begin{equation*}
-T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
-\end{equation*}
 
-\item We can also combine annealing with the Averaged LOCUS method, which we call Averaged annealed LOCUS.
+\item We can combine annealing with the Averaged LOCUS method, which we call Averaged annealed LOCUS.
 \end{itemize}
 \end{frame}
 
@@ -242,7 +231,7 @@ T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
 \frametitle{Averaged LOCUS with equal weights}
 \begin{itemize}
 \item Instead of using the lower bound as weights, we average over all the models with equal weights.
-\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
+\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]=\frac{1}{K} \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]$
 \end{itemize}
 \end{frame}
 
@@ -256,7 +245,7 @@ T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
 %\end{frame}
 
 \begin{frame}
-\frametitle{Results}
+\frametitle{Simulations}
 \begin{itemize}
 \item $n = 300$ observations,
 \item $p = 500$ SNPs, with $p_0$ associated SNPs,
@@ -292,7 +281,7 @@ T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1}.
 \end{frame}
 
 \begin{frame}
-\frametitle{Results}
+\frametitle{Remarks}
 \begin{itemize}
 \item Paralleled computation is possible.
 \item The difference is bigger when phenotypic variance is better explained from the SNPs.
