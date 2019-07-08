@@ -46,8 +46,9 @@
 \begin{frame}
 \frametitle{Introduction}
 \begin{itemize}
-\item Estimate association between genetic variants and diseases or phenotypes.
+\item Estimate associations between genetic variants and diseases or phenotypes.
 \item The most common genetic variants are single nucleotide polymorphisms (SNPs).
+\item SNPs are strongly correlated with a block pattern.
 \item Not many observations compared to the number of parameters, i.e., small $n$, large $p$ situation.
 \item Traditional techniques do not apply, so we need to find an alternative.
 \end{itemize}
@@ -63,9 +64,9 @@
 \begin{frame}
 \frametitle{Hierarchical model}
 \begin{itemize}
-\item We introduce $X = (X_1,\ldots,X_p)$, and $y = (y_1,\ldots,y_q)$.
-\item A SNP $X_s$ and a trait $y_t$, SNPs are strongly correlated.
-\item Estimate the association between SNP $s$ and trait $t$.
+\item We introduce $\boldsymbol{X} = (\boldsymbol{X}_1,\ldots,\boldsymbol{X}_p)$, and $\boldsymbol{y} = (\boldsymbol{y}_1,\ldots,\boldsymbol{y}_q)$,
+\item A SNP $\boldsymbol{X}_s$ and a trait $\boldsymbol{y}_t$,
+\item Estimate the association between SNP $s$ and trait $t$,
 \item For all $s = 1,\ldots,p$, $t=1,\ldots,q$,
 \item $\boldsymbol{y}_t \mid \boldsymbol{\beta}_t, \tau_t\; \sim\; \mathcal{N}(\boldsymbol{X\beta}_t,\tau_t^{-1}\boldsymbol{I}_n)$,
 \item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t\; \sim\; \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0$,
@@ -82,10 +83,10 @@
 \frametitle{Hierarchical model}
 \begin{itemize}
 \item Markov Chain Monte Carlo algorithms (MCMC) are the usual way to approximate inference in relatively small datasets.
-\item small $n$, large $p$, large $q$.
+\item This is a small $n$, large $p$, large $q$ situation.
 \item MCMC gets time consuming, computational cost of operations increases with the number of parameters.
 \item Number of iterations needed increases with the number of parameters.
-\item Variational inference as an alternative to MCMC. 
+\item Variational inference as an alternative to MCMC inference. 
 \end{itemize}
 \end{frame}
 
@@ -95,6 +96,7 @@
 \item Observed data $\boldsymbol{y}$, parameters $\boldsymbol{\theta}$, posterior distribution of parameters $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
 \item Approximate the posterior density with a simpler density $q$, minimizing a "closeness" measure: the reverse Kullback--Leibler divergence.
 \item $\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left\lbrace\dfrac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right\rbrace \mathrm{d}\boldsymbol{\theta}$.
+\item $\KL$ difficult to minimize.
 \end{itemize}
 \end{frame}
 \begin{frame}
@@ -103,6 +105,7 @@
 \item Evidence lower bound (ELBO): $\mathcal{L}(q) = \mathbb{E}_q\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}_q\left[\log q(\boldsymbol{\theta})\right]$.
 \item $\KL(q\parallel p) = \log(p) - \mathcal{L}(q)$.
 \item Minimizing KL is equivalent to maximizing ELBO.
+\item It is easier to maximize ELBO than to minimize KL.
 \end{itemize}
 \end{frame}
 
@@ -182,12 +185,12 @@ $$
 \item High multimodality of $\mathcal{L}(q)$,
 \item mean-field independence assumption,
 \item reverse Kullback--Leibler divergence optimization,
-\item $\Rightarrow$ variational inference underestimates posterior variances
+\item $\Rightarrow$ variational inference underestimates posterior variances,
 \item $\Rightarrow$ tends to concentrate mass on a single mode.
 \item Two possibilities:
 \begin{enumerate}
-\item Simulated annealing
-\item Weighted average
+\item Simulated annealing,
+\item Weighted averaging.
 \end{enumerate}
 \end{itemize}
 \end{frame}
