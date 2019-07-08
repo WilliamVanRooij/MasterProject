@@ -51,24 +51,21 @@
 \item Not many observations compared to the number of parameters, i.e., small $n$, large $p$ situation.
 \item Traditional techniques do not apply, so we need to find an alternative.
 \end{itemize}
-
 \end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{figure}
+\includegraphics[width=3in]{images/corrRealSNPs.pdf}
+\end{figure}
+\end{frame}
+
 \begin{frame}
 \frametitle{Hierarchical model}
 \begin{itemize}
 \item We introduce $X = (X_1,\ldots,X_p)$, and $y = (y_1,\ldots,y_q)$.
 \item A SNP $X_s$ and a trait $y_t$, SNPs are strongly correlated.
 \item Estimate the association between SNP $s$ and trait $t$.
-\item $\boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n\times p}\boldsymbol{\beta}_{p \times q} + \boldsymbol{\epsilon}_{n\times q}\text{, }\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}\boldsymbol{I}_n)$
-\item $\boldsymbol{y}$ is a response matrix, $\boldsymbol{X}$ are candidate predictors.
-
-\item Each response $y_t$ is linearly related with the predictors and has a residual precision $\tau_t \sim $ Gamma$(\eta_t, \kappa_t)$.
-
-\end{itemize}
-\end{frame}
-\begin{frame}
-\frametitle{Hierarchical model II}
-\begin{itemize}
 \item For all $s = 1,\ldots,p$, $t=1,\ldots,q$,
 \item $\boldsymbol{y}_t \mid \boldsymbol{\beta}_t, \tau_t\; \sim\; \mathcal{N}(\boldsymbol{X\beta}_t,\tau_t^{-1}\boldsymbol{I}_n)$,
 \item $\beta_{st}\mid\gamma_{st},\sigma^2,\tau_t\; \sim\; \gamma_{st}\;\mathcal{N}(0,\sigma^2\tau_t^{-1})+(1-\gamma_{st})\;\delta_0$,
@@ -82,7 +79,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Hierarchical model III}
+\frametitle{Hierarchical model}
 \begin{itemize}
 \item Markov Chain Monte Carlo algorithms (MCMC) are the usual way to approximate inference in relatively small datasets.
 \item small $n$, large $p$, large $q$.
@@ -97,11 +94,11 @@
 \begin{itemize}
 \item Observed data $\boldsymbol{y}$, parameters $\boldsymbol{\theta}$, posterior distribution of parameters $p(\boldsymbol{\theta} \mid \boldsymbol{y})$.
 \item Approximate the posterior density with a simpler density $q$, minimizing a "closeness" measure: the reverse Kullback--Leibler divergence.
-\item $\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\dfrac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}$.
+\item $\KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left\lbrace\dfrac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right\rbrace \mathrm{d}\boldsymbol{\theta}$.
 \end{itemize}
 \end{frame}
 \begin{frame}
-\frametitle{Variational Inference II}
+\frametitle{Variational Inference}
 \begin{itemize}
 \item Evidence lower bound (ELBO): $\mathcal{L}(q) = \mathbb{E}_q\left[\log p(\boldsymbol{\theta},\boldsymbol{y})\right] - \mathbb{E}_q\left[\log q(\boldsymbol{\theta})\right]$.
 \item $\KL(q\parallel p) = \log(p) - \mathcal{L}(q)$.
@@ -158,24 +155,40 @@ $$
 \end{algorithm}
 \end{frame}
 
-\begin{frame}
-\frametitle{Coordinate ascent variational inference algorithm II}
-\begin{itemize}
-\item $\mathcal{L}(q)$ is guaranteed to increase at every iteration.
-\item We assume there exists a best model and we want to find it
-\item CAVI yields a local optimum, depending on the initialization of the parameters.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Coordinate ascent variational inference algorithm II}
+%\begin{itemize}
+%\item $\mathcal{L}(q)$ is guaranteed to increase at every iteration.
+%\item We assume there exists a best model and we want to find it
+%\item CAVI yields a local optimum, depending on the initialization of the parameters.
+%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%\frametitle{Parameters posterior distributions}
+%\begin{itemize}
+%\item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
+%\item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
+%\item $\gamma_{st} \mid \boldsymbol{y} \sim $ Bernoulli$(\gamma_{st}^{(1)})$,
+%\item $\omega_s \mid \boldsymbol{y} \sim $ Beta$(a^*_s, b^*_s)$,
+%\item $\tau_t \mid \boldsymbol{y} \sim $ Gamma$(\eta_t^*, \kappa_t^*)$,
+%\item $\sigma^{-2} \mid \boldsymbol{y} \sim $ Gamma$(\lambda^*,\nu^*)$,
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
-\frametitle{Parameters posterior distributions}
+\frametitle{Problem statement}
 \begin{itemize}
-\item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
-\item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
-\item $\gamma_{st} \mid \boldsymbol{y} \sim $ Bernoulli$(\gamma_{st}^{(1)})$,
-\item $\omega_s \mid \boldsymbol{y} \sim $ Beta$(a^*_s, b^*_s)$,
-\item $\tau_t \mid \boldsymbol{y} \sim $ Gamma$(\eta_t^*, \kappa_t^*)$,
-\item $\sigma^{-2} \mid \boldsymbol{y} \sim $ Gamma$(\lambda^*,\nu^*)$,
+\item High multimodality of $\mathcal{L}(q)$,
+\item mean-field independence assumption,
+\item reverse Kullback--Leibler divergence optimization,
+\item $\Rightarrow$ variational inference underestimates posterior variances
+\item $\Rightarrow$ tends to concentrate mass on a single mode.
+\item Two possibilities:
+\begin{enumerate}
+\item Simulated annealing
+\item Weighted average
+\end{enumerate}
 \end{itemize}
 \end{frame}
 
@@ -184,7 +197,7 @@ $$
 \begin{itemize}
 \item Find the optima $q^*(\boldsymbol{\theta})$ with different initial parameters, drawn at random.
 \item Generate the ELBOs and use them as weights in the weighted average.
-\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
+\item $\mathbb{E}\left[\Delta\mid \boldsymbol{y}\right]= \sum_{k=1}^K \mathbb{E}\left[\Delta\mid M_k,\boldsymbol{y}\right]p(M_k\mid\boldsymbol{y})$
 \item The function yields probabilities of association between SNPs and traits.
 \end{itemize}
 \end{frame}
@@ -200,40 +213,41 @@ $$
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Annealed LOCUS}
-\begin{itemize}
-\item Temperature $T$, ``smoothing'' the density of interest, and gets lower until initial density is reached. Then, perform a standard LOCUS from the reached parameters.
-\item $p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T}$,
-\item $\mathcal{L}_T(q_T) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta}$
-
-\end{itemize}
-\begin{align*}
-\mathcal{L}_T(q) &= \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const,\\
-&= T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const.
-\end{align*}
-
-\end{frame}
-
-\begin{frame}
-\frametitle{Annealed LOCUS II}
-\begin{itemize}
-\item Geometric spacing,
-\begin{equation*}
-T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
-\end{equation*}
-
-\item We can combine annealing with the Averaged LOCUS method, which we call Averaged annealed LOCUS.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Averaged LOCUS with equal weights}
-\begin{itemize}
-\item Instead of using the lower bound as weights, we average over all the models with equal weights.
-\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]=\frac{1}{K} \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]$
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Annealed LOCUS}
+%\begin{itemize}
+%\item Temperature $T$, ``smoothing'' the density of interest, and gets lower until initial density is reached. 
+%\item Then, perform a standard LOCUS from the reached parameters.
+%\item $p_T(\boldsymbol{y},\boldsymbol{\theta}) \propto p(\boldsymbol{y},\boldsymbol{\theta})^{1/T}$,
+%\item $\mathcal{L}_T(q_T) = \int q_T(\boldsymbol{\theta}) \log p(\boldsymbol{y},\boldsymbol{\theta})\mathrm{d}\boldsymbol{\theta} - T \int q_T(\boldsymbol{\theta}) \log q_T(\boldsymbol{\theta}) \mathrm{d}\boldsymbol{\theta}$
+%
+%\end{itemize}
+%\begin{align*}
+%\mathcal{L}_T(q) &= \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const,\\
+%&= T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const.
+%\end{align*}
+%
+%\end{frame}
+%
+%\begin{frame}
+%\frametitle{Annealed LOCUS II}
+%\begin{itemize}
+%\item Geometric spacing,
+%\begin{equation*}
+%T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
+%\end{equation*}
+%
+%\item We can combine annealing with the Averaged LOCUS method, which we call Averaged annealed LOCUS.
+%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%\frametitle{Averaged LOCUS with equal weights}
+%\begin{itemize}
+%\item Instead of using the lower bound as weights, we average over all the models with equal weights.
+%\item $\mathbb{E}\left[\gamma_{st}\mid \boldsymbol{y}\right]=\frac{1}{K} \sum_{k=1}^K \mathbb{E}\left[\gamma_{st}\mid M_k,\boldsymbol{y}\right]$
+%\end{itemize}
+%\end{frame}
 
 %\begin{frame}
 %\frametitle{Expected weights averaged LOCUS}
@@ -257,19 +271,20 @@ T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{LOCUS VS. Averaged LOCUS with $p_0 = 5$, max var. $=0.5$}
-\begin{figure}
-\includegraphics[width=2.1in]{images/s_locus.png}
-\includegraphics[width=2.1in]{images/m_locus.png}
-\end{figure}
-\end{frame}
+%\begin{frame}
+%\frametitle{LOCUS VS. Averaged LOCUS with $p_0 = 5$, max var. $=0.5$}
+%\begin{figure}
+%\includegraphics[width=2.1in]{images/s_locus.png}
+%\includegraphics[width=2.1in]{images/m_locus.png}
+%\end{figure}
+%\end{frame}
 
 
 \begin{frame}
-\frametitle{ROC curves comparison, $p_0 = 15$, max var.$=0.8$}
+\frametitle{ROC curves comparison}
 \begin{figure}
-\includegraphics[width=3in]{images/ROC_curves.pdf}
+\includegraphics[width=2in]{images/ROC_curves_w_equal_weight.pdf}
+\includegraphics[width=2in]{images/ROC_curves_w_equal_weight_50.pdf}
 \end{figure}
 \end{frame}
 
@@ -280,28 +295,29 @@ T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\frametitle{Remarks}
-\begin{itemize}
-\item Paralleled computation is possible.
-\item The difference is bigger when phenotypic variance is better explained from the SNPs.
-\item The difference is bigger with fewer active SNPs.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Remarks}
+%\begin{itemize}
+%\item Paralleled computation is possible.
+%\item The difference is bigger when phenotypic variance is better explained from the SNPs.
+%\item The difference is bigger with fewer active SNPs.
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Conclusion}
 \begin{itemize}
 \item On strong correlated structures, Averaged LOCUS performs better than LOCUS.
 \item The weights do not necessarily improve the performance.
-\item Simulated annealing improves the standard LOCUS, but less Averaged LOCUS.
+\item Simulated annealing improves the standard LOCUS, but less the averaged LOCUS.
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Conclusion II}
+\frametitle{Conclusion}
 \begin{itemize}
 \item Optimization of the code, $\rightarrow$ ev. integration to R-package,
+\item Multiple traits simultaneously,
 \item Application to real data.
 
 \end{itemize}

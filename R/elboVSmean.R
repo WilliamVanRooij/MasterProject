@@ -12,7 +12,7 @@ set.seed(seed);
 
 
 n <- 300; 
-p <- 500; p0 <- 15; 
+p <- 500; p0 <- 50; 
 d <- 1; d0 <- 1
 
 
@@ -101,7 +101,7 @@ a_mlocus <- function(fseed) {
 
 
 
-iter <- 20
+iter <- 50
 {
   
   c_pred <- NULL
@@ -142,14 +142,14 @@ for(seed in sample(1:1e3,iter)){
   #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
   ind_p0 <- sample(1:p, p0)
   
-  p0_av <- 15
+  p0_av <- 50
   
   vec_maf <- runif(p, 0.4, 0.5)
   #vec_maf <- NULL
   
   vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
   
-  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
+  max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
@@ -270,13 +270,13 @@ if(T){ # ROC CURVES
   
   par(pty="s")
   #pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 50, Max Tot. PVE = 0.8")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
   plot(perf_m_locus_m, avg="vertical", spred.estimate="stderror",spread.scale=2,col='purple',lwd=2,add=T)
   #plot(perf_m_locus_w, avg="vertical", spred.estimate="stderror",spread.scale=2,col='darkgreen',lwd=2,add=T)
-  legend(0.05,0.3, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)"), col=c('blue', 'green','orange', 'red','purple'),lwd=2)
+  legend(0.05,1.0, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)"), col=c('blue', 'green','orange', 'red','purple'),lwd=2)
   #dev.off()
   
   par(pty="m")
