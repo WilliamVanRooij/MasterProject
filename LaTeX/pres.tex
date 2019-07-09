@@ -37,7 +37,7 @@
 \item Introduction
 \item Hierarchical model
 \item Variational inference
-\item Methods
+\item Averaged LOCUS
 \item Simulations
 \item Conclusion
 \end{itemize}
@@ -270,7 +270,7 @@ $$
 \item $100$ random initialisations,
 \item autocorrelation between the SNPs is between $0.95$ and $0.99$, in blocks of ten SNPs,
 \item we can specify the maximum proportion of response variance explained by the SNPs.
-\item We used $50$ replications to determine the ROC curves.
+\item We used $50$ replications to determine the ROC curves and running times
 \end{itemize}
 \end{frame}
 
@@ -286,15 +286,16 @@ $$
 \begin{frame}
 \frametitle{ROC curves comparison}
 \begin{figure}
-\includegraphics[width=2in]{images/ROC_curves_w_equal_weight.pdf}
-\includegraphics[width=2in]{images/ROC_curves_w_equal_weight_50.pdf}
+\includegraphics[width=2.1in]{images/ROC_curves_w_equal_weight.pdf}
+\includegraphics[width=2.1in]{images/ROC_curves_w_equal_weight_50.pdf}
 \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Runtimes}
 \begin{figure}
-\includegraphics[width=3in]{images/runtimes.pdf}
+\includegraphics[width=2.5in]{images/runtimes.pdf}
+\caption{Running times of the different methods with $p_0 = 15$ and the max. variance explained by the SNPs is $80\%$.}
 \end{figure}
 \end{frame}
 
@@ -330,4 +331,18 @@ $$
 \frametitle{Thank you}
 Thank you for your time.
 \end{frame}
+
+\begin{frame}
+\frametitle{Parameters posterior distributions}
+\begin{itemize}
+\item $\beta_{st} \mid \gamma_{st} = 1, \boldsymbol{y} \sim \mathcal{N}\left(\mu_{\beta,st},\sigma_{\beta,st}^2\right)$,
+\item $\beta_{st} \mid \gamma_{st} = 0, \boldsymbol{y} \sim \delta_0$,
+\item $\gamma_{st} \mid \boldsymbol{y} \sim $ Bernoulli$(\gamma_{st}^{(1)})$,
+\item $\omega_s \mid \boldsymbol{y} \sim $ Beta$(a^*_s, b^*_s)$,
+\item $\tau_t \mid \boldsymbol{y} \sim $ Gamma$(\eta_t^*, \kappa_t^*)$,
+\item $\sigma^{-2} \mid \boldsymbol{y} \sim $ Gamma$(\lambda^*,\nu^*)$,
+\end{itemize}
+\end{frame}
+
+
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  8 JUL 2019 15:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  9 JUL 2019 10:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1104,50 +1104,50 @@ Package pdftex.def Info: images/EPFL_Logo.png  used on input line 44.
  [2
 
 ]
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 54.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 55.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 54.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 55.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 54.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 55.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 54.
+(Font)              <10.95> on input line 55.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 54.
+(Font)              <8> on input line 55.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 54.
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
+(Font)              <6> on input line 55.
+LaTeX Font Info:    Try loading font information for U+msa on input line 55.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+LaTeX Font Info:    Try loading font information for U+msb on input line 55.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 54.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 55.
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <8> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 54.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 55.
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <6> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 54.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 55.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 54.
+r on input line 55.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 54.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 55.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [3
 
@@ -1155,127 +1155,128 @@ Package pdftex.def Info: images/EPFL_Logo.png  used on input line 54.
 <images/corrRealSNPs.pdf, id=112, 722.7pt x 722.7pt>
 File: images/corrRealSNPs.pdf Graphic file (type pdf)
 <use images/corrRealSNPs.pdf>
-Package pdftex.def Info: images/corrRealSNPs.pdf  used on input line 61.
+Package pdftex.def Info: images/corrRealSNPs.pdf  used on input line 62.
 (pdftex.def)             Requested size: 216.81pt x 216.81166pt.
 
-Overfull \vbox (2.73538pt too high) detected at line 61
+Overfull \vbox (2.73538pt too high) detected at line 62
  []
 
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 61.
+r on input line 62.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 61.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 62.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
 [4
 
  <./images/corrRealSNPs.pdf>]
 LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <10.95> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 79.
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 80.
 
 LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <8> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 79.
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 80.
 
 LaTeX Font Info:    Font shape `OT1/lmss/bx/it' in size <6> not available
-(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 79.
+(Font)              Font shape `OT1/lmss/bx/sl' tried instead on input line 80.
 
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 79.
+r on input line 80.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 79.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 80.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [5
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 90.
+r on input line 91.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 90.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 91.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [6
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 99.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 101.
+
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 99.
+r on input line 101.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 99.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 101.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [7
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 107.
+r on input line 110.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 107.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 110.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [8
 
 ]
-Overfull \hbox (1.27892pt too wide) detected at line 130
+Overfull \hbox (1.27892pt too wide) detected at line 133
 \OT1/lmss/m/sl/10.95 q\OT1/lmss/m/n/10.95 ([]) = [] [] [] \OT1/lmss/m/sl/10.95 
 q\OT1/lmss/m/n/10.95 (\OML/lmm/m/it/10.95 ^^[[]\OT1/lmss/m/n/10.95 )\OML/lmm/m/
 it/10.95 :
  []
 
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 130.
+r on input line 133.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 130.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 133.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
 [9
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 156.
+r on input line 159.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 156.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 159.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [10
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 193.
+r on input line 196.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 193.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 196.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [11
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 203.
+r on input line 206.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 203.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 206.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [12
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 214.
+r on input line 217.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 214.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 217.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [13
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 272.
+r on input line 275.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 272.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 275.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [14
 
@@ -1284,19 +1285,19 @@ Package pdftex.def Info: images/EPFL_Logo.png  used on input line 272.
 File: images/ROC_curves_w_equal_weight.pdf Graphic file (type pdf)
 <use images/ROC_curves_w_equal_weight.pdf>
 Package pdftex.def Info: images/ROC_curves_w_equal_weight.pdf  used on input li
-ne 289.
-(pdftex.def)             Requested size: 144.54pt x 142.21645pt.
+ne 292.
+(pdftex.def)             Requested size: 151.76744pt x 149.33102pt.
 <images/ROC_curves_w_equal_weight_50.pdf, id=412, 499.8675pt x 491.8375pt>
 File: images/ROC_curves_w_equal_weight_50.pdf Graphic file (type pdf)
 <use images/ROC_curves_w_equal_weight_50.pdf>
 Package pdftex.def Info: images/ROC_curves_w_equal_weight_50.pdf  used on input
- line 289.
-(pdftex.def)             Requested size: 144.54pt x 142.21645pt.
+ line 292.
+(pdftex.def)             Requested size: 151.76744pt x 149.33102pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 289.
+r on input line 292.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 289.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 292.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [15
 
@@ -1305,43 +1306,70 @@ Package pdftex.def Info: images/EPFL_Logo.png  used on input line 289.
 <images/runtimes.pdf, id=448, 499.8675pt x 491.8375pt>
 File: images/runtimes.pdf Graphic file (type pdf)
 <use images/runtimes.pdf>
-Package pdftex.def Info: images/runtimes.pdf  used on input line 296.
-(pdftex.def)             Requested size: 216.81pt x 213.32468pt.
+Package pdftex.def Info: images/runtimes.pdf  used on input line 300.
+(pdftex.def)             Requested size: 180.67499pt x 177.77432pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 300.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 300.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 300.
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <10> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 300.
+
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <7> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 300.
+
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <5> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 300.
+
+
+Overfull \vbox (3.64247pt too high) detected at line 300
+ []
+
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 296.
+r on input line 300.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 296.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 300.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
- [16
+[16
 
  <./images/runtimes.pdf>]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 314.
+r on input line 318.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 314.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 318.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [17
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 324.
+r on input line 328.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 324.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 328.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
-
-[18
+ [18
 
 ]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 329.
+r on input line 333.
 File: images/EPFL_Logo.png Graphic file (type png)
 <use images/EPFL_Logo.png>
-Package pdftex.def Info: images/EPFL_Logo.png  used on input line 329.
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 333.
 (pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
  [19
+
+]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 345.
+File: images/EPFL_Logo.png Graphic file (type png)
+<use images/EPFL_Logo.png>
+Package pdftex.def Info: images/EPFL_Logo.png  used on input line 345.
+(pdftex.def)             Requested size: 30.11261pt x 10.03505pt.
+ [20
 
 ]
 \tf@nav=\write6
@@ -1353,42 +1381,43 @@ Package pdftex.def Info: images/EPFL_Logo.png  used on input line 329.
 \tf@snm=\write8
 \openout8 = `pres.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 330.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 330.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 348.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 348.
  (./pres.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 330.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 330.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 348.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 348.
 Package rerunfilecheck Info: File `pres.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22248 strings out of 492649
- 434861 string characters out of 6129622
+ 22305 strings out of 492649
+ 435756 string characters out of 6129622
  534690 words of memory out of 5000000
- 25565 multiletter control sequences out of 15000+600000
- 59472 words of font info for 53 fonts, out of 8000000 for 9000
+ 25612 multiletter control sequences out of 15000+600000
+ 85210 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,21n,59p,798b,653s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/
-texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/20
-18/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2018/texmf-d
-ist/fonts/enc/dvips/lm/lm-mathit.enc}</usr/local/texlive/2018/texmf-dist/fonts/
+{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/lo
+cal/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/20
+18/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018/texmf-d
+ist/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/local/texlive/2018/texmf-dist/fonts/
 type1/public/lm/lmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publ
 ic/lm/lmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi
-b10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr10.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/t
-exlive/2018/texmf-dist/fonts/type1/public/lm/lmss12.pfb></usr/local/texlive/201
-8/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2018/texmf-dis
-t/fonts/type1/public/lm/lmssbo10.pfb></usr/local/texlive/2018/texmf-dist/fonts/
-type1/public/lm/lmssbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
-blic/lm/lmsso10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/l
-msso8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local
-/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on pres.pdf (19 pages, 907556 bytes).
+8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmib10.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2018
+/texmf-dist/fonts/type1/public/lm/lmss12.pfb></usr/local/texlive/2018/texmf-dis
+t/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
+e1/public/lm/lmssbo10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/lm/lmssbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lms
+so10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsso8.pfb><
+/usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/20
+18/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on pres.pdf (20 pages, 915642 bytes).
 PDF statistics:
- 616 PDF objects out of 1000 (max. 8388607)
- 551 compressed objects within 6 object streams
- 40 named destinations out of 1000 (max. 500000)
+ 645 PDF objects out of 1000 (max. 8388607)
+ 578 compressed objects within 6 object streams
+ 42 named destinations out of 1000 (max. 500000)
  114 words of extra memory for PDF output out of 10000 (max. 10000000)
 
