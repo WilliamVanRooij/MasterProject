@@ -27,7 +27,7 @@ n_iter <- 10000
 burn_in <- 5000
 
 n <- 300 
-p <- 2
+p <- 4
 stopifnot(p > 1)
 vec_pat <- c(TRUE, sample(c(TRUE, FALSE), p - 1, replace = TRUE)) # c(FALSE, TRUE) # pattern for true beta: FALSE = beta = 0, T: beta != 0
 vec_pat
@@ -38,7 +38,7 @@ rho <- 0.995 # or 0.98
 p0_av <- min(sum(vec_pat), p - 0.5)
 n_repl <- 100
 
-bool_anneal <- TRUE
+bool_anneal <- FALSE
 if (bool_anneal) {
   anneal <- c(1, 5, 10)
   s_col <- "mediumseagreen"

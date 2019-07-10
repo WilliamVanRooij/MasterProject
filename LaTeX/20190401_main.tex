@@ -508,11 +508,11 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4in,bb= 0 0 550 550]{images/runtimes.pdf}
-\caption{\label{fig:runtime} Running times, in seconds, of the four methods: LOCUS (blue), annealed LOCUS (green), averaged LOCUS (orange), and averaged annealed LOCUS (red), computed on $500$ SNPs, a single trait, and for the averaged versions, $100$ different initialisations, averaged over $20$ replications.}
+\includegraphics[width=4in,bb= 0 0 700 700]{images/runtimes.pdf}
+\caption{\label{fig:runtime} Running times, in seconds, of the four methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), and averaged annealed LOCUS (fourth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs.}
 \end{figure}
 
-Figure \ref{fig:runtime} shows the running times of the four methods, computed on $500$ SNPs, a single trait, and for the averaged versions, $100$ different initialisations, averaged over 20 replications. The two averaged methods take more time than the two others, which is expected, but knowing they each are made of $100$ initialisations highlights the efficiency of the parallel implementation.
+Figure \ref{fig:runtime} shows the running times of the four methods, computed on $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. 
 
 The averaged LOCUS method has a longer runtime than the averaged annealed LOCUS method, the convergence of the averaged annealed LOCUS is probably reached earlier thanks to the annealing procedure.
 %

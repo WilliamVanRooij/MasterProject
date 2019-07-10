@@ -24,7 +24,8 @@ generate_data <- function(n, p, vec_pat, cor_type, rho, maf, seed) {
   tau <- rgamma(1, shape=1, scale=2)
   sigma2.inv <- rgamma(1, shape=2, scale=1)
   beta <- rep(0, p)
-  beta[vec_pat] <- rnorm(sum(vec_pat), mean=0, sd=sqrt(1/(sigma2.inv*tau)))
+#  beta[vec_pat] <- rnorm(sum(vec_pat), mean=0, sd=sqrt(1/(sigma2.inv*tau)))
+  beta <- c(0.8,0,0,0.6)
   y <- matrix(rnorm(n, mean=X %*% beta, sd=1/sqrt(tau)), nrow = n, ncol = 1)
   
   list("X" = X, "y" = y, "beta" = beta)

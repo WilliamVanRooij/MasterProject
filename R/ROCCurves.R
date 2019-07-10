@@ -4,34 +4,28 @@ require(echoseq)
 require(locus)
 require(ROCR)
 
-# rm(list= ls())
+rm(list= ls())
 
 RNGkind("L'Ecuyer-CMRG")
 seed <- 166
 set.seed(seed);
 
 
-n <- 300; 
-p <- 500; p0 <- 15; 
-d <- 1; d0 <- 1
+n <- 300; # Number of observations
+p <- 500; p0 <- 50; #Number of SNPs ; Number of active SNPs
+d <- 1; d0 <- 1 # Number of traits ; Number of active traits
 
+max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
 
-bool_anneal <- T
-if(bool_anneal) {
-  anneal <- c(1, 2, 10)
-} else {
-  anneal <- NULL
-}
+min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs 
+iter <- 50
+
+anneal <- c(1, 2, 10)
 
 cor_type <- "autocorrelated"; 
 
 
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                  FUNCTIONS                                                                       #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
-
+# Definition of useful functions
 
 log_sum_exp_ <- function(x) { # avoid numerical underflow or overflow
   if ( max(abs(x)) > max(x) )
@@ -62,6 +56,9 @@ make_ld_plot <- function(X, meas) {
                   add.map= T, geneMapLocation = 0.01, geneMapLabelX=1000)
 }
 
+
+# Definiton of fucntion for Averaged LOCUS
+
 mlocus <- function(fseed) {
   
   tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
@@ -78,6 +75,8 @@ mlocus <- function(fseed) {
   vb_g <- locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = fseed, list_init = list_init0, save_hyper=TRUE, anneal = NULL)
   return(vb_g)
 }
+
+# Definition of funciton for Averaged annealed LOCUS
 
 a_mlocus <- function(fseed) {
   
@@ -96,14 +95,12 @@ a_mlocus <- function(fseed) {
   return(vb_g)
 }
 
-
-
-
-iter <- 1
-{
   
   c_pred <- NULL
   c_lab <- NULL
+  
+  c_pred_m <- NULL
+  c_lab_m <- NULL
   
   single_pred <-  NULL
   single_lab <-  NULL
@@ -113,32 +110,25 @@ iter <- 1
   
   single_pred_a <-  NULL
   single_lab_a <-  NULL
-}
+
 
 for(seed in sample(1:1e3,iter)){
   
   set.seed(seed)
-  
-  
-  #vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
-  vec_rho <- c(0.99,0.99)
-  
+
   nb_cpus <- 4;
   
   ind_d0 <-  sample(1:d, d0)
   
-  #ind_p0 <- c(3,13,17,23,43)
-  #ind_p0 <- sample(1:50, p0)  #Seulement pour les plots de probabilités
   ind_p0 <- sample(1:p, p0)
   
-  p0_av <- 1
+  p0_av <- 50
   
-  #vec_maf <- runif(p, 0.4, 0.5)
-  vec_maf <- NULL
+  vec_rho <- runif(floor(p/10), min = min_rho, max = max_rho) # Autocorrelations between the SNPs
   
-  vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
-  
-  max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs
+  vec_maf <- runif(p, 0.4, 0.5)
+
+  vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype, Not used when number of traits is one.
   
   list_snps <- generate_snps(n, p, cor_type, vec_rho, n_cpus = nb_cpus,
                              user_seed = seed, vec_maf = vec_maf)
@@ -153,71 +143,61 @@ for(seed in sample(1:1e3,iter)){
   
   user_seed <- sample(1:1e3, 100)
   
-  if(T){
-    
-    m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus)
-    
     m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
-    
+    m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus) 
     
     elbo <- NULL
     gam <- NULL
-    out <- 0
-    lb_exp <- 0
-    
+
     elbo_a <- NULL
     gam_a <- NULL
-    out_a <- 0
-    lb_exp_a <- 0
+
+    out_m <- 0
+
     
-    
-    if(TRUE){
-      for(q in c(1:d)){
-       for(i in c(1:length(user_seed))) {
-        gam <- rbind(gam, as.vector(m_vb_g[[i]]$gam_vb[,q]))
-        #lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
+
+      for(i in c(1:length(user_seed))) {
+        gam <- rbind(gam, as.vector(m_vb_g[[i]]$gam_vb))
         elbo <- c(elbo, m_vb_g[[i]]$lb_opt)
-        gam_a <- rbind(gam_a, as.vector(m_vb_g_a[[i]]$gam_vb[,q]))
-        #lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
+
+        gam_a <- rbind(gam_a, as.vector(m_vb_g_a[[i]]$gam_vb))
         elbo_a <- c(elbo_a, m_vb_g_a[[i]]$lb_opt)
-        }
-      }
+        
+        out_m <- out_m + m_vb_g[[i]]$gam_vb
     }
     
-    
     vec_w_part <- get_p_m_y(elbo)
-    out <- matrix(colSums(sweep(gam, 1, vec_w_part, "*")), ncol = q)
+    out <- colSums(sweep(gam, 1, vec_w_part, "*")) # Averaged LOCUS gammas
     
     vec_w_part_a <- get_p_m_y(elbo_a)
-    out_a <- matrix(colSums(sweep(gam_a, 1, vec_w_part_a, "*")), ncol = q)
+    out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*")) # Averaged annealed LOCUS gammas
     
+    single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL) # LOCUS gammas
+    single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal) # Annealed LOCUS gammas
+
+    out_m <-  out_m/length(user_seed) # Averaged LOCUS (Equal weights) gammas
+
+    #Define the performances
     
-    
-    
-    
-    single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
-    single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
-    
- for(q in c(1:d)) {
-    single_pred <- cbind(single_pred, single_vb_g$gam_vb[,q])
+    single_pred <- cbind(single_pred, single_vb_g$gam_vb)
     single_lab <- cbind(single_lab, c(1:500) %in% ind_p0)
     
-    c_pred <- cbind(c_pred, out[,q])
+    c_pred <- cbind(c_pred, out)
     c_lab <- cbind(c_lab, c(1:500) %in% ind_p0)
     
-    single_pred_a <- cbind(single_pred_a, single_vb_g_a$gam_vb[,q])
+    single_pred_a <- cbind(single_pred_a, single_vb_g_a$gam_vb)
     single_lab_a <- cbind(single_lab_a, c(1:500) %in% ind_p0)
     
-    c_pred_a <- cbind(c_pred_a, out_a[,q])
+    c_pred_a <- cbind(c_pred_a, out_a)
     c_lab_a <- cbind(c_lab_a, c(1:500) %in% ind_p0)
- }    
-  }
+    
+    c_pred_m <- cbind(c_pred_m, out_m)
+    c_lab_m <- cbind(c_lab_m, c(1:500) %in% ind_p0)
 }
 
-if(F){ # ROC CURVES
   pred_m_locus <- prediction(c_pred, c_lab)
   pred_s_locus <- prediction(single_pred, single_lab)
-  
+
   perf_m_locus <- performance(pred_m_locus, "tpr","fpr")
   perf_s_locus <- performance(pred_s_locus, "tpr","fpr")
   
@@ -227,16 +207,18 @@ if(F){ # ROC CURVES
   perf_m_locus_a <- performance(pred_m_locus_a, "tpr","fpr")
   perf_s_locus_a <- performance(pred_s_locus_a, "tpr","fpr")
   
+  pred_m_locus_m <- prediction(c_pred_m, c_lab_m)
+  perf_m_locus_m <- performance(pred_m_locus_m, "tpr","fpr")
+  
+  # Plot ROC curves
+  
   par(pty="s")
-  #pdf(paste("ROC_Comp_p0_",p0,"_var_0_",floor(10*max_tot_pve),".pdf",sep=""))
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 50, Max Tot. PVE = 0.8", sep="")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
-  legend(0.075,0.2, c("Multiple Locus","Single Locus", "Annealing Multiple Locus","Annealing Single Locus"), col=c('orange', 'blue', 'red','green'),lwd=1)
-  #dev.off()
-  
+  plot(perf_m_locus_m,avg="vertical",spread.estimate="stderror",spread.scale=2,col='purple',lwd=2,add=T)
+  legend(0.05,0.25, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)"), col=c('blue', 'green','orange', 'red','purple'),lwd=2)
+
   par(pty="m")
   
-}
-
