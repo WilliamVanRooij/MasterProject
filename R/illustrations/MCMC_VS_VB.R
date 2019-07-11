@@ -50,7 +50,7 @@ if (bool_anneal) {
 }
 
 eps <- 1e-4
-n_cpus <- 16
+n_cpus <- 4
 
 
 list_data <- generate_data(n, p, vec_pat, cor_type, rho, maf, seed) 

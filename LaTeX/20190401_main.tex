@@ -446,16 +446,67 @@ Our averaged variational inference algorithm does better; it identifies three of
 
 In this section, we compare four methods: classical variational inference (LOCUS), averaged variational inference (averaged LOCUS) and their simulated annealing augmented counterparts (annealed LOCUS and averaged annealed LOCUS). We choose four different situations: two of the settings involve $15$ associated SNPs (settings A, B), whereas the remaining two have $50$ associated SNPs (settings C, D). For simplicity, we consider only one trait. For a pair of settings, the proportion of the response variance explained by the SNPs is below $50\%$ (settings A, C) and, for another pair, below $80\%$ (settings B, D). The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, and a geometric spacing with ten steps. The sensitivity to these choices could be assessed in dedicated experiments. The remaining settings are the same as for Figure \ref{fig:simple_locus}.
 
+
 \begin{figure}[h!]
 \centering
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_8.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_5.pdf}
-\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_8.pdf}
-\caption{\label{fig:ROCComp}Comparison of ROC curves between LOCUS, averaged LOCUS, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_05_05_07.pdf}
+\put(-180,180){A}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_08_05_07.pdf}
+\put(-180,180){B}
+
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_05_05_07.pdf}
+\put(-180,180){C}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_05_07.pdf}
+\put(-180,180){D}
 \end{figure}
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_05_07_095.pdf}
+\put(-180,180){A}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_08_07_095.pdf}
+\put(-180,180){B}
+
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_05_07_095.pdf}
+\put(-180,180){C}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_07_095.pdf}
+\put(-180,180){D}
+\end{figure}
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_5.pdf}
+%\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_15_var_0_8.pdf}
+%\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_5.pdf}
+%\includegraphics[width=2.6in, bb=0 0 500 500]{images/ROC_Comp_p0_50_var_0_8.pdf}
+%\caption{\label{fig:ROCComp}Comparison of ROC curves between LOCUS, averaged LOCUS, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
+%Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}
+%\end{figure}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_05_095_099.pdf}
+\put(-180,180){A}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_08_095_099.pdf}
+\put(-180,180){B}
+
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_05_095_099.pdf}
+\put(-180,180){C}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_095_099.pdf}
+\put(-180,180){D}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_05_05_099.pdf}
+\put(-180,180){A}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_15_08_05_099.pdf}
+\put(-180,180){B}
+
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_05_05_099.pdf}
+\put(-180,180){C}
+\includegraphics[width=2.7in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_05_099.pdf}
+\put(-180,180){D}
+\end{figure}
 Figure \ref{fig:ROCComp} shows the variable selection performance in terms of ROC curves for the four methods, for each of the four settings. We truncate the ROC curves, as we are interested only in the performance of the methods for small false positive rate.
 
 First, the averaged LOCUS method clearly outperforms the LOCUS method in all four scenarios: it seems that the weighted averaging procedure effectively alleviates the risk of selecting wrong predictors in groups of highly correlated SNPs.
@@ -508,13 +559,13 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=4in,bb= 0 0 700 700]{images/runtimes.pdf}
-\caption{\label{fig:runtime} Running times, in seconds, of the four methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), and averaged annealed LOCUS (fourth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs.}
+\includegraphics[width=5in,bb= 0 0 600 540]{images/runtimes.pdf}
+\caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs.}
 \end{figure}
 
-Figure \ref{fig:runtime} shows the running times of the four methods, computed on $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. 
+Figure \ref{fig:runtime} shows the running times of the methods, computed on $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, measured for $50$ replications. For comparison, the runtime of calculating $100$ times the LOCUS method is shown on the same figure. The advantage of paralleled implementation is highlighted as it takes approximately twice as much time to compute $100$ iterations of the LOCUS method, one after another, than to compute the averaged LOCUS method.
 
-The averaged LOCUS method has a longer runtime than the averaged annealed LOCUS method, the convergence of the averaged annealed LOCUS is probably reached earlier thanks to the annealing procedure.
+The averaged annealed LOCUS takes the longest to compute out of the first four methods, as on addition to averaging, the method starts every occurrence with an annealing step. The annealed LOCUS also takes more time to compute than the standard LOCUS method, which confirms the additional time needed for the averaged annealing LOCUS to complete, compared to the averaged LOCUS.
 %
 %
 %

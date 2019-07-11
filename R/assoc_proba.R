@@ -37,21 +37,6 @@ get_p_m_y <- function(vec_elbo) {
   exp(vec_elbo - log_sum_exp_(vec_elbo))
 }
 
-make_ld_plot <- function(X, meas) {
-  
-  stopifnot(meas %in% c("r", "D'"))
-  
-  require(LDheatmap)
-  require(chopsticks)
-  
-  colnames(X)<- paste(1:ncol(X), "  ", sep="")
-  require(snpStats)
-  gX <- as(X, "SnpMatrix")
-  
-  cat("LD plot display:\n")
-  ld <- LDheatmap(gX, flip=TRUE, name="", title=NULL, LDmeasure = meas,
-                  add.map= T, geneMapLocation = 0.01, geneMapLabelX=1000)
-}
 
 # Definition of the function for averaged LOCUS
 

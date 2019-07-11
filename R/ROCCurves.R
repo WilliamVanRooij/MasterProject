@@ -12,12 +12,12 @@ set.seed(seed);
 
 
 n <- 300; # Number of observations
-p <- 500; p0 <- 50; #Number of SNPs ; Number of active SNPs
+p <- 500; p0 <- 15; #Number of SNPs ; Number of active SNPs (15 or 50)
 d <- 1; d0 <- 1 # Number of traits ; Number of active traits
 
-max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs
+max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs (0.5 or 0.8)
 
-min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs 
+min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99)
 iter <- 50
 
 anneal <- c(1, 2, 10)
@@ -38,22 +38,6 @@ log_sum_exp_ <- function(x) { # avoid numerical underflow or overflow
 get_p_m_y <- function(vec_elbo) {
   
   exp(vec_elbo - log_sum_exp_(vec_elbo))
-}
-
-make_ld_plot <- function(X, meas) {
-  
-  stopifnot(meas %in% c("r", "D'"))
-  
-  require(LDheatmap)
-  require(chopsticks)
-  
-  colnames(X)<- paste(1:ncol(X), "  ", sep="")
-  require(snpStats)
-  gX <- as(X, "SnpMatrix")
-  
-  cat("LD plot display:\n")
-  ld <- LDheatmap(gX, flip=TRUE, name="", title=NULL, LDmeasure = meas,
-                  add.map= T, geneMapLocation = 0.01, geneMapLabelX=1000)
 }
 
 
@@ -213,7 +197,7 @@ for(seed in sample(1:1e3,iter)){
   # Plot ROC curves
   
   par(pty="s")
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 50, Max Tot. PVE = 0.8", sep="")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8", sep="")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)

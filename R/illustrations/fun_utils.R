@@ -24,8 +24,7 @@ generate_data <- function(n, p, vec_pat, cor_type, rho, maf, seed) {
   tau <- rgamma(1, shape=1, scale=2)
   sigma2.inv <- rgamma(1, shape=2, scale=1)
   beta <- rep(0, p)
-#  beta[vec_pat] <- rnorm(sum(vec_pat), mean=0, sd=sqrt(1/(sigma2.inv*tau)))
-  beta <- c(0.8,0,0,0.6)
+  beta[vec_pat] <- rnorm(sum(vec_pat), mean=0, sd=sqrt(1/(sigma2.inv*tau)))
   y <- matrix(rnorm(n, mean=X %*% beta, sd=1/sqrt(tau)), nrow = n, ncol = 1)
   
   list("X" = X, "y" = y, "beta" = beta)
@@ -60,7 +59,8 @@ mlocus <- function(anneal, fseed) {
 
 
 plot_densities <- function(ii, s_col, m_col, bool_anneal, breaks = 50, 
-                           xlim = c(-abs(beta_true[ii]) - 1.3, abs(beta_true[ii]) + 1.3), ylim =  c(0, 8), bool_leg = TRUE) {
+                           xlim = c(-abs(beta_true[ii]) - 1.3, abs(beta_true[ii]) + 1.3), 
+                           ylim =  c(0, 8), bool_leg = TRUE) {
   
   hist(out_coda[, paste0("beta[", ii, "]")][[1]], breaks = breaks, freq = FALSE, col = "gray90", 
        main = paste0("Distribution of beta[", ii, "]"), 

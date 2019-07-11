@@ -16,6 +16,6 @@
 \contentsline {chapter}{\numberline {5}Simulations}{16}
 \contentsline {section}{\numberline {5.1}Preliminary illustration}{16}
 \contentsline {section}{\numberline {5.2}Variable selection performance}{17}
-\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{19}
+\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{20}
 \contentsline {section}{\numberline {5.4}Running times}{22}
 \contentsline {chapter}{\numberline {6}Conclusion}{24}

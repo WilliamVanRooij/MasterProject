@@ -21,7 +21,7 @@ anneal <- c(1, 2, 10) # Determination of the annealing parameters
 
 min_rho <- 0.98; max_rho <- 0.99 # Minimum and maximum correlation between SNPs
 
-runtime_s_a <- runtime_s <- runtime_m_a <- runtime_m <- NULL
+runtime_s_a <- runtime_s <- runtime_m_a <- runtime_m <- runtime_s_m <- NULL
 
 #Definition of useful functions
 
@@ -113,6 +113,7 @@ for(seed in sample(1:1e3,iter)){
   
   user_seed <- sample(1:1e3, 100) # Determination of the seeds for the random initalisations
   
+  # Averaged LOCUS
   
   time0_m <- proc.time()
   m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
@@ -122,13 +123,14 @@ for(seed in sample(1:1e3,iter)){
 
   for(i in c(1:length(user_seed))) {
     gam <- rbind(gam, as.vector(m_vb_g[[i]]$gam_vb))
-    elbo <- c(elbo, m_vb_g[[i]]$lb_opt)
+    elbo <- c(elbo, m_vb_g[[i]]$lb_opt) # Keep ELBO's
   }
   
-  vec_w_part <- get_p_m_y(elbo)
-  out <- colSums(sweep(gam, 1, vec_w_part, "*"))
+  vec_w_part <- get_p_m_y(elbo) # Calculate weights
+  out <- colSums(sweep(gam, 1, vec_w_part, "*")) # Weighted average
   runtime_m <- c(runtime_m, as.numeric(proc.time() - time0_m)[3]);
   
+  # Averaged annealed LOCUS
   
   time0_m_a <- proc.time()
   m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus)
@@ -138,27 +140,56 @@ for(seed in sample(1:1e3,iter)){
 
   for(i in c(1:length(user_seed))) {
     gam_a <- rbind(gam_a, as.vector(m_vb_g_a[[i]]$gam_vb))
-    elbo_a <- c(elbo_a, m_vb_g_a[[i]]$lb_opt)
+    elbo_a <- c(elbo_a, m_vb_g_a[[i]]$lb_opt) # Keep ELBO's
   }
   
-  vec_w_part_a <- get_p_m_y(elbo_a)
-  out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*"))
+  vec_w_part_a <- get_p_m_y(elbo_a) # Calculate weights
+  out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*")) # Weighted average
   runtime_m_a <- c(runtime_m_a, as.numeric(proc.time() - time0_m_a)[3])
   
+  # Annealed LOCUS
   
   time0_s_a <- proc.time()
   single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
   runtime_s_a <- c(runtime_s_a, as.numeric(proc.time() - time0_s_a)[3])
   
+  # LOCUS
+  
   time0_s <- proc.time()
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
   runtime_s <- c(runtime_s, as.numeric(proc.time() - time0_s)[3])
   
-
+  # 100 iterations of LOCUS
+  
+  time0_s_m <- proc.time()
+  
+  elbo_s <- NULL
+  gam_s <- NULL
+  
+  for(i in c(1:length(user_seed))) {
+    tau_vb_init <- 1 / apply(dat_g$phenos, 2, var)
+    
+    sig2_beta_vb_init <- 1 / rgamma(d, shape = 2, rate = 1 / tau_vb_init)
+    
+    gam_vb_init <-  matrix(rbeta(p * d, shape1 = 1, shape2 = 4*d-1), nrow = p)
+    
+    mu_beta_vb_init <- matrix(rnorm(n = p * d , mean=0, sd = 1), nrow = p)
+    
+    list_init0 <-  set_init(d,p, gam_vb = gam_vb_init, mu_beta_vb = mu_beta_vb_init, 
+                            sig2_beta_vb = sig2_beta_vb_init, tau_vb = tau_vb_init)
+    
+    single_vb_g_s <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= user_seed[i], list_init = list_init0, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
+    elbo_s <- c(elbo_s, single_vb_g_s$lb_opt) # Keep ELBO's
+    gam_s <- rbind(gam_s, single_vb_g_s$gam_vb)
+  }
+  vec_w_part_s <- get_p_m_y(elbo_s) # Calculate weights
+  out_s <- colSums(sweep(gam_s, 1, vec_w_part_s, "*")) # Weighted average
+  runtime_s_m <- c(runtime_s_m, as.numeric(proc.time() - time0_s_m)[3])
 }
 
+# Plot runtimes
 par(mfrow=c(1,1))
 
-boxplot(runtime_s, runtime_s_a, runtime_m, runtime_m_a,col=c("blue","green","orange","red"),lend=1, main="Running times of the four methods (in seconds)", xaxt='n',xlab="",ylab="Runtimes")
-axis(1,at=1:4,labels=c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS"))
+boxplot(runtime_s, runtime_s_a, runtime_m, runtime_m_a, runtime_s_m,col=c("blue","green","orange","red", "mediumseagreen"),lend=1, main="Running times of the methods (in seconds)", xaxt='n',xlab="",ylab="Runtimes")
+axis(1,at=1:5,labels=c("LOCUS","Annealed \n LOCUS", "Averaged \n LOCUS","Averaged \n annealed \n LOCUS","Serial \n LOCUS"), tick=F,pos=-0.4)
 
