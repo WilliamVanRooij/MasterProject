@@ -58,21 +58,31 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Preliminary illustration}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref  {sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a red cross. Underneath are the extreme correlation patterns of the SNPs; they are the same for the two sides as the SNPs used are the same.}}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref  {sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a black cross. Underneath are the extreme correlation patterns of the SNPs; they are the same for the two sides as the SNPs used are the same.}}{17}}
 \newlabel{fig:simple_locus}{{5.1}{17}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Variable selection performance}{17}}
-\newlabel{sec:varSelPerf}{{5.2}{17}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Comparison of ROC curves between LOCUS, averaged LOCUS, and the same two methods augmented with a simulated annealing step, colored orange, blue, red, and green respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$}}{18}}
-\newlabel{fig:ROCComp}{{5.2}{18}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol  {\beta }$, MCMC distributions (histograms) as well as the simulated $\boldsymbol  {\beta }$ values (dashed black line). The orange and blue lines of $\beta _2$ and $\beta _4$ are superimposed.}}{21}}
-\newlabel{fig:no_ann}{{5.3}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) estimated posterior distribution for $\boldsymbol  {\beta }$, MCMC distributions (histograms) $\boldsymbol  {\beta }$ posteriors as well as the simulated $\boldsymbol  {\beta }$ values (dashed black line).}}{22}}
-\newlabel{fig:ann}{{5.4}{22}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Running times}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces  Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs.}}{23}}
-\newlabel{fig:runtime}{{5.5}{23}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}}{18}}
+\newlabel{fig:probablock}{{5.2}{18}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Variable selection performance}{18}}
+\newlabel{sec:varSelPerf}{{5.2}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Weights attributed to the $100$ obtained modes by averaged LOCUS, with correlations between SNPs between $0.95$ and $0.99$, $15$ associated SNPs, and a proportion of the response variance explained by the SNPs below $50\%$.}}{19}}
+\newlabel{fig:weightsModes}{{5.3}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.95$ and $0.99$.}}{20}}
+\newlabel{fig:ROC_highCorr}{{5.4}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.7$ and $0.95$.}}{21}}
+\newlabel{fig:ROC_mediumCorr}{{5.5}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.7$.}}{22}}
+\newlabel{fig:ROC_lowCorr}{{5.6}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$, Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.99$.}}{23}}
+\newlabel{fig:ROC_mixedCorr}{{5.7}{23}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.8}{\ignorespaces Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol  {\beta }$, MCMC distributions (histograms) as well as the simulated $\boldsymbol  {\beta }$ values (dashed black line). The orange and blue lines of $\beta _2$ and $\beta _4$ are superimposed.}}{25}}
+\newlabel{fig:no_ann}{{5.8}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.9}{\ignorespaces Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) estimated posterior distribution for $\boldsymbol  {\beta }$, MCMC distributions (histograms) $\boldsymbol  {\beta }$ posteriors as well as the simulated $\boldsymbol  {\beta }$ values (dashed black line).}}{26}}
+\newlabel{fig:ann}{{5.9}{26}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Running times}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.10}{\ignorespaces  Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores.}}{27}}
+\newlabel{fig:runtime}{{5.10}{27}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{29}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}

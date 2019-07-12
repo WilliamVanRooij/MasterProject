@@ -81,8 +81,8 @@ if(TRUE){
                list_init = s_list_init, verbose = FALSE, 
                save_hyper=TRUE, save_init = TRUE, full_output=TRUE, tol = 1e-6, anneal = anneal)
   
-  y_mcmc <- as.vector(y) # to avoid overiding the above y and X
-  X_mcmc <- as.matrix(X)
+  y_mcmc <- as.vector(scale(y,center=TRUE, scale=F)) # to avoid overiding the above y and X
+  X_mcmc <- as.matrix(scale(X))
   n <- as.numeric(length(y))
   p <- as.numeric(ncol(X))
   a <- as.vector(s_vb$list_hyper$a)
@@ -152,14 +152,15 @@ if(TRUE){
 
 
 
-par(mfrow=c(2, 2))
-
-plot_densities(1, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, xlim = c(-0.2, 2.5), ylim =  c(0, 8), bool_leg = FALSE) 
-plot_densities(2, s_col = s_col, m_col = m_col,bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.6, 0.6), ylim =  c(0, 20)) 
-plot_densities(3, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-1.5, 0.5), ylim =  c(0, 7), bool_leg = FALSE)
-plot_densities(4, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.2, 0.6), ylim =  c(0, 25), bool_leg = FALSE)
-
-
+# par(mfrow=c(2, 2))
+# 
+# plot_densities(1, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, xlim = c(-0.2, 2.5), ylim =  c(0, 8), bool_leg = FALSE) 
+# plot_densities(2, s_col = s_col, m_col = m_col,bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.6, 0.6), ylim =  c(0, 20)) 
+# plot_densities(3, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-1.5, 0.5), ylim =  c(0, 7), bool_leg = FALSE)
+# plot_densities(4, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.2, 0.6), ylim =  c(0, 25), bool_leg = FALSE)
+# 
+# 
+# par(mfrow=c(1,1))
 if(FALSE){
   
   for (ii in 1:p) {

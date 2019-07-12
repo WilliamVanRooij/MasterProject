@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  11 JUL 2019 10:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.16)  12 JUL 2019 15:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -807,162 +807,230 @@ File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
 r on input line 427.
-<images/s_locus.png, id=87, 168.63pt x 157.7895pt>
-File: images/s_locus.png Graphic file (type png)
-<use images/s_locus.png>
-Package pdftex.def Info: images/s_locus.png  used on input line 427.
-(pdftex.def)             Requested size: 195.12877pt x 195.12863pt.
+<images/proba_single.pdf, id=87, 578.16pt x 325.215pt>
+File: images/proba_single.pdf Graphic file (type pdf)
+<use images/proba_single.pdf>
+Package pdftex.def Info: images/proba_single.pdf  used on input line 427.
+(pdftex.def)             Requested size: 209.58255pt x 104.7877pt.
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
 r on input line 428.
-<images/m_locus.png, id=88, 168.63pt x 157.7895pt>
-File: images/m_locus.png Graphic file (type png)
-<use images/m_locus.png>
-Package pdftex.def Info: images/m_locus.png  used on input line 428.
-(pdftex.def)             Requested size: 195.12877pt x 195.12863pt.
+<images/proba_averaged.pdf, id=88, 578.16pt x 325.215pt>
+File: images/proba_averaged.pdf Graphic file (type pdf)
+<use images/proba_averaged.pdf>
+Package pdftex.def Info: images/proba_averaged.pdf  used on input line 428.
+(pdftex.def)             Requested size: 209.58255pt x 104.7877pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 429.
+<images/LD_plot.pdf, id=89, 578.16pt x 325.215pt>
+File: images/LD_plot.pdf Graphic file (type pdf)
+<use images/LD_plot.pdf>
+Package pdftex.def Info: images/LD_plot.pdf  used on input line 429.
+(pdftex.def)             Requested size: 209.58255pt x 82.51215pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 430.
+File: images/LD_plot.pdf Graphic file (type pdf)
+<use images/LD_plot.pdf>
+Package pdftex.def Info: images/LD_plot.pdf  used on input line 430.
+(pdftex.def)             Requested size: 209.58255pt x 82.51215pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [16
 
-] [17 <./images/s_locus.png> <./images/m_locus.png>]
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 451.
-<images/ROC_Comp_p0_15_var_0_5.pdf, id=99, 505.89pt x 505.89pt>
-File: images/ROC_Comp_p0_15_var_0_5.pdf Graphic file (type pdf)
-<use images/ROC_Comp_p0_15_var_0_5.pdf>
-Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_5.pdf  used on input line 
-451.
-(pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 452.
-<images/ROC_Comp_p0_15_var_0_8.pdf, id=100, 505.89pt x 505.89pt>
-File: images/ROC_Comp_p0_15_var_0_8.pdf Graphic file (type pdf)
-<use images/ROC_Comp_p0_15_var_0_8.pdf>
-Package pdftex.def Info: images/ROC_Comp_p0_15_var_0_8.pdf  used on input line 
-452.
-(pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
+]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
 r on input line 453.
-<images/ROC_Comp_p0_50_var_0_5.pdf, id=101, 505.89pt x 505.89pt>
-File: images/ROC_Comp_p0_50_var_0_5.pdf Graphic file (type pdf)
-<use images/ROC_Comp_p0_50_var_0_5.pdf>
-Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_5.pdf  used on input line 
-453.
-(pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 454.
-<images/ROC_Comp_p0_50_var_0_8.pdf, id=102, 505.89pt x 505.89pt>
-File: images/ROC_Comp_p0_50_var_0_8.pdf Graphic file (type pdf)
-<use images/ROC_Comp_p0_50_var_0_8.pdf>
-Package pdftex.def Info: images/ROC_Comp_p0_50_var_0_8.pdf  used on input line 
-454.
-(pdftex.def)             Requested size: 187.90244pt x 187.8968pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 461.
-<images/ROC_15_05_05_07.pdf, id=103, 522.95375pt x 522.95375pt>
-File: images/ROC_15_05_05_07.pdf Graphic file (type pdf)
-<use images/ROC_15_05_05_07.pdf>
-Package pdftex.def Info: images/ROC_15_05_05_07.pdf  used on input line 461.
-(pdftex.def)             Requested size: 195.12877pt x 195.12689pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 463.
-<images/ROC_15_08_05_07.pdf, id=104, 522.95375pt x 522.95375pt>
-File: images/ROC_15_08_05_07.pdf Graphic file (type pdf)
-<use images/ROC_15_08_05_07.pdf>
-Package pdftex.def Info: images/ROC_15_08_05_07.pdf  used on input line 463.
-(pdftex.def)             Requested size: 195.12877pt x 195.12689pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 466.
-<images/ROC_50_05_05_07.pdf, id=105, 522.95375pt x 522.95375pt>
-File: images/ROC_50_05_05_07.pdf Graphic file (type pdf)
-<use images/ROC_50_05_05_07.pdf>
-Package pdftex.def Info: images/ROC_50_05_05_07.pdf  used on input line 466.
-(pdftex.def)             Requested size: 195.12877pt x 195.12689pt.
-Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 468.
-<images/ROC_50_08_05_07.pdf, id=106, 553.06625pt x 522.95375pt>
-File: images/ROC_50_08_05_07.pdf Graphic file (type pdf)
-<use images/ROC_50_08_05_07.pdf>
-Package pdftex.def Info: images/ROC_50_08_05_07.pdf  used on input line 468.
-(pdftex.def)             Requested size: 195.12877pt x 195.12689pt.
+<images/proba_block.pdf, id=94, 578.16pt x 325.215pt>
+File: images/proba_block.pdf Graphic file (type pdf)
+<use images/proba_block.pdf>
+Package pdftex.def Info: images/proba_block.pdf  used on input line 453.
+(pdftex.def)             Requested size: 361.34999pt x 203.25887pt.
+ [17 <./images/proba_single.pdf> <./images/proba_averaged.pdf> <./images/LD_plo
+t.pdf>]
+<images/WeightsMode.pdf, id=116, 522.95375pt x 329.23pt>
+File: images/WeightsMode.pdf Graphic file (type pdf)
+<use images/WeightsMode.pdf>
+Package pdftex.def Info: images/WeightsMode.pdf  used on input line 463.
+(pdftex.def)             Requested size: 361.34999pt x 227.49547pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[18 <./images/ROC_Comp_p0_15_var_0_5.pdf> <./images/ROC_Comp_p0_15_var_0_8.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./images/ROC_Comp_p0_15_var_
-0_8.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
-> <./images/ROC_Comp_p0_50_var_0_5.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./images/ROC_Comp_p0_50_var_
-0_5.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
-> <./images/ROC_Comp_p0_50_var_0_8.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./images/ROC_Comp_p0_50_var_
-0_8.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
-e
->] [19 <./images/ROC_15_05_05_07.pdf> <./images/ROC_15_08_05_07.pdf> <./images/
-ROC_50_05_05_07.pdf> <./images/ROC_50_08_05_07.pdf>]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 490.
-<images/no_annealing.pdf, id=192, 844.83629pt x 555.75629pt>
+r on input line 469.
+<images/ROC_15_05_095_099.pdf, id=117, 522.95375pt x 522.95375pt>
+File: images/ROC_15_05_095_099.pdf Graphic file (type pdf)
+<use images/ROC_15_05_095_099.pdf>
+Package pdftex.def Info: images/ROC_15_05_095_099.pdf  used on input line 469.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 471.
+<images/ROC_15_08_095_099.pdf, id=118, 522.95375pt x 522.95375pt>
+File: images/ROC_15_08_095_099.pdf Graphic file (type pdf)
+<use images/ROC_15_08_095_099.pdf>
+Package pdftex.def Info: images/ROC_15_08_095_099.pdf  used on input line 471.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 474.
+<images/ROC_50_05_095_099.pdf, id=119, 522.95375pt x 522.95375pt>
+File: images/ROC_50_05_095_099.pdf Graphic file (type pdf)
+<use images/ROC_50_05_095_099.pdf>
+Package pdftex.def Info: images/ROC_50_05_095_099.pdf  used on input line 474.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 476.
+<images/ROC_50_08_095_099.pdf, id=120, 522.95375pt x 522.95375pt>
+File: images/ROC_50_08_095_099.pdf Graphic file (type pdf)
+<use images/ROC_50_08_095_099.pdf>
+Package pdftex.def Info: images/ROC_50_08_095_099.pdf  used on input line 476.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[18 <./images/proba_block.pdf>] [19 <./images/WeightsMode.pdf>]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 498.
+<images/ROC_15_05_07_095.pdf, id=139, 522.95375pt x 522.95375pt>
+File: images/ROC_15_05_07_095.pdf Graphic file (type pdf)
+<use images/ROC_15_05_07_095.pdf>
+Package pdftex.def Info: images/ROC_15_05_07_095.pdf  used on input line 498.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 500.
+<images/ROC_15_08_07_095.pdf, id=140, 522.95375pt x 522.95375pt>
+File: images/ROC_15_08_07_095.pdf Graphic file (type pdf)
+<use images/ROC_15_08_07_095.pdf>
+Package pdftex.def Info: images/ROC_15_08_07_095.pdf  used on input line 500.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 503.
+<images/ROC_50_05_07_095.pdf, id=141, 522.95375pt x 522.95375pt>
+File: images/ROC_50_05_07_095.pdf Graphic file (type pdf)
+<use images/ROC_50_05_07_095.pdf>
+Package pdftex.def Info: images/ROC_50_05_07_095.pdf  used on input line 503.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 505.
+<images/ROC_50_08_07_095.pdf, id=142, 522.95375pt x 522.95375pt>
+File: images/ROC_50_08_07_095.pdf Graphic file (type pdf)
+<use images/ROC_50_08_07_095.pdf>
+Package pdftex.def Info: images/ROC_50_08_07_095.pdf  used on input line 505.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[20 <./images/ROC_15_05_095_099.pdf> <./images/ROC_15_08_095_099.pdf> <./images
+/ROC_50_05_095_099.pdf> <./images/ROC_50_08_095_099.pdf>] [21 <./images/ROC_15_
+05_07_095.pdf> <./images/ROC_15_08_07_095.pdf> <./images/ROC_50_05_07_095.pdf> 
+<./images/ROC_50_08_07_095.pdf>]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 521.
+<images/ROC_15_05_05_07.pdf, id=190, 522.95375pt x 522.95375pt>
+File: images/ROC_15_05_05_07.pdf Graphic file (type pdf)
+<use images/ROC_15_05_05_07.pdf>
+Package pdftex.def Info: images/ROC_15_05_05_07.pdf  used on input line 521.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 523.
+<images/ROC_15_08_05_07.pdf, id=191, 522.95375pt x 522.95375pt>
+File: images/ROC_15_08_05_07.pdf Graphic file (type pdf)
+<use images/ROC_15_08_05_07.pdf>
+Package pdftex.def Info: images/ROC_15_08_05_07.pdf  used on input line 523.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 526.
+<images/ROC_50_05_05_07.pdf, id=192, 522.95375pt x 522.95375pt>
+File: images/ROC_50_05_05_07.pdf Graphic file (type pdf)
+<use images/ROC_50_05_05_07.pdf>
+Package pdftex.def Info: images/ROC_50_05_05_07.pdf  used on input line 526.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 528.
+<images/ROC_50_08_05_07.pdf, id=193, 553.06625pt x 522.95375pt>
+File: images/ROC_50_08_05_07.pdf Graphic file (type pdf)
+<use images/ROC_50_08_05_07.pdf>
+Package pdftex.def Info: images/ROC_50_08_05_07.pdf  used on input line 528.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+ [22 <./images/ROC_15_05_05_07.pdf> <./images/ROC_15_08_05_07.pdf> <./images/RO
+C_50_05_05_07.pdf> <./images/ROC_50_08_05_07.pdf>]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 542.
+<images/ROC_15_05_05_099.pdf, id=245, 522.95375pt x 522.95375pt>
+File: images/ROC_15_05_05_099.pdf Graphic file (type pdf)
+<use images/ROC_15_05_05_099.pdf>
+Package pdftex.def Info: images/ROC_15_05_05_099.pdf  used on input line 542.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 544.
+<images/ROC_15_08_05_099.pdf, id=246, 522.95375pt x 522.95375pt>
+File: images/ROC_15_08_05_099.pdf Graphic file (type pdf)
+<use images/ROC_15_08_05_099.pdf>
+Package pdftex.def Info: images/ROC_15_08_05_099.pdf  used on input line 544.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 547.
+<images/ROC_50_05_05_099.pdf, id=247, 522.95375pt x 522.95375pt>
+File: images/ROC_50_05_05_099.pdf Graphic file (type pdf)
+<use images/ROC_50_05_05_099.pdf>
+Package pdftex.def Info: images/ROC_50_05_05_099.pdf  used on input line 547.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 549.
+<images/ROC_50_08_05_099.pdf, id=248, 538.01pt x 508.90125pt>
+File: images/ROC_50_08_05_099.pdf Graphic file (type pdf)
+<use images/ROC_50_08_05_099.pdf>
+Package pdftex.def Info: images/ROC_50_08_05_099.pdf  used on input line 549.
+(pdftex.def)             Requested size: 202.35622pt x 202.36032pt.
+ [23 <./images/ROC_15_05_05_099.pdf> <./images/ROC_15_08_05_099.pdf> <./images/
+ROC_50_05_05_099.pdf> <./images/ROC_50_08_05_099.pdf>]
+Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
+r on input line 570.
+<images/no_annealing.pdf, id=273, 844.83629pt x 555.75629pt>
 File: images/no_annealing.pdf Graphic file (type pdf)
 <use images/no_annealing.pdf>
-Package pdftex.def Info: images/no_annealing.pdf  used on input line 490.
+Package pdftex.def Info: images/no_annealing.pdf  used on input line 570.
 (pdftex.def)             Requested size: 426.79135pt x 320.09273pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[20]
+[24]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 506.
-<images/annealing.pdf, id=196, 844.83629pt x 555.75629pt>
+r on input line 586.
+<images/annealing.pdf, id=277, 844.83629pt x 555.75629pt>
 File: images/annealing.pdf Graphic file (type pdf)
 <use images/annealing.pdf>
-Package pdftex.def Info: images/annealing.pdf  used on input line 506.
+Package pdftex.def Info: images/annealing.pdf  used on input line 586.
 (pdftex.def)             Requested size: 426.79135pt x 320.09273pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21 <./images/no_annealing.pdf>]
+[25 <./images/no_annealing.pdf>] [26 <./images/annealing.pdf>]
 Package pdftex.def Info: Option `bb' equivalent to `viewport' with pdftex drive
-r on input line 524.
-<images/runtimes.pdf, id=215, 638.385pt x 539.01375pt>
+r on input line 604.
+<images/runtimes.pdf, id=306, 638.385pt x 539.01375pt>
 File: images/runtimes.pdf Graphic file (type pdf)
 <use images/runtimes.pdf>
-Package pdftex.def Info: images/runtimes.pdf  used on input line 524.
+Package pdftex.def Info: images/runtimes.pdf  used on input line 604.
 (pdftex.def)             Requested size: 361.34999pt x 325.21002pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[22 <./images/annealing.pdf>] [23 <./images/runtimes.pdf>]
+ [27 <./images/runtimes.pdf>] [28]
 Chapter 6.
+[29
 
-Overfull \hbox (2.87308pt too wide) in paragraph at lines 542--543
-\OT1/lmr/m/n/10.95 of four meth-ods: the ori-ginal vari-ational im-ple-ment-a-t
-ion from the pack-age \OT1/lmtt/m/n/10.95 locus \OT1/lmr/m/n/10.95 (LOCUS),
- []
-
-[24
-
-] [25] (./20190401_main.bbl) [26
+] [30] (./20190401_main.bbl) [31
 
 ] (./20190401_main.aux) ) 
 Here is how much of TeX's memory you used:
- 15354 strings out of 492649
- 296022 string characters out of 6129622
- 367187 words of memory out of 5000000
- 18875 multiletter control sequences out of 15000+600000
+ 15414 strings out of 492649
+ 297911 string characters out of 6129622
+ 367243 words of memory out of 5000000
+ 18924 multiletter control sequences out of 15000+600000
  70061 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,20n,59p,936b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,20n,59p,1291b,619s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm
 /lm-rmtt.enc}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{
 /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local
@@ -984,10 +1052,10 @@ cal/texlive/2018/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/local/texlive
 f-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2018/texmf-dist/font
 s/type1/public/lm/lmtt10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
 blic/amsfonts/symbols/msbm10.pfb>
-Output written on 20190401_main.pdf (28 pages, 1445456 bytes).
+Output written on 20190401_main.pdf (33 pages, 1317741 bytes).
 PDF statistics:
- 306 PDF objects out of 1000 (max. 8388607)
- 209 compressed objects within 3 object streams
+ 390 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 92 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 147 words of extra memory for PDF output out of 10000 (max. 10000000)
 

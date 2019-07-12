@@ -15,9 +15,9 @@ n <- 300; # Number of observations
 p <- 500; p0 <- 15; #Number of SNPs ; Number of active SNPs (15 or 50)
 d <- 1; d0 <- 1 # Number of traits ; Number of active traits
 
-max_tot_pve <-  0.8 # max proportion of phenotypic variance explained by the active SNPs (0.5 or 0.8)
+max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs (0.5 or 0.8)
 
-min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99)
+min_rho <- 0.95; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99)
 iter <- 50
 
 anneal <- c(1, 2, 10)
@@ -153,6 +153,8 @@ for(seed in sample(1:1e3,iter)){
     vec_w_part <- get_p_m_y(elbo)
     out <- colSums(sweep(gam, 1, vec_w_part, "*")) # Averaged LOCUS gammas
     
+    # plot(vec_w_part, main = "Weights attributed to each mode", xlab="Modes", ylab="Weigth", pch=20) # Plot the weights attributed to each mode
+    
     vec_w_part_a <- get_p_m_y(elbo_a)
     out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*")) # Averaged annealed LOCUS gammas
     
@@ -197,7 +199,7 @@ for(seed in sample(1:1e3,iter)){
   # Plot ROC curves
   
   par(pty="s")
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.8", sep="")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5", sep="")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
