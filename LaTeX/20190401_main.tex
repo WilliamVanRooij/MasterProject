@@ -562,13 +562,13 @@ The correlations being between $0.5$ and $0.99$, they have a higher chance of be
 
 
 \section{Comparison with MCMC inference}
-Section \ref{sec:varSelPerf} evaluated variable selection performance of the different methods, we now compare the accuracy of our proposal by confronting it with MCMC inference. To do so, we generate data with the \texttt{echoseq R}-package, and save the simulated matrix $\boldsymbol{\beta}$. We simulate $300$ observations for equicorrelated SNPs with extremely high correlation coefficient of $0.955$.
+Section \ref{sec:varSelPerf} evaluated variable selection performance of the different methods, we now compare the accuracy of our proposal by confronting it with MCMC inference. To do so, we generate data with the \texttt{echoseq R}-package, and save the simulated matrix $\boldsymbol{\beta}$. We simulate $300$ observations of four equicorrelated SNPs with an extremely high correlation coefficient of $0.995$. Out of the four SNPs, two of them are associated with a trait.
 
 We compare the posterior distributions of the regression coefficient obtained by our methods with the posterior distributions obtained by MCMC inference. The two inference methods have a different convergence and stopping criteria, so the comparison should be studied prudently. Our method is based on variational inference, which has a convergence criterion defined as a tolerance to be given. The MCMC inference does not necessarily visit the whole model space, so to alleviate this problem, we run it for a large number of iterations, namely $10^5$ iterations and discard the first half as burn-in, and we consider a very small problem, i.e., $p=4, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/no_annealing.pdf}
-\caption{\label{fig:no_ann}Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms) as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines of $\beta_2$ and $\beta_4$ are superimposed.}
+\includegraphics[width=\textwidth, bb=0 0 9.8in 8.07in]{images/MCMC_noanneal.pdf}
+\caption{\label{fig:no_ann}Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms), as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines of $\beta_2$ and $\beta_4$ are superimposed. The SNPs are equicorrelated with a correlation coefficient of $0.995$.}
 \end{figure}
 
 Figure \ref{fig:no_ann} shows LOCUS and averaged LOCUS estimated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC posteriors and the simulated values of $\boldsymbol{\beta}$. 
@@ -580,11 +580,16 @@ Second, averaged LOCUS probably best reflects the true posterior; it puts mass n
 Third, when LOCUS and averaged LOCUS disagree, the result of LOCUS is ``visible'' in the distribution of averaged LOCUS. Averaged LOCUS considers the mode obtained from LOCUS in its averaging.
 
 Finally, $\beta_4$ is supposed to be non-null, but the MCMC approximations and those given by LOCUS and averaged LOCUS are all concentrated around zero. The strong correlation gave the wrong mode too much weight, giving the illusion that it was the global mode. This can be an effect of the spike-and-slab prior which enforces too much shrinkage.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth, bb=0 0 9.8in 8.07in]{images/MCMC_weakcorr.pdf}
+\caption{\label{fig:weakCorr} Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms), as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines are superimposed. The SNPs are autocorrelated with a correlation coefficient of $0.9$.}
+\end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth, bb=0 0 800px 600px]{images/annealing.pdf}
-\caption{\label{fig:ann}Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) estimated posterior distribution for $\boldsymbol{\beta}$, MCMC distributions (histograms) $\boldsymbol{\beta}$ posteriors as well as the simulated $\boldsymbol{\beta}$ values (dashed black line).}
+\includegraphics[width=\textwidth, bb=0 0 9.8in 8.07in]{images/MCMC_anneal.pdf}
+\caption{\label{fig:ann}Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) estimated posterior distribution for $\boldsymbol{\beta}$, MCMC distributions (histograms) $\boldsymbol{\beta}$ posteriors as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The SNPs are equicorrelated with a correlation coefficient of $0.995$.}
 \end{figure}
 Figure \ref{fig:ann} shows the same posteriors as Figure \ref{fig:no_ann}, but with a simulated annealing step added to the LOCUS and averaged LOCUS methods. We have used the same settings than for Figure \ref{fig:no_ann}, so the histograms and the simulated $
 \boldsymbol{\beta}$ values are the same for the two situations. We chose an initial temperature $T_L = 5$, and used ten geometric steps.
@@ -601,7 +606,8 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=5in,bb= 0 0 600 540]{images/runtimes.pdf}
+\includegraphics[width=5in,bb= 0 0 600 540]{images/runtime.pdf}
+
 \caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores.}
 \end{figure}
 
@@ -609,7 +615,7 @@ Figure \ref{fig:runtime} shows the running times of the methods, computed on $30
 
 The averaged annealed LOCUS takes the longest to compute out of the first four methods, as on addition to averaging, the method starts every occurrence with an annealing step. The annealed LOCUS also takes more time to compute than the standard LOCUS method, which confirms the additional time needed for the averaged annealing LOCUS to complete, compared to the averaged LOCUS.
 
-The variance in the runtime of averaged annealed LOCUS is smaller than the variance in the runtime of averaged LOCUS. The annealing step  of averaged annealed LOCUS will bring the algorithm closer to a local optimum, so the algorithm will take less time to stop.
+The variability in the runtime of averaged annealed LOCUS is smaller than the variability in the runtime of averaged LOCUS. The annealing step of averaged annealed LOCUS yields the parameters of the different initialisations closer together, as they tend to go in the direction of the global maxima. After the annealing step, the usual algorithm takes a similar amount of time to compute for all the initialisations as the parameters it starts with are closer one from another than they were before the annealing step.
 %
 %
 %

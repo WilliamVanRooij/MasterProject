@@ -18,4 +18,4 @@
 \contentsline {section}{\numberline {5.2}Variable selection performance}{18}
 \contentsline {section}{\numberline {5.3}Comparison with MCMC inference}{24}
 \contentsline {section}{\numberline {5.4}Running times}{27}
-\contentsline {chapter}{\numberline {6}Conclusion}{29}
+\contentsline {chapter}{\numberline {6}Conclusion}{30}

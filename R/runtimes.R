@@ -115,7 +115,7 @@ for(seed in sample(1:1e3,iter)){
   
   # Averaged LOCUS
   
-  time0_m <- proc.time()
+  time0_m <- Sys.time()
   m_vb_g <- mclapply(user_seed, mlocus, mc.cores = nb_cpus)
   
   elbo <- NULL
@@ -128,11 +128,11 @@ for(seed in sample(1:1e3,iter)){
   
   vec_w_part <- get_p_m_y(elbo) # Calculate weights
   out <- colSums(sweep(gam, 1, vec_w_part, "*")) # Weighted average
-  runtime_m <- c(runtime_m, as.numeric(proc.time() - time0_m)[3]);
+  runtime_m <- c(runtime_m, as.numeric(Sys.time() - time0_m));
   
   # Averaged annealed LOCUS
   
-  time0_m_a <- proc.time()
+  time0_m_a <- Sys.time()
   m_vb_g_a <- mclapply(user_seed, a_mlocus, mc.cores = nb_cpus)
   
   elbo_a <- NULL
@@ -145,23 +145,23 @@ for(seed in sample(1:1e3,iter)){
   
   vec_w_part_a <- get_p_m_y(elbo_a) # Calculate weights
   out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*")) # Weighted average
-  runtime_m_a <- c(runtime_m_a, as.numeric(proc.time() - time0_m_a)[3])
+  runtime_m_a <- c(runtime_m_a, as.numeric(Sys.time() - time0_m_a))
   
   # Annealed LOCUS
   
-  time0_s_a <- proc.time()
+  time0_s_a <- Sys.time()
   single_vb_g_a <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed = seed, verbose = FALSE, save_hyper=TRUE, anneal = anneal)
-  runtime_s_a <- c(runtime_s_a, as.numeric(proc.time() - time0_s_a)[3])
+  runtime_s_a <- c(runtime_s_a, as.numeric(Sys.time() - time0_s_a))
   
   # LOCUS
   
-  time0_s <- proc.time()
+  time0_s <- Sys.time()
   single_vb_g <-locus(Y = dat_g$phenos, X=dat_g$snps, p0_av = p0_av, link = "identity", user_seed= seed, verbose = FALSE, save_hyper=TRUE, anneal = NULL)
-  runtime_s <- c(runtime_s, as.numeric(proc.time() - time0_s)[3])
+  runtime_s <- c(runtime_s, as.numeric(Sys.time() - time0_s))
   
   # 100 iterations of LOCUS
   
-  time0_s_m <- proc.time()
+  time0_s_m <- Sys.time()
   
   elbo_s <- NULL
   gam_s <- NULL
@@ -184,12 +184,12 @@ for(seed in sample(1:1e3,iter)){
   }
   vec_w_part_s <- get_p_m_y(elbo_s) # Calculate weights
   out_s <- colSums(sweep(gam_s, 1, vec_w_part_s, "*")) # Weighted average
-  runtime_s_m <- c(runtime_s_m, as.numeric(proc.time() - time0_s_m)[3])
+  runtime_s_m <- c(runtime_s_m, as.numeric(Sys.time() - time0_s_m))
 }
 
 # Plot runtimes
 par(mfrow=c(1,1))
 
 boxplot(runtime_s, runtime_s_a, runtime_m, runtime_m_a, runtime_s_m,col=c("blue","green","orange","red", "mediumseagreen"),lend=1, main="Running times of the methods (in seconds)", xaxt='n',xlab="",ylab="Runtimes")
-axis(1,at=1:5,labels=c("LOCUS","Annealed \n LOCUS", "Averaged \n LOCUS","Averaged \n annealed \n LOCUS","Serial \n LOCUS"), tick=F,pos=-0.4)
+axis(1,at=1:5,labels=c("LOCUS","Annealed \n LOCUS", "Averaged \n LOCUS","Averaged \n annealed \n LOCUS","Serial \n averaged \n LOCUS"), tick=F,pos=-0.4)
 

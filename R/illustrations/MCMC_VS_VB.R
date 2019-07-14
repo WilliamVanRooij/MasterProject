@@ -30,10 +30,9 @@ n <- 300
 p <- 4
 stopifnot(p > 1)
 vec_pat <- c(TRUE, sample(c(TRUE, FALSE), p - 1, replace = TRUE)) # c(FALSE, TRUE) # pattern for true beta: FALSE = beta = 0, T: beta != 0
-vec_pat
 maf <- 0.4
 cor_type <- c("autocorrelated", "equicorrelated")[2]
-rho <- 0.995 # or 0.98
+rho <- 0.995 # 0.995 or 0.98
 
 p0_av <- min(sum(vec_pat), p - 0.5)
 n_repl <- 100
@@ -132,7 +131,7 @@ list_m_mix <- lapply(1:p, function(ii) norMix(mu=mat_mix_mu_beta[, ii],sigma = v
 names(list_s_mix) <- names(list_m_mix) <- paste0("Predictor_", 1:p)
 
 
-if(TRUE){
+if(FALSE){
   
   if (p < 4) {
     par(mfrow=c(1, p))
@@ -152,15 +151,19 @@ if(TRUE){
 
 
 
-# par(mfrow=c(2, 2))
-# 
-# plot_densities(1, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, xlim = c(-0.2, 2.5), ylim =  c(0, 8), bool_leg = FALSE) 
-# plot_densities(2, s_col = s_col, m_col = m_col,bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.6, 0.6), ylim =  c(0, 20)) 
-# plot_densities(3, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-1.5, 0.5), ylim =  c(0, 7), bool_leg = FALSE)
-# plot_densities(4, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.2, 0.6), ylim =  c(0, 25), bool_leg = FALSE)
-# 
-# 
-# par(mfrow=c(1,1))
+par(mfrow=c(2, 2))
+
+plot_densities(1, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, xlim = c(-0.2, 2.5), ylim =  c(0, 8), bool_leg = F)
+  if(bool_anneal){ 
+  legend("topright", c("Annealed LOCUS", "Averaged annealed LOCUS", "Simulated coefficients"), col = c("mediumseagreen","red","black"), lty=c(1,1,2),bty='n', lwd=2)
+  } else {
+    legend("topright", c("LOCUS", "Averaged LOCUS", "Simulated coefficients"), col = c("darkblue","orange","black"), lty=c(1,1,2), bty='n',lwd=2)
+  }
+plot_densities(2, s_col = s_col, m_col = m_col,bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.6, 0.6), ylim =  c(0, 20), bool_leg = FALSE)
+plot_densities(3, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-1.5, 0.5), ylim =  c(0, 7), bool_leg = FALSE)
+plot_densities(4, s_col = s_col, m_col = m_col, bool_anneal = bool_anneal, breaks = 60, xlim = c(-0.2, 0.6), ylim =  c(0, 25), bool_leg = FALSE)
+
+par(mfrow=c(1,1))
 if(FALSE){
   
   for (ii in 1:p) {

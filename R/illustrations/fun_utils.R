@@ -16,22 +16,20 @@ generate_data <- function(n, p, vec_pat, cor_type, rho, maf, seed) {
   
   stopifnot(is.logical(vec_pat))
   
+  X <- generate_snps(n, p, 
+                     cor_type = cor_type, 
+                     vec_rho=rho, vec_maf=rep(maf, p), 
+                     user_seed = seed)$snps
+  
   tau <- rgamma(1, shape=1, scale=2)
   sigma2.inv <- rgamma(1, shape=2, scale=1)
   
-  X <- generate_snps(n, p,
-  cor_type = cor_type,
-  vec_rho=rho, vec_maf=rep(maf, p),
-  user_seed = seed)$snps
   beta <- rep(0, p)
   beta[vec_pat] <- rnorm(sum(vec_pat), mean=0, sd=sqrt(1/(sigma2.inv*tau)))
+
+  # beta <- c(0.8,0,0,-0.9) # Used for weak correlation simulations
   y <- matrix(rnorm(n, mean=X %*% beta, sd=1/sqrt(tau)), nrow = n, ncol = 1)
   
-  # snps <- generate_snps(n, p, cor_type = cor_type, vec_rho=rho, vec_maf=rep(maf, p), user_seed = seed)
-  # X <- snps$snps
-  # phenos <- generate_phenos(n, 1, user_seed = seed)
-  # y <- phenos$phenos
-  # beta <- generate_dependence(snps, phenos, vec_prob_sh=NULL, ind_d0 = NULL,ind_p0=NULL, pat=matrix(vec_pat,ncol = 1),max_tot_pve=0.135, block_phenos = T, user_seed = seed)$beta
   list("X" = X, "y" = y, "beta" = beta)
 }
 
