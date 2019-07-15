@@ -25,7 +25,7 @@ if(bool_anneal) {
 
 cor_type <- "autocorrelated"; 
 
-vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99)
+vec_rho <- runif(floor(p/10), min = 0.95, max = 0.99)
 #vec_rho <- c(0.99,0.99)
 
 nb_cpus <- 4;
@@ -186,7 +186,7 @@ for(k in 1:iter){
 }
 
 
-  #make_ld_plot(dat_g$snps[,1:50],"r") # Plot correlations
+  # make_ld_plot(dat_g$snps[,1:50],"r") # Plot correlations
 
   # Plot probabilities of association for each method
 

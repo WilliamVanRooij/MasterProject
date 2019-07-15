@@ -2,7 +2,7 @@ a <- 1
 
 rm(list= ls())
 
-setwd("~/Documents/MasterProject/R/illustrations/")
+setwd("~/Documents/MasterProject/R/")
 library(parallel)
 library(LaplacesDemon)
 
@@ -32,7 +32,7 @@ stopifnot(p > 1)
 vec_pat <- c(TRUE, sample(c(TRUE, FALSE), p - 1, replace = TRUE)) # c(FALSE, TRUE) # pattern for true beta: FALSE = beta = 0, T: beta != 0
 maf <- 0.4
 cor_type <- c("autocorrelated", "equicorrelated")[2]
-rho <- 0.995 # 0.995 or 0.98
+rho <- 0.995 # 0.995 or 0.9 for weaker correlation
 
 p0_av <- min(sum(vec_pat), p - 0.5)
 n_repl <- 100

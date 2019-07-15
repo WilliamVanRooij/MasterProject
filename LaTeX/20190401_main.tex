@@ -444,15 +444,30 @@ With the original LOCUS method, the algorithm wrongly selects two SNPs and misse
 
 Our averaged variational inference algorithm (averaged LOCUS) does better; it identifies three of the five relevant SNPs. It also better conveys the block correlation structure in the probabilities of association as four SNPs of the middle block all have non null probabilities of association with the trait. 
 
-The second correlation block contains two associated SNPs, and both of the methods seem to have failed to identify them as such. It is, in fact, a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
+The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such. This could be a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
 
-Figure \ref{fig:probablock} shows the probabilities of association of the second block of SNPs. We see that the probabilities of association are not all null. One of the associated SNPs has a higher probability of being associated than the others. The uncertainty resulting from the high multimodality of the problem is represented here by the probabilities of assoctiation of the SNPs between the two associated SNPs are all above zero. 
+Figure \ref{fig:probablock} shows the probabilities of association of the second block of SNPs. The probabilities of association are not all null. One of the associated SNPs has a higher probability of being associated than the others. The uncertainty resulting from the high multimodality of the problem is represented here by the probabilities of association of the SNPs between the two associated SNPs that are all above zero. The algorithm couldn't determine which SNP was associated, the correlation between them being too strong.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=5in, bb=0 0 8in 4.5in]{images/proba_block.pdf}
 \caption{\label{fig:probablock}Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}
 \end{figure}
+
+However, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correaltion in our situation is extremely high, but if we reduce the correlation, the algorithm finds all the associated SNPs.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=2.9in, bb= 0 0 8in 4in]{images/proba_weak.pdf}
+\includegraphics[width=2.9in, bb= 0 0 8in 4in]{images/proba_weak_m.pdf}
+\includegraphics[width=2.9in, bb= 1.32in 0 6.4in 2in]{images/LD_weak.pdf}
+\includegraphics[width=2.9in, bb= 1.32in 0 6.4in 2in]{images/LD_weak.pdf}
+\caption{\label{fig:weaker_locus}Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref{sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a black cross. Underneath are the correlation patterns of the SNPs, weaker than for Figure \ref{fig:simple_locus}; they are the same for the two sides as the SNPs used are the same.}
+\end{figure}
+
+Figure \ref{fig:weaker_locus} shows the probabilities of association of the first $50$ SNPs, out of $500$ simulated. The SNPs have weaker correlations as for Figure \ref{fig:simple_locus}, but the same SNPs are associated with the trait. The other settings are the same as for Figure \ref{fig:simple_locus}.
+
+With weaker correlations, it is easier for LOCUS to find associated SNPs as it manages to have three actually associated SNPs, but the correlations are still too strong and mislead LOCUS into wrongfully selecting two SNPs. Averaged LOCUS, however, finds the five right associated SNPs, and we can still read the uncertainty around the middle correlation block, where a non associated SNP has a non-null probability of association.
 
 \section{Variable selection performance} \label{sec:varSelPerf}
 
@@ -561,7 +576,7 @@ Averaged LOCUS, with or without weights, annealed LOCUS, and averaged annealed L
 The correlations being between $0.5$ and $0.99$, they have a higher chance of being in the spectrum of the correlations of Figures \ref{fig:ROC_mediumCorr} and \ref{fig:ROC_lowCorr} than being in the spectrum of the correlations of Figure \ref{fig:ROC_highCorr}. The behaviour of the mixed correlations performances being similar to the performances of the weak and medium correlations makes sense. 
 
 
-\section{Comparison with MCMC inference}
+\section{Comparison with MCMC inference} \label{sec:comparison}
 Section \ref{sec:varSelPerf} evaluated variable selection performance of the different methods, we now compare the accuracy of our proposal by confronting it with MCMC inference. To do so, we generate data with the \texttt{echoseq R}-package, and save the simulated matrix $\boldsymbol{\beta}$. We simulate $300$ observations of four equicorrelated SNPs with an extremely high correlation coefficient of $0.995$. Out of the four SNPs, two of them are associated with a trait.
 
 We compare the posterior distributions of the regression coefficient obtained by our methods with the posterior distributions obtained by MCMC inference. The two inference methods have a different convergence and stopping criteria, so the comparison should be studied prudently. Our method is based on variational inference, which has a convergence criterion defined as a tolerance to be given. The MCMC inference does not necessarily visit the whole model space, so to alleviate this problem, we run it for a large number of iterations, namely $10^5$ iterations and discard the first half as burn-in, and we consider a very small problem, i.e., $p=4, q=1$. We are interested in evaluating the posterior distributions of $\boldsymbol{\beta} = (\beta_1, \beta_2, \beta_3, \beta_4)$. In the construction of our data, we have chosen $\beta_2, \beta_3 = 0$ and $\beta_1, \beta_4 \neq 0$.
@@ -571,32 +586,40 @@ We compare the posterior distributions of the regression coefficient obtained by
 \caption{\label{fig:no_ann}Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms), as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines of $\beta_2$ and $\beta_4$ are superimposed. The SNPs are equicorrelated with a correlation coefficient of $0.995$.}
 \end{figure}
 
-Figure \ref{fig:no_ann} shows LOCUS and averaged LOCUS estimated posteriors of $\boldsymbol{\beta}$, as well as the histogram of the MCMC posteriors and the simulated values of $\boldsymbol{\beta}$. 
+Figure \ref{fig:no_ann} shows LOCUS and averaged LOCUS estimated posteriors of $\boldsymbol{\beta}$, as well as the histograms of the MCMC posteriors and the simulated values of $\boldsymbol{\beta}$. 
 
-First, the problem appears to be very difficult as all methods disagree to some extent and fail to accurately capture the simulated values; even the MCMC algorithm yields inferences far from the truth, particularly for $\beta_1$ and $\beta_4$.
+First, the problem appears to be very difficult as all methods  fail to accurately capture the simulated values; even the MCMC algorithm yields inferences far from the truth for $\beta_4$. It is supposed to be non-null, but the MCMC approximations and those given by LOCUS and averaged LOCUS are all concentrated around zero. The correlations are too strong and the effect sizes too weak for the algorithms to find the simulated $\beta_4$. To verify this affirmation, Figure \ref{fig:weakCorr} shows a case with weaker correlations and stronger effect sizes.
 
 Second, averaged LOCUS probably best reflects the true posterior; it puts mass near the simulated values of $\beta_s$ for every $\beta_s$ but for $\beta_4$, where it finds the same estimation as the MCMC inference and the LOCUS methods. This is in line with the ROC curves of Figure \ref{fig:ROC_highCorr}, where we saw that for variable selection, averaged LOCUS outperforms LOCUS.
 
 Third, when LOCUS and averaged LOCUS disagree, the result of LOCUS is ``visible'' in the distribution of averaged LOCUS. Averaged LOCUS considers the mode obtained from LOCUS in its averaging.
 
-Finally, $\beta_4$ is supposed to be non-null, but the MCMC approximations and those given by LOCUS and averaged LOCUS are all concentrated around zero. The strong correlation gave the wrong mode too much weight, giving the illusion that it was the global mode. This can be an effect of the spike-and-slab prior which enforces too much shrinkage.
+Finally, the shift between the simulated $\beta_1$ and the algorithms yields is in the wrong way. It is normal to have a shrinkage when estimating simulated values with inference, but the shift is supposed to be in the direction of zero. The algorithms, both MCMC, LOCUS, and averaged LOCUS , having wrongly not selected the fourth SNP as associated, they certainly compensated on $\beta_1$, hence why the estimated effect size $\beta_1$ is bigger than the simulated $\beta_4$. 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth, bb=0 0 9.8in 8.07in]{images/MCMC_weakcorr.pdf}
-\caption{\label{fig:weakCorr} Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms), as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines are superimposed. The SNPs are autocorrelated with a correlation coefficient of $0.9$.}
+\caption{\label{fig:weakCorr} Comparison of LOCUS (blue) and averaged LOCUS (orange) estimated posterior distributions for $\boldsymbol{\beta}$, MCMC distributions (histograms), as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The orange and blue lines are superimposed. The SNPs are autocorrelated with a correlation coefficient of $0.9$. The blue and orange lines are superimposed.}
 \end{figure}
+
+Figure \ref{fig:weakCorr} shows LOCUS and averaged LOCUS estimated posteriors of $\boldsymbol{\beta}$, the histograms of the MCMC posteriors, and the simulated values of $\boldsymbol{\beta}$, for SNPs autocorrelated with a correlation coefficient of $0.9$, weaker than for Figure \ref{fig:no_ann}, and a stronger effect size for $\beta_4$.
+
+The weaker correlations and stronger effect size for $\beta_4$ allows the algorithms to find a better estimation of the simulated effect sizes $\boldsymbol{\beta}$. The active SNPs have been correctly estimated, and the inactive SNPs have been detected.
+
+LOCUS and averaged LOCUS yield similar posterior distributions for $\boldsymbol{\beta}$. Due to the correlation being weaker and the effect sizes being bigger, LOCUS can estimate the effect sizes just as well as averaged LOCUS does. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth, bb=0 0 9.8in 8.07in]{images/MCMC_anneal.pdf}
 \caption{\label{fig:ann}Comparison of annealed LOCUS (green) and averaged annealed LOCUS (red) estimated posterior distribution for $\boldsymbol{\beta}$, MCMC distributions (histograms) $\boldsymbol{\beta}$ posteriors as well as the simulated $\boldsymbol{\beta}$ values (dashed black line). The SNPs are equicorrelated with a correlation coefficient of $0.995$.}
 \end{figure}
+
 Figure \ref{fig:ann} shows the same posteriors as Figure \ref{fig:no_ann}, but with a simulated annealing step added to the LOCUS and averaged LOCUS methods. We have used the same settings than for Figure \ref{fig:no_ann}, so the histograms and the simulated $
 \boldsymbol{\beta}$ values are the same for the two situations. We chose an initial temperature $T_L = 5$, and used ten geometric steps.
 
-For all four $\beta_s$, annealed LOCUS yields a posterior density that is more aligned with averaged annealed LOCUS. The posterior given by annealed LOCUS tends to put mass at the same place than the averaged annealed LOCUS posterior.
+For all four $\beta_s$, annealed LOCUS yields a posterior density that is aligned with averaged annealed LOCUS. The posterior given by annealed LOCUS tends to put mass at the same place than the averaged annealed LOCUS posterior.
 
-As for the standard methods, the simulated annealing augmented methods overlap the simulated values for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior with values concentrated around zero.
+As for the non annealing methods, the simulated annealing augmented methods overlap the simulated values for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior with values concentrated around zero. As for Figure \ref{fig:no_ann}, the correlations were too strong and the effect sizes too weak for the algorithms to find a plausible estimation for $\beta_4$. And in the same way as in Figure \ref{fig:no_ann}, the fourth SNP not being recognised as associated, the algorithms must have compensated on the first SNP, overestimating its effect size $\beta_1$.
 
 When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, one sees that the annealing changed the posterior densities. In Figure \ref{fig:no_ann}, the posterior density of $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they overlap the simulated $\boldsymbol{\beta}$. 
 
@@ -606,7 +629,7 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=5in,bb= 0 0 600 540]{images/runtime.pdf}
+\includegraphics[width=5in,bb= 0 0 705 581]{images/runtime.pdf}
 
 \caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores.}
 \end{figure}
@@ -629,19 +652,19 @@ In this work, we proposed a new variational approach based on Bayesian averaging
 
 We compared the variable selection performance of five methods: the original variational implementation from the package \texttt{locus} (LOCUS), our weighted average augmented method (averaged LOCUS), their simulated annealing augmented counterparts (annealed LOCUS and averaged annealed LOCUS), and the weighted average augmented method with all weights equal.
 
+Then, we focused on the posterior distributions of the effect sizes yielded by our four methods, compared them with MCMC inference and the simulated effect sizes. With strong correlations and weak effect sizes, our methods missed an associated SNP, but found it when we weakened the correlations and augmented the effect size of the missed SNP.
+
 We also compared the runtime of the original implementation (LOCUS), our weighted average augmented method (averaged LOCUS), their respective simulated annealing counterparts (annealed LOCUS and averaged annealed LOCUS), and a non parallel implemented weighted averaged method.
 
 Our proposal, averaged LOCUS, outperforms the original LOCUS method in terms of variable selection. On strongly correlated SNPs ($0.95$ to $0.99$), the averaged LOCUS has the best performance, amongst the studied methods. On weaker correlated SNPs ($0.5$ to $0.95$), averaged LOCUS, with or without equal weights, annealed LOCUS, and averaged annealed LOCUS, all have a similar variable selection performance.
 
-Hence, based on the runtime of the different methods, when the correlations between the SNPs is not extremely high, it is quicker to use annealed LOCUS than to use averaged LOCUS, and it has the same performance. However, on strongly correlated data, averaged LOCUS has a better performance than annealing LOCUS and averaged annealing LOCUS, and is quicker to compute.
-
+Hence, based on the runtime of the different methods, when the correlations between the SNPs is not extremely high, it is quicker to use annealed LOCUS than to use averaged LOCUS, and it has the same variable selection performance. However, on extremely strong correlated data, averaged LOCUS has a better performance than annealed LOCUS and averaged annealed LOCUS, and is quicker to compute than averaged annealed LOCUS.
 
 Several improvements may be considered. First, we also need to evaluate the method performance when considering more that one trait, i.e., $q > 1$. Real eQTL data are made of more than one trait so it would better assess the performance of the methods on relevant data.
 
 Second, we assumed that every model is a priori equiprobable in the averaged LOCUS procedure; other choices could be considered. For example, we could relate the model probability with the expected number of associated SNPs.
 
 Third, for the annealing procedure, we have chosen a geometric schedule, a number of steps $L$, and an initial temperature $T_L$. It would be good to compare the performance with different choices of initial temperatures, steps, and schedule.
-
 
 Fourth, we would like to apply this method on real eQTL data.
 
