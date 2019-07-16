@@ -177,7 +177,6 @@ user_seed <- sample(1:1e3, 100)
       
         for(i in c(1:length(user_seed))) {
           gam <- rbind(gam, as.vector(m_vb_g[[i]]$gam_vb))
-          #lb_exp <- lb_exp + exp(m_vb_g[[i]]$locus$lb_opt)
           elbo <- c(elbo, m_vb_g[[i]]$lb_opt)
         }
       

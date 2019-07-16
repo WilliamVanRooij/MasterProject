@@ -17,7 +17,7 @@ d <- 1; d0 <- 1 # Number of traits ; Number of active traits
 
 max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs (0.5 or 0.8)
 
-min_rho <- 0.95; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99)
+min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99, 0.5-0.99)
 iter <- 50
 
 anneal <- c(1, 2, 10)
@@ -152,8 +152,7 @@ for(seed in sample(1:1e3,iter)){
     
     vec_w_part <- get_p_m_y(elbo)
     out <- colSums(sweep(gam, 1, vec_w_part, "*")) # Averaged LOCUS gammas
-    
-    # plot(vec_w_part, main = "Weights attributed to each mode", xlab="Modes", ylab="Weigth", pch=20) # Plot the weights attributed to each mode
+  
     
     vec_w_part_a <- get_p_m_y(elbo_a)
     out_a <- colSums(sweep(gam_a, 1, vec_w_part_a, "*")) # Averaged annealed LOCUS gammas
@@ -199,7 +198,7 @@ for(seed in sample(1:1e3,iter)){
   # Plot ROC curves
   
   par(pty="s")
-  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curves comparison, ",p[0]," = 15, Max Tot. PVE = 0.5", sep="")),xlim=c(0,0.2))
+  plot(perf_m_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='orange',lwd=2, main=expression(paste("ROC Curve comparison, ",p[0]," = 15, Max Tot. PVE = 0.8", sep="")),xlim=c(0,0.2))
   plot(perf_s_locus,avg="vertical",spread.estimate="stderror",spread.scale=2,col='blue', lwd=2, add=T)
   plot(perf_m_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='red', lwd=2, add=T)
   plot(perf_s_locus_a,avg="vertical",spread.estimate="stderror",spread.scale=2,col='green', lwd=2, add=T)
@@ -207,4 +206,21 @@ for(seed in sample(1:1e3,iter)){
   legend(0.05,0.25, c("LOCUS","Annealed LOCUS", "Averaged LOCUS","Averaged annealed LOCUS","Averaged LOCUS (Equal weights)"), col=c('blue', 'green','orange', 'red','purple'),lwd=2)
 
   par(pty="m")
+  
+  # plot(vec_w_part, main = "Weights attributed to each mode", xlab="Modes", ylab="Weigth", pch=20) # Plot the weights attributed to each mode
+  # boxplot(gam[,1:50], main="Probabilities of association", xlab="SNP", ylab="Probability of association") # Plot the boxplots of probabilities of association
+  
+  # plot(gam[,1], type='l',ylim=c(0,1), ylab="Probability of associaiton", main="Probability of association for each run of Averaged LOCUS") # Plot the modes yielded by the iterations
+  # for(ii in 2:length(user_seed)){
+  #   lines(gam[,ii], col=ii)
+  # }
+  
+  # used_gam <- NULL # Find the SNPs that have been considered as active by one of the initialisations
+  # for(ii in 1:length(user_seed)){
+  #   for(iii in 1:p){
+  #     if(!(iii %in% used_gam) && (gam[ii,iii] > 0.8)){
+  #       used_gam <- c(used_gam, iii)
+  #     }
+  #   }
+  # }
   

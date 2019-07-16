@@ -3,9 +3,15 @@ R/.Rproj.user/
 .RData
 .Ruserdata
 .DS_Store
-
+*.aux
+*.bbl
+*.blg
+LaTeX/*.log
+*.gz
+*.toc
 # temporary files emacs
 *~
 [#]*[#]
 .\#*
 .DS_Store
+

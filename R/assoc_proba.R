@@ -17,7 +17,7 @@ d <- 1; d0 <- 1
 
 anneal <- c(1, 2, 10)
 
-min_rho <- 0.95; max_rho <- 0.99; # Minimum and maximum correlation bewteen SNPs
+min_rho <- 0.98; max_rho <- 0.99; # Minimum and maximum correlation bewteen SNPs
 
 ind_p0 <- c(3,13,23,17,43) # Determination of active SNPs
 

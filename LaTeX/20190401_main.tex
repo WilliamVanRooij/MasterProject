@@ -40,12 +40,12 @@
 %----------------------------------------------------------------------------------------
 %	LOGO SECTION
 %----------------------------------------------------------------------------------------
+\center
 
 \includegraphics[width=8cm]{images/EPFL_logo.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
  
 %----------------------------------------------------------------------------------------
 
-\center % Center everything on the page
 
 %----------------------------------------------------------------------------------------
 %	HEADING SECTIONS
@@ -76,7 +76,7 @@
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
 \emph{Supervisors:} \\
-Hélène Ruffieux\\
+Dr. Hélène Ruffieux\\
 Prof. Anthony Davison 
 % Uncomment the following lines if there's a co-supervisor
 %\\[1.2em] % Supervisor's Name
@@ -105,9 +105,9 @@ Prof. Anthony Davison
 \begin{abstract}
 Expression quantitative trait locus (eQTL) analyses study the effects of genetic variants on the expression of transcripts or genes. The data used generally consist of several hundred thousand genetic variants and thousands of transcript expression outcomes. 
 
-In this work, we suppose that the data follow a hierarchical regression model linking the genetic variants and the outcomes. We are then confronted with a \textit{small n, large p, large q} situation, where $p$ is the number of genetic variants, $q$ is the number of expression levels, and $n$ is the number of samples. In this situation, MCMC algorithms are not suitable for Bayesian inference as their computational cost is too large. 
+In this work, we suppose that the data follow a hierarchical regression model linking the genetic variants and the outcomes. We are then confronted with a \textit{small n, large p, large q} situation, where $n$ is the number of samples, $p$ is the number of genetic variants, and $q$ is the number of expression levels. In this situation, MCMC algorithms are not suitable for Bayesian inference as their computational cost is too large. 
 
-Here, we present a fast variational algorithm to estimate the associations between genetic variants and traits based on \citet{eff_inf}. We perform a weighted average of variational estimates obtained from different parameter initialisations and augment our method with simulated annealing.
+Here, we present a fast variational algorithm to estimate the associations between genetic variants and traits, based on \citet{eff_inf}. We perform a weighted average of variational estimates obtained from different parameter initialisations and augment our method with simulated annealing.
 
 We evaluate the performance of our proposal by comparing it to existing approaches and assess its accuracy through comparisons with MCMC inference on a small problem.
 
@@ -118,16 +118,18 @@ https://github.com/WilliamVanRooij/MasterProject.
 \newpage
 \chapter{Introduction}
 \section{Situation}
-For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science into the way business is done. With the expansion of computer performance, we are able to implement faster computation and can work with more complex models. The volume of available, hence analysable, data is also growing, which allows more accurate inference.
+For the past years, data science has been increasingly present in the world. From financial establishments to road management companies, a lot of industry sectors are integrating data science into their businesses. With improvements in computer performance, we are able to implement faster computation and can work with more complex models. The volume of available, hence analysable, data is also growing, which allows more accurate inference.
 
-Often, when trying to find a model for data, we have many more observations than parameters to fit: a \textit{large n, small p} situation. This is the most common type of statistical analysis. Bayesian hierarchical modelling is a valuable tool to identify the dependencies across multiple sources of information, but the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not apply then, because of both statistical and computational constraints.
+Often, when trying to find a model for data, we have many more observations than parameters to fit: a \textit{large n, small p} situation. This is the most common type of statistical analysis. 
+
+Bayesian hierarchical modelling is a valuable tool to identify the dependencies across multiple sources of information, but the number of parameters may be much larger than the number of observations. This is often the case in genomic research, where the situation is called \textit{small n, large p}. Traditional techniques do not apply then, because of both statistical and computational constraints.
 
 In this thesis, we will focus on the \textit{small n, large p} situation in the context of genetic association. We will tackle high-dimensional regression in the Bayesian framework, with its statistical advantages and its computational problem, which often dissuades users from adopting this solution in statistical applications.
 
 \section{Motivation}
 Current technology allows us to numerically represent the human genome: a whole new set of data is available to study the influence of the genome on diseases or phenotypes.  Some of these newly-available data measure \textit{genetic variants}, changes at specific locations on  the genome (loci), the different versions of which are called \textit{alleles}. We will focus on the most common category of genetic variants, namely, \textit{single nucleotide polymorphisms} (SNPs), i.e., variations in the nucleotides that are present to some appreciable extent in the population. Some combinations of SNPs are inherited together, which yields block-wise dependence structures.
 
-Figure \ref{fig:corr} shows the correlations between real SNPs, located in region ENm014 on the seventh chromosome , from a Yoruba population \citep[][]{hapmap}. We clearly see a local block structure; outside the blocks, the correlations are not null but very small. A strong block correlation structure means that two SNPs in the same block may be statistically hard to differentiate. The goal is to represent the probabilities of association between a SNP and a trait of interest, while conveying the uncertainty implied by the block correlation in our results.
+Figure \ref{fig:corr} shows the correlations between real SNPs, located in region ENm014 on the seventh chromosome, from a Yoruba population \citep[][]{hapmap}. We clearly see a local block structure; outside the blocks, the correlations are not null but very small. A strong block correlation structure means that two SNPs in the same block may be statistically hard to differentiate. The goal is to represent the probabilities of association between a SNP and a trait of interest, while conveying the uncertainty implied by the block correlation in our results.
 
 \begin{figure}[h!]
 \centering
@@ -135,17 +137,17 @@ Figure \ref{fig:corr} shows the correlations between real SNPs, located in regio
 \caption{\label{fig:corr} Block correlation structure of SNPs taken from a Yoruba population HapMap, ENm014 region, chromosome $7$ \citep{hapmap}. The darker the dot, the stronger the correlation between the two corresponding SNPs.}
 \end{figure}
 
-We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies generally consist of several hundred thousand SNPs and thousands of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $p$ is the number of SNPs, $q$ is the number of expression outcomes, and $n$ is the number of samples.
+We focus on \textit{expression quantitative trait locus} (eQTL) analyses, which study the effects of genetic variants, in our case SNPs, on the expression of transcripts or genes. The data used for eQTL studies generally consist of several hundred thousand SNPs and thousands of expression outcomes. It is, in fact, a \textit{small n, large p, large q} situation, where $n$ is the number of samples, $p$ is the number of SNPs, and $q$ is the number of expression outcomes.
 
 Bayesian inference involves many integrals, which usually need to be approximated. Markov Chain Monte Carlo (MCMC) algorithms are a standard technique for the approximation of integrals and can be fast and accurate when working on reasonably small datasets. When the dataset dimensions grow, however, MCMC algorithms tend to become very time-consuming. Indeed, when performing MCMC inference, likelihoods and sometimes gradients typically need to be calculated at each iteration, and the cost of these calculations increases with the number of parameters. Moreover, the higher the dimension, the less accurate the approximations, and more iterations are needed to reach a given precision. For the algorithm to end, all the parameters need to have converged, meaning that they all need to be checked and stored, which is often impossible when their number is very high.
 
-In our situation, \textit{small n, large p, large q}, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are not acceptable. We have to use an alternative solution, which we choose to be variational inference \citet{varInf}. 
+In our \textit{small n, large p, large q} situation, the computational cost of using an MCMC algorithm is huge. The time and memory needed to run the algorithm are unacceptable. We have to use an alternative solution, which we choose to be variational inference \citep{varInf}. 
 
 %==========================================
 \newpage
 \chapter{Hierarchical sparse regression for multiple responses}
 \section{Model}
-Let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be a centered design matrix, representing the candidate predictor SNPs, and $\boldsymbol{y} = (y_1,\ldots,y_q)$ be a centered response matrix, representing the traits. We consider a hierarchical model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\tau_t$, i.e.,
+Let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be a centered design matrix, representing the candidate predictor SNPs, and let $\boldsymbol{y} = (y_1,\ldots,y_q)$ be a centered response matrix, representing the traits. We consider a hierarchical model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\tau_t$, i.e.,
 \begin{equation*}
 \label{eq:model}
 \boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q},\quad\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n),
@@ -166,9 +168,9 @@ where the parameter $\omega_s$ controls to the proportion of responses associate
 \begin{equation*}
 \omega_s \sim \text{Beta}(a_s, b_s),
 \end{equation*}
-with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we assume $p^* \ll p$, an expected number of predictors involved in the model, we set $a_s$ and $b_s$ such that the prior probability that $\boldsymbol{X}_s$ is associated with at least one response is equal to $p^*/p$. As we fix the mean of the distribution but let the variance be free, there is still one degree of freedom, so multiple choices are possible, e.g.,
+with parameters $a_s$ and $b_s$ chosen to enforce sparsity. If we assume that $p^* \ll p$, an expected number of predictors involved in the model, we set $a_s$ and $b_s$ such that the prior probability that $\boldsymbol{X}_s$ is associated with at least one response is equal to $p^*/p$. As we fix the mean of the distribution but let the variance be free, there is still one degree of freedom, so multiple choices are possible, e.g.,
 \begin{equation*}
-a_s = 1,\;b_s = q(p-p^*)/p^*,
+a_s = 1,\quad b_s = q(p-p^*)/p^*,
 \end{equation*}
  as in \citet{bay_lin}.
 
@@ -179,7 +181,7 @@ Parameters $\sigma$ and $\omega_s$ are shared across all $q$ traits, which enabl
 We are interested in estimating the associations between the SNPs and the traits by obtaining summaries of the posterior distribution of $\boldsymbol{\gamma}$ or $\boldsymbol{\beta}$, e.g., for the latter,
 \begin{align*}
 p(\boldsymbol{\beta}\mid\boldsymbol{y})&=\int\dots\int p(\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2}\mid\boldsymbol{y})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2}\\
-&=\frac{1}{p(\boldsymbol{y})}\int\dots\int p(\boldsymbol{y},\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},\\
+&=\frac{1}{p(\boldsymbol{y})}\int\dots\int p(\boldsymbol{y},\boldsymbol{\beta},\boldsymbol{\gamma},\boldsymbol{\omega},\boldsymbol{\tau},\sigma^{-2})\;\mathrm{d}\boldsymbol{\gamma}\;\mathrm{d}\boldsymbol{\omega}\;\mathrm{d}\boldsymbol{\tau}\;\mathrm{d}\sigma^{-2},
 \end{align*}
 with 
 \begin{align*}
@@ -204,7 +206,7 @@ Variational inference simplifies the estimation of the posterior $p(\boldsymbol{
 \begin{equation*}
 \KL(q\parallel p) := \int q(\boldsymbol{\theta})\log \left(\frac{q(\boldsymbol{\theta})}{p(\boldsymbol{\theta} \mid \boldsymbol{y})}\right) \mathrm{d}\boldsymbol{\theta}.
 \end{equation*} 
-This divergence was introduced in 1951 by \citet{kl51} and is the most common divergence measure used in statistics and machine learning. It is described as a ``directed divergence'' as it is asymmetric, i.e.,
+This was introduced in 1951 by \citet{kl51} and is the most common divergence measure used in statistics and machine learning. It is described as a ``directed divergence'' as it is asymmetric, i.e.,
 $$
 \KL(p\parallel q) \neq \KL(q \parallel p).
 $$
@@ -214,7 +216,7 @@ Choosing the family $\mathcal{D}$ can be difficult, as we need it to be simple e
 q^*(\boldsymbol{\theta} ) = \argmin_{q(\boldsymbol{\theta}) \in \mathcal{D}} \KL\left[ q(\boldsymbol{\theta}) \parallel p(\boldsymbol{\theta} \mid \boldsymbol{y})\right].
 \end{equation*}
 
-As its expression involves the marginal likelihood, directly minimizing the Kullback--Leibler divergence can be complicated, depending on the density $p$ that we want to approximate and the density family $\mathcal{D}$ that we want $q$ to be part of. For this reason, we decompose the Kullback--Leibler divergence as
+As its expression involves the marginal likelihood, directly minimizing the Kullback--Leibler divergence can be complicated, depending on the density $p$ that we want to approximate and the density family $\mathcal{D}$ that we want $q$ to belong to. For this reason, we decompose the Kullback--Leibler divergence as
 \begin{align*}
 \KL\left[q(\boldsymbol{\theta})||p(\boldsymbol{\theta}\mid \boldsymbol{y})\right] &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{\theta}\mid \boldsymbol{y})\right]\\
 &= \mathbb{E}\left[\log q(\boldsymbol{\theta})\right] - \mathbb{E}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right] + \log p(\boldsymbol{y}),
@@ -227,7 +229,7 @@ i.e., we obtain
 \begin{equation*}
 \KL(q\parallel p) = \log(p) - \mathcal{L}(q).
 \end{equation*}
-This means that the Kullback--Leibler divergence is the difference between the marginal log-likelihood, with no effect on the optimisation, and a function $\mathcal{L}(q)$. Hence, minimizing the Kullback--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lies in the complexity of the problems: minimizing the Kullback--Leibler divergence is typically not tractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. For this reason, variational inference uses $\mathcal{L}(q)$ as its objective function.
+This means that the Kullback--Leibler divergence is the difference between the marginal log-likelihood, with no effect on the optimisation, and a function $\mathcal{L}(q)$. Hence, minimizing the Kullback--Leibler divergence is the same as maximizing $\mathcal{L}(q)$. The difference lies in the complexity of the problems: minimizing the Kullback--Leibler divergence is typically intractable, but maximizing $\mathcal{L}(q)$ admits a closed form when the family of densities $\mathcal{D}$ is well chosen. For this reason, variational inference uses $\mathcal{L}(q)$ as its objective function.
 
 Jensen's inequality provides another way to see that $\mathcal{L}(q)$ is a lower bound for the marginal log-likelihood,
 \begin{align*}
@@ -240,11 +242,11 @@ Jensen's inequality provides another way to see that $\mathcal{L}(q)$ is a lower
 Hence, $\log p(\boldsymbol{y}) \geq \mathcal{L}(q)$.
 
 \section{Mean-field approximation}
-The complexity of the optimisation problem is directly bound to the complexity of the family of densities $\mathcal{D}$ to which $q(\boldsymbol{\theta})$ belongs. We introduce the mean-field variational family, where the parameters are mutually independent a posteriori, i.e., let $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ be a partition of $\boldsymbol{\theta}$. Then,
+The complexity of the optimisation problem is directly bound to the complexity of the family of densities $\mathcal{D}$ to which $q(\boldsymbol{\theta})$ belongs. We introduce the mean-field variational family, where the parameters are mutually independent a posteriori, i.e., let $\left\lbrace \theta_j\right\rbrace_{j=1}^J$ be a partition of $\boldsymbol{\theta}$. Then
 \begin{equation*}
 q(\boldsymbol{\theta}) = \prod_{j=1}^J q_j(\theta_j).
 \end{equation*}
-We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q)$. Hence, the variational family does not directly represent the observed data, they are linked through the optimisation of the evidence lower bound.
+We determine the variational factors $q_j(\theta_j)$ by maximizing $\mathcal{L}(q)$. Hence, the variational family does not directly represent the observed data, the variational inference and the data are linked through the optimisation of the evidence lower bound.
 
 In our case, we assume the posterior independence of most of the parameters,
 \begin{equation*}
@@ -267,10 +269,10 @@ we keep $\beta_{st}$ and $\gamma_{st}$ grouped in order to obtain a ``spike-and-
 \caption{\label{fig:mean_field}Example of the mean-field approximation, for a two-dimensional Gaussian distribution (in clear). The mean-field approximation of the posterior distribution is represented by the barred circle. The mean of the approximation agrees with the real mean, but the covariance does not match the covariance of the real posterior.}
 \end{figure}
 
-We have transformed, using the evidence lower bound and the mean-field approximation, our problem into a optimisation problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascent algorithm.
+Using the evidence lower bound and the mean-field approximation, we have transformed our problem into a optimisation problem. We now need a way to solve this problem. In the following section, we describe the coordinate ascent algorithm.
 % =========================================
 \section{Coordinate ascent}
-The coordinate ascent algorithm is typically used to solve the optimisation problem arising in mean-field variational inference. It iterates on the variational parameters of the mean-field approximation, optimising them one at the time and yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
+The coordinate ascent algorithm is typically used to solve the optimisation problem arising in mean-field variational inference. It iterates on the variational parameters of the mean-field approximation, optimising them one at the time, and yields a local optimum for the evidence lower bound. The algorithm is based on the following result:
 \begin{lemma}
 
 If we fix $q_l(\theta_l)$, $l\neq j$, then the optimal $q^*_j(\theta_j)$ satisfies
@@ -321,15 +323,15 @@ for $s=1,\dots,p$, $t=1,\dots,q$, where $\mu_{\beta,st}$, $\sigma^2_{\beta,st}$,
 \chapter{Multimodality}
 \section{Problem statement} \label{sec:pro_stat}
 When applied to highly correlated data, variational inference underestimates posterior variances, as explained in \citet{varInf}. Suppose that $p(\boldsymbol{\theta} \mid \boldsymbol{y})$ is the posterior distribution of $\boldsymbol{\theta} = (\theta_1,\theta_2)$ and that we use the mean-field approximation $$
-q(\boldsymbol{\theta}) = q(\theta_1)q(\theta_2).
+q(\boldsymbol{\theta}) = q(\theta_1)q(\theta_2),
 $$
-As we can see in Figure \ref{fig:mean_field}, the covariance structure is altered ($\theta_1$ and $\theta_2$ are independent a posteriori) and the marginal variances are smaller than those of $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. This also results from the optimisation of the reverse Kullback--Leibler divergence
+as we can see in Figure \ref{fig:mean_field}, the covariance structure is altered, $\theta_1$ and $\theta_2$ are independent a posteriori, and the marginal variances are smaller than those of $p(\boldsymbol{\theta} \mid \boldsymbol{y})$. This also results from the optimisation of the reverse Kullback--Leibler divergence
 $$
 \KL (q\parallel p) = - \int q(\boldsymbol{\theta})\log\frac{p(\boldsymbol(\theta\mid\boldsymbol{y})}{q(\boldsymbol{\theta})}\mathrm{d}\boldsymbol{\theta},
 $$
 which penalizes putting mass in $q(\cdot)$ where $p(\cdot)$ has little mass.
 
-The lower bound $\mathcal{L}(q)$ tends to be highly multimodal, so the ascent algorithm (Algorithm~\ref{alg:CAVI}) risks to get stuck in local modes. The posterior variance underestimation reinforces this risk, putting a lot of mass on one single hypothesis.
+The lower bound $\mathcal{L}(q)$ tends to be highly multimodal, so the ascent algorithm (Algorithm~\ref{alg:CAVI}) risks getting stuck in local modes. The posterior variance underestimation reinforces this risk, putting a lot of mass on one single hypothesis.
 
 To handle this multimodality better, we will explore two routes to enhance variational inference, without changing the model. The first is to introduce a simulated annealing procedure to explore more modes; this was proposed by \citet{glob_loc}. The second is to average over multiple parameter initialisations with weights equal to the posterior model probability corresponding to the obtained mode. We describe these two options in Sections \ref{sec:ann} and \ref{sec:var_inf}.
 \section{Annealed variational inference} \label{sec:ann}
@@ -361,12 +363,12 @@ To obtain the annealed variational factors, $q_T(\theta_j)$, we write (\ref{eq:a
 \mathcal{L}_T(q) &= \mathbb{E}_j\left[\mathbb{E}_{-j}\left\lbrace \log p(\boldsymbol{y},\boldsymbol{\theta})\right\rbrace - T \log q_T(\theta_j)\right]+ \const\\
 &= T\mathbb{E}_j\left[\log\left\lbrace\frac{p_{T, -j}(\boldsymbol{y}, \theta_j)}{q_T(\theta_j)}\right\rbrace\right] + \const,	
 \end{align*}
-where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $\theta_j$. The objective for $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, i.e., when
+where $p_{T, -j}(\boldsymbol{y},\theta_j) \propto \exp\left\lbrace T^{-1}\mathbb{E}_{-j}\left[\log p(\boldsymbol{y},\boldsymbol{\theta})\right]\right\rbrace$, $\mathbb{E}_j$ is the expected value with respect to $q_T(\theta_j)$, $\mathbb{E}_{-j}$ is the expected value with respect to every $ q_T(\theta_k)$ where $k \neq j$, and $\const$ is independent of $\theta_j$. The objective function for $\mathcal{L}_T(q)$ is maximal when $q_T(\theta_j) = p_{T,-j}(\boldsymbol{y},\theta_j)$, i.e., when
 \begin{equation*}
 \log q_T(\theta_j) = T^{-1} \mathbb{E}_{-j}\left[\log p(\boldsymbol{y}, \boldsymbol{\theta})\right] + \const\text{,}\quad j=1,\dots,J.
 \end{equation*}
 
-Different choices are possible for the temperature schedule, including geometric spacing,
+Different choices are possible for the temperature schedule \citep{helen}, including geometric spacing,
 \begin{equation*}
 T_l = (1 + \Delta)^{l-1},\quad \Delta = T_L^{1/(L-1)}-1,
 \end{equation*}
@@ -379,6 +381,8 @@ and linear spacing,
 T_l^{-1} = T_L^{-1} + \Delta (L-l), \quad \Delta = \frac{1-T_L^{-1}}{L-1},
 \end{equation*}
 where $l = 1,\dots,L$ and $T_L$ is the hottest temperature. $T_l$ is the temperature used at step $l$ and $L$ is the number of steps used to lower the temperature to the initial temperature $T = 1$. The original variational algorithm is then run until convergence.
+
+The choice of temperature schedule is free. In our simulations, in Chapter \ref{chap:sim}, we focus on geometric spacing. The number of steps $L$ usually varies between $10$ and $100$, we use $10$ steps.
 \section{Averaged variational inference} \label{sec:var_inf}
 Bayesian model averaging is a strategy to account for multiple competing models in an inference problem. It consists of weighting the different models in a weighted average, accounting for the likelihood that the data corresponds to each model. The more the model corresponds to the observed data, the more it will stand out in the result.
 
@@ -411,11 +415,11 @@ To cope with the high multimodality induced by strongly correlated structures an
 
 % =========================================
 \newpage
-\chapter{Simulations}
+\chapter{Simulations} \label{chap:sim}
 \section{Preliminary illustration}
 In this chapter, we assess the performance of our averaged variational method on simulations. We use the \texttt{locus R}-package \citep{r_locus} and call the variational algorithm multiple times before combining all the results in a weighted average. As explained in Section \ref{sec:var_inf}, we initialise the parameters differently for each call, in order to possibly obtain different optima. Then we use the evidence lower bound of the different calls as weights to combine the posterior summaries of each initialisation. 
 
-For all simulations presented in this chapter, we simulate data with very strong correlation patterns to evaluate the benefit of our method in the extreme multimodality scenarios it is designed for.
+For most simulations presented in this chapter, we simulate data with very strong correlation patterns to evaluate the benefit of our method in the extreme multimodality scenarios it is designed for.
 
 We use the \texttt{echoseq R}-package \citep{r_echoseq} to generate blocks of strongly autocorrelated SNPs and traits, as well as associations between them. The SNPs are coded as discrete variables describing their state and we create dependence between them using realisations of multivariate normal variables followed by a quantile thresholding rule.
 
@@ -440,21 +444,21 @@ Our ``averaged LOCUS'' method uses a weighted average over $100$ different initi
 \mathbb{E}\left[\gamma_{st}\mid\boldsymbol{y}\right] = \sum_{k=1}^{100}\mathbb{E}\left[\gamma_{st}\mid M_k\right]\;p\left(M_k\mid\boldsymbol{y}\right).
 \end{equation*}
 
-With the original LOCUS method, the algorithm wrongly selects two SNPs and misses four SNPs simulated as associated with the response. This can be explained by the strong correlations in the block structure creating a highly multimodal posterior and misleading the algorithm: it selected wrong SNPs among strongly correlated SNPs.
+With the original LOCUS method, the algorithm wrongly selects two SNPs and misses four SNPs simulated as associated with the response. This can be explained by the strong correlations in the block structure creating a highly multimodal posterior and misleading the algorithm.
 
 Our averaged variational inference algorithm (averaged LOCUS) does better; it identifies three of the five relevant SNPs. It also better conveys the block correlation structure in the probabilities of association as four SNPs of the middle block all have non null probabilities of association with the trait. 
 
-The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such. This could be a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
-
-Figure \ref{fig:probablock} shows the probabilities of association of the second block of SNPs. The probabilities of association are not all null. One of the associated SNPs has a higher probability of being associated than the others. The uncertainty resulting from the high multimodality of the problem is represented here by the probabilities of association of the SNPs between the two associated SNPs that are all above zero. The algorithm couldn't determine which SNP was associated, the correlation between them being too strong.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in, bb=0 0 8in 4.5in]{images/proba_block.pdf}
-\caption{\label{fig:probablock}Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}
-\end{figure}
-
-However, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correaltion in our situation is extremely high, but if we reduce the correlation, the algorithm finds all the associated SNPs.
+The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such.
+% This could be a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
+%
+%Figure \ref{fig:probablock} shows the probabilities of association of the second block of SNPs. The probabilities of association are not all null. One of the associated SNPs has a higher probability of being associated than the others. The uncertainty resulting from the high multimodality of the problem is represented here by the probabilities of association of the SNPs between the two associated SNPs that are all above zero. The algorithm couldn't determine which SNP was associated, the correlation between them being too strong.
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=5in, bb=0 0 8in 4.5in]{images/proba_block.pdf}
+%\caption{\label{fig:probablock}Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}
+%\end{figure}
+However, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correlation in our situation is extremely high, but if we reduce the correlation, the algorithm finds all the associated SNPs.
 
 \begin{figure}[h]
 \centering
@@ -462,22 +466,16 @@ However, as we will see in Section \ref{sec:comparison}, when the correlations a
 \includegraphics[width=2.9in, bb= 0 0 8in 4in]{images/proba_weak_m.pdf}
 \includegraphics[width=2.9in, bb= 1.32in 0 6.4in 2in]{images/LD_weak.pdf}
 \includegraphics[width=2.9in, bb= 1.32in 0 6.4in 2in]{images/LD_weak.pdf}
-\caption{\label{fig:weaker_locus}Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref{sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a black cross. Underneath are the correlation patterns of the SNPs, weaker than for Figure \ref{fig:simple_locus}; they are the same for the two sides as the SNPs used are the same.}
+\caption{\label{fig:weaker_locus}Probabilities of association of the $50$ first SNPs with a single trait estimated using the original LOCUS method (left) and using our ``averaged LOCUS'' proposal (right), which implements the weighted averaged described in Section \ref{sec:var_inf}. In red are the five SNPs simulated as associated with the response, they are also marked with a black cross. Underneath are the correlation patterns of the SNPs, they are autocorrelated with an autocorrelation between $0.95$ and $0.99$, which is weaker than for Figure \ref{fig:simple_locus}; they are the same for the two sides as the SNPs used are the same.}
 \end{figure}
 
 Figure \ref{fig:weaker_locus} shows the probabilities of association of the first $50$ SNPs, out of $500$ simulated. The SNPs have weaker correlations as for Figure \ref{fig:simple_locus}, but the same SNPs are associated with the trait. The other settings are the same as for Figure \ref{fig:simple_locus}.
 
-With weaker correlations, it is easier for LOCUS to find associated SNPs as it manages to have three actually associated SNPs, but the correlations are still too strong and mislead LOCUS into wrongfully selecting two SNPs. Averaged LOCUS, however, finds the five right associated SNPs, and we can still read the uncertainty around the middle correlation block, where a non associated SNP has a non-null probability of association.
+With weaker correlations, it is easier for LOCUS to find associated SNPs, it selects three associated SNPs, but the correlations are still too strong and mislead LOCUS into wrongfully selecting two SNPs. Averaged LOCUS, however, finds the five associated SNPs, and we can still read the uncertainty around the middle correlation block, where a non associated SNP has a non-null probability of association.
 
 \section{Variable selection performance} \label{sec:varSelPerf}
 
-In this section, we compare five methods: classical variational inference (LOCUS), averaged variational inference (averaged LOCUS), their simulated annealing augmented counterparts (annealed LOCUS and averaged annealed LOCUS), and averaged variational inference when all the weights are equal. We choose four different situations: two of the settings involve $15$ associated SNPs (settings A, B), whereas the remaining two have $50$ associated SNPs (settings C, D). For a pair of settings, the proportion of the response variance explained by the SNPs is below $50\%$ (settings A, C) and, for another pair, below $80\%$ (settings B, D). For simplicity, we consider only one trait. The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, and a geometric spacing with ten steps. The sensitivity to these choices could be assessed in dedicated experiments. To better understand the effect of the correlations between the SNPs, Figures \ref{fig:ROC_highCorr}, \ref{fig:ROC_mediumCorr}, \ref{fig:ROC_lowCorr},  and \ref{fig:ROC_mixedCorr} have high, moderate, low, and mixed correlations respectively.  We truncate the ROC curves, as we are interested only in the performance of the methods for small false positive rate.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=5in]{images/WeightsMode.pdf}
-\caption{\label{fig:weightsModes}Weights attributed to the $100$ obtained modes by averaged LOCUS, with correlations between SNPs between $0.95$ and $0.99$, $15$ associated SNPs, and a proportion of the response variance explained by the SNPs below $50\%$.}
-\end{figure}
+In this section, we compare five methods: classical variational inference (LOCUS), averaged variational inference (averaged LOCUS), their simulated annealing augmented counterparts (annealed LOCUS and averaged annealed LOCUS), and averaged variational inference when all the weights are equal. We generate $300$ observations of $500$ autocorrelated SNPs, by correlations block of ten SNPs. For simplicity, we consider only one trait. We choose four different situations: two of the settings involve $15$ associated SNPs (settings A, B), whereas the remaining two have $50$ associated SNPs (settings C, D). For a pair of settings, the proportion of response variance explained by the SNPs is below $50\%$ (settings A, C) and, for another pair, below $80\%$ (settings B, D). We use four different autocorrelation settings between the SNPs: we first use highly correlated SNPs (correlations between $0.95$ and $0.99$), then, moderately high correlated SNPs (correlations between $0.7$ and $0.95$), thirdly, weakly correlated SNPs (correlations between $0.5$ and $0.7$), and finally, a mix of the three previous variants (correlations between $0.5$ and $0.99$). The simulated annealing augmented methods have an initial temperature fixed at $T_L = 2$, and a geometric spacing with ten steps. The sensitivity to these choices could be assessed in dedicated experiments. To better understand the effect of the correlations between the SNPs, Figures \ref{fig:ROC_highCorr}, \ref{fig:ROC_mediumCorr}, \ref{fig:ROC_lowCorr},  and \ref{fig:ROC_mixedCorr} have high, moderate, low, and mixed correlations respectively.  We truncate the ROC curves, as we are interested only in the performance of the methods for small false positive rate.
 
 \begin{figure}[h!]
 \centering
@@ -490,8 +488,8 @@ In this section, we compare five methods: classical variational inference (LOCUS
 \put(-190,190){C}
 \includegraphics[width=2.8in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_095_099.pdf}
 \put(-190,190){D}
-\caption{\label{fig:ROC_highCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.95$ and $0.99$.}
+\caption{\label{fig:ROC_highCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $15$ associated SNPs, Left column: maximum response variance $ = 0.5$,
+Bottom row: $50$ associated SNPs, Right column: maximum response variance $ = 0.8$. The correlations between the SNPs are between $0.95$ and $0.99$.}
 \end{figure}
 
 Figure \ref{fig:ROC_highCorr} shows the variable selection performance in terms of ROC curves for the five methods, for each of the four settings. The correlations between the SNPs are high, between $0.95$ and $0.99$.
@@ -504,7 +502,13 @@ Third, annealed LOCUS outperforms LOCUS. The simulated annealing step allows the
 
 Fourth, in the less sparse setting with $50\%$ of variance explained by the predictors (setting C), the simulated effect sizes are weaker and all methods show similar, lower, performances: the averaging or annealing procedures do not lead to much improvement.
 
-Fifth, averaging over all the modes, without considering any weights, seems to perform better than averaged LOCUS. Figure \ref{fig:weightsModes} shows the weights attributed to each obtained mode by the averaged LOCUS method in setting A. More than half of the modes are attributed a weight equal to zero in the weighted average. Most of the modes are discarded in the averaged LOCUS method when they might have interesting information.
+Fifth, averaging over all the modes, considering all weights to be equal, seems to perform better than averaged LOCUS. Figure \ref{fig:weightsModes} shows the weights attributed to each obtained mode by the averaged LOCUS method in setting A. More than half of the modes are attributed a weight equal to zero in the weighted average. Most of the modes are discarded in the averaged LOCUS method when they might have interesting information. Throughout the hundred initialisations, $62$ different SNPs have been attributed a probability of association bigger than $0.8$. The weights being based on an approximation of the log-likelihood $\log p(\boldsymbol{y}\mid M_k)$, $M_k$ designating the model obtained from the $k^{\mathrm{th}}$ initialisation, if said model estimates that only a single SNP is active, then the likelihood will be very small, and $\mathcal{L}(q)$ will be nearly zero. This mode will not be considered in the averaged LOCUS, but it will be considered when we consider all weights to be equal.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=5in]{images/WeightsMode.pdf}
+\caption{\label{fig:weightsModes}Weights attributed to the $100$ obtained modes by averaged LOCUS, with correlations between SNPs between $0.95$ and $0.99$, $15$ associated SNPs, and a proportion of the response variance explained by the SNPs below $50\%$.}
+\end{figure}
 
 Finally, averaged annealed LOCUS performs similarly to averaged LOCUS: their confidence intervals overlap. In setting A, averaged annealed LOCUS might even be less powerful: the simulated annealing step might diminish the number of modes considered for the average, putting more weight on wrong models.
 
@@ -519,17 +523,17 @@ Finally, averaged annealed LOCUS performs similarly to averaged LOCUS: their con
 \put(-190,190){C}
 \includegraphics[width=2.8in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_07_095.pdf}
 \put(-190,190){D}
-\caption{\label{fig:ROC_mediumCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.7$ and $0.95$.}
+\caption{\label{fig:ROC_mediumCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $15$ associated SNPs, Left column: maximum response variance $ = 0.5$,
+Bottom row: $50$ associated SNPs, Right column: maximum response variance $ = 0.8$. The correlations between the SNPs are between $0.7$ and $0.95$.}
 \end{figure}
 
 Figure \ref{fig:ROC_mediumCorr} shows the variable selection performance in terms of the ROC curves for the five methods, for the same settings (A, B, C, D) than for Figure \ref{fig:ROC_highCorr}. The correlations between the SNPs are between $0.7$ and $0.95$.
 
 First, LOCUS is outperformed by the four other methods in settings A, B, and D. In setting C, the five methods seem to perform similarly. The correlations seem to be high enough to mislead LOCUS, but low enough so that averaging over multiple modes does not perform better than annealing LOCUS i.e., finding a single mode.
 
-Second, annealed LOCUS performs better than LOCUS in all settings,  the annealing helps the method find a more suitable mode. However, in setting C, their performance is similar.
+Second, annealed LOCUS performs better than LOCUS in all settings, the annealing helps the method find a more suitable mode. However, in setting C, their performance is similar. The simulated effect sizes are weaker and all methods show lower performances, the multimodality of the posterior must be such that the annealing does not have a strong impact on the optimization quality.
 
-Finally, averaged LOCUS, with or without weights, annealed LOCUS, and averaged annealed LOCUS perform similarly in all settings. The correlation between the SNPs doesn't make the averaging over multiple models worth doing. 
+Finally, averaged LOCUS, with or without equal weights, annealed LOCUS, and averaged annealed LOCUS perform similarly in all settings. The correlation between the SNPs is weak enough so that annealing LOCUS has a comparable variable selection performance as averaged LOCUS and averaged annealed LOCUS. 
 
 \begin{figure}[h!]
 \centering
@@ -542,15 +546,15 @@ Finally, averaged LOCUS, with or without weights, annealed LOCUS, and averaged a
 \put(-190,190){C}
 \includegraphics[width=2.8in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_05_07.pdf}
 \put(-190,190){D}
-\caption{\label{fig:ROC_lowCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.7$.}
+\caption{\label{fig:ROC_lowCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $15$ associated SNPs, Left column: maximum response variance $ = 0.5$,
+Bottom row: $50$ associated SNPs, Right column: maximum response variance $ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.7$.}
 \end{figure}
 
 Figure \ref{fig:ROC_lowCorr} shows the ROC curves, representing the variable selection performance of the five methods, for the four settings (A, B, C, D), as in Figure \ref{fig:ROC_highCorr}. The correlations between the SNPs are between $0.5$ and $0.7$.
 
-LOCUS is outperformed by the other methods in settings A, B, and D, as in \ref{fig:ROC_mediumCorr}. In setting C, all five methods seem to have a similar performance.
+LOCUS is outperformed by the other methods in settings A, B, and D, as in Figure \ref{fig:ROC_mediumCorr}. In setting C, all five methods seem to have a similar performance.
 
-Then, the performances of averaged LOCUS, annealed LOCUS, averaged annealed LOCUS, and averaged LOCUS with equal weights are indistinguishable. They perform extremely similarly. The correlations between the SNPs are weak enough to able the annealing to find a mode as suited for the data as the averaging methods do.
+Then, the performances of averaged LOCUS, annealed LOCUS, averaged annealed LOCUS, and averaged LOCUS with equal weights are indistinguishable. The correlations between the SNPs are weak enough for the four methods to perform similarly.
 
 \begin{figure}[h!]
 \centering
@@ -563,15 +567,15 @@ Then, the performances of averaged LOCUS, annealed LOCUS, averaged annealed LOCU
 \put(-190,190){C}
 \includegraphics[width=2.8in, bb= 0 0 7.24in 7.24in]{images/ROC_50_08_05_099.pdf}
 \put(-190,190){D}
-\caption{\label{fig:ROC_mixedCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $p_0 = 15$, Left column: Max tot. PVE$ = 0.5$,
-Bottom row: $p_0 = 50$, Right column: Max tot. PVE$ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.99$.}
+\caption{\label{fig:ROC_mixedCorr}Comparison of ROC curves between LOCUS, averaged LOCUS, the same two methods augmented with a simulated annealing step, and averaged LOCUS with equal weights for every initialisation, colored orange, blue, red, green, and purple respectively. Top row: $15$ associated SNPs, Left column: maximum response variance $ = 0.5$,
+Bottom row: $50$ associated SNPs, Right column: maximum response variance $ = 0.8$. The correlations between the SNPs are between $0.5$ and $0.99$.}
 \end{figure}
 
 Figure \ref{fig:ROC_mixedCorr} shows variable selection performances as ROC curves for the five methods, in four settings (A, B, C, D). The correlations between the SNPs are between $0.5$ and $0.99$, representing a mixture of the three previous experiments. The correlations in Figure \ref{fig:ROC_highCorr} are extreme, we should have results closer to those of Figures \ref{fig:ROC_mediumCorr} and \ref{fig:ROC_lowCorr}.
 
 LOCUS is outperformed by the four other methods in settings A, B, and D, but its performance seems to be similar to the four others in setting C. This goes with what we read in Figures \ref{fig:ROC_highCorr}, \ref{fig:ROC_mediumCorr}, and \ref{fig:ROC_lowCorr}.
 
-Averaged LOCUS, with or without weights, annealed LOCUS, and averaged annealed LOCUS have a similar performance. The weights do not improve the performance of the averaged LOCUS. These observations are similar to what we observed in Figures \ref{fig:ROC_mediumCorr} and  \ref{fig:ROC_lowCorr}. 
+Averaged LOCUS, with or without equal weights, annealed LOCUS, and averaged annealed LOCUS have a similar performance. The weights do not improve the performance of the averaged LOCUS. These observations are similar to what we observed in Figures \ref{fig:ROC_mediumCorr} and  \ref{fig:ROC_lowCorr}. 
 
 The correlations being between $0.5$ and $0.99$, they have a higher chance of being in the spectrum of the correlations of Figures \ref{fig:ROC_mediumCorr} and \ref{fig:ROC_lowCorr} than being in the spectrum of the correlations of Figure \ref{fig:ROC_highCorr}. The behaviour of the mixed correlations performances being similar to the performances of the weak and medium correlations makes sense. 
 
@@ -594,7 +598,7 @@ Second, averaged LOCUS probably best reflects the true posterior; it puts mass n
 
 Third, when LOCUS and averaged LOCUS disagree, the result of LOCUS is ``visible'' in the distribution of averaged LOCUS. Averaged LOCUS considers the mode obtained from LOCUS in its averaging.
 
-Finally, the shift between the simulated $\beta_1$ and the algorithms yields is in the wrong way. It is normal to have a shrinkage when estimating simulated values with inference, but the shift is supposed to be in the direction of zero. The algorithms, both MCMC, LOCUS, and averaged LOCUS , having wrongly not selected the fourth SNP as associated, they certainly compensated on $\beta_1$, hence why the estimated effect size $\beta_1$ is bigger than the simulated $\beta_4$. 
+Finally, the shift between the simulated $\beta_1$ and the algorithms yields is in the wrong way. It is normal to have a shrinkage when estimating simulated values with inference, but the shift is supposed to be in the direction of zero. The algorithms, both MCMC, LOCUS, and averaged LOCUS, having wrongly not selected the fourth SNP as associated, certainly compensated on the first SNP. The observations $\boldsymbol{y}$ should follow $\boldsymbol{y} \sim \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$, with $\varepsilon$ the error, $\beta_2$ and $\beta_3$ equal to zero, $\beta_1$ and $\beta_2$ bigger than zero. If the algorithms estimate $\beta_2$, $\beta_3$, and $\beta_4$ to be equal to zero, then they will estimate $\beta_4$ to be bigger than what it is supposed to be.
 
 \begin{figure}[h]
 \centering
@@ -604,7 +608,7 @@ Finally, the shift between the simulated $\beta_1$ and the algorithms yields is 
 
 Figure \ref{fig:weakCorr} shows LOCUS and averaged LOCUS estimated posteriors of $\boldsymbol{\beta}$, the histograms of the MCMC posteriors, and the simulated values of $\boldsymbol{\beta}$, for SNPs autocorrelated with a correlation coefficient of $0.9$, weaker than for Figure \ref{fig:no_ann}, and a stronger effect size for $\beta_4$.
 
-The weaker correlations and stronger effect size for $\beta_4$ allows the algorithms to find a better estimation of the simulated effect sizes $\boldsymbol{\beta}$. The active SNPs have been correctly estimated, and the inactive SNPs have been detected.
+The weaker correlations and stronger effect size for $\beta_4$ allow the algorithms to better estimate the simulated effect sizes $\boldsymbol{\beta}$. The active SNPs have been correctly estimated, and the inactive SNPs have been detected.
 
 LOCUS and averaged LOCUS yield similar posterior distributions for $\boldsymbol{\beta}$. Due to the correlation being weaker and the effect sizes being bigger, LOCUS can estimate the effect sizes just as well as averaged LOCUS does. 
 
@@ -619,9 +623,9 @@ Figure \ref{fig:ann} shows the same posteriors as Figure \ref{fig:no_ann}, but w
 
 For all four $\beta_s$, annealed LOCUS yields a posterior density that is aligned with averaged annealed LOCUS. The posterior given by annealed LOCUS tends to put mass at the same place than the averaged annealed LOCUS posterior.
 
-As for the non annealing methods, the simulated annealing augmented methods overlap the simulated values for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior with values concentrated around zero. As for Figure \ref{fig:no_ann}, the correlations were too strong and the effect sizes too weak for the algorithms to find a plausible estimation for $\beta_4$. And in the same way as in Figure \ref{fig:no_ann}, the fourth SNP not being recognised as associated, the algorithms must have compensated on the first SNP, overestimating its effect size $\beta_1$.
+As for the non annealing methods, the simulated annealing augmented methods overlap the simulated values for all $\beta_s$ except for $\beta_4$ where, the MCMC simulation as well as the augmented methods yield a posterior with values concentrated around zero. As for Figure \ref{fig:no_ann}, the correlations were too strong and the effect sizes too weak for the algorithms to find a suitable estimation for $\beta_4$. And in the same way as in Figure \ref{fig:no_ann}, the fourth SNP not being recognised as associated, the algorithms must have compensated on the first SNP, overestimating its effect size $\beta_1$.
 
-When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, one sees that the annealing changed the posterior densities. In Figure \ref{fig:no_ann}, the posterior density of $\beta_1$ and $\beta_3$ were on a wrong mode, but in Figure \ref{fig:ann} they overlap the simulated $\boldsymbol{\beta}$. 
+When comparing the plots of Figures \ref{fig:no_ann} and \ref{fig:ann}, one sees that the annealing changed the posterior densities. In Figure \ref{fig:no_ann}, the posterior densities of the LOCUS method for $\beta_1$ and $\beta_3$ were putting weight on different mode than averaged LOCUS, but in Figure \ref{fig:ann} the posterior density of the annealed LOCUS method put weight in the same places the averaged annealed LOCUS has the most weight. 
 
 \section{Running times}
 
@@ -634,7 +638,7 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 \caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with an autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores.}
 \end{figure}
 
-Figure \ref{fig:runtime} shows the running times of the methods, computed on $300$ observations of $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, measured for $50$ replications. For comparison, the runtime of calculating $100$ times the LOCUS method before before performing a weighted average is shown on the same figure (Serial LOCUS). The advantage of paralleled implementation is highlighted as it takes more than twice as much time to compute $100$ iterations of the LOCUS method, one after another, than to compute the averaged LOCUS method.
+Figure \ref{fig:runtime} shows the running times of the methods, computed on $300$ observations of $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, measured for $50$ replications. For comparison, the runtime of calculating $100$ times the LOCUS method before performing a weighted average is shown on the same figure (Serial LOCUS). The advantage of paralleled implementation is highlighted as it takes more than twice as much time to compute $100$ iterations of the LOCUS method, one after another, than to compute the averaged LOCUS method with four cores.
 
 The averaged annealed LOCUS takes the longest to compute out of the first four methods, as on addition to averaging, the method starts every occurrence with an annealing step. The annealed LOCUS also takes more time to compute than the standard LOCUS method, which confirms the additional time needed for the averaged annealing LOCUS to complete, compared to the averaged LOCUS.
 
@@ -660,7 +664,7 @@ Our proposal, averaged LOCUS, outperforms the original LOCUS method in terms of 
 
 Hence, based on the runtime of the different methods, when the correlations between the SNPs is not extremely high, it is quicker to use annealed LOCUS than to use averaged LOCUS, and it has the same variable selection performance. However, on extremely strong correlated data, averaged LOCUS has a better performance than annealed LOCUS and averaged annealed LOCUS, and is quicker to compute than averaged annealed LOCUS.
 
-Several improvements may be considered. First, we also need to evaluate the method performance when considering more that one trait, i.e., $q > 1$. Real eQTL data are made of more than one trait so it would better assess the performance of the methods on relevant data.
+Several improvements may be considered. First, we also need to evaluate the method performance when considering more that one trait, i.e., $q > 1$. Real eQTL data are made of more than one trait so it would better assess the performance of the methods on relevant data. Based on \citet{glob_loc}, annealing should be important in the assessment of active SNPs.
 
 Second, we assumed that every model is a priori equiprobable in the averaged LOCUS procedure; other choices could be considered. For example, we could relate the model probability with the expected number of associated SNPs.
 
@@ -668,8 +672,7 @@ Third, for the annealing procedure, we have chosen a geometric schedule, a numbe
 
 Fourth, we would like to apply this method on real eQTL data.
 
-Finally, provided that all our experiences show good performance, we will optimise our code and integrate it in the \texttt{locus} package\\
- (http://github.com/hruffieux/locus).
+Finally, provided that all our experiences show good performance, we will optimise our code and integrate it in the \texttt{locus} package (http://github.com/hruffieux/locus).
 \newpage
 \bibliography{references}
 \bibliographystyle{apalike}
