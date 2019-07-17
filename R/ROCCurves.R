@@ -17,7 +17,7 @@ d <- 1; d0 <- 1 # Number of traits ; Number of active traits
 
 max_tot_pve <-  0.5 # max proportion of phenotypic variance explained by the active SNPs (0.5 or 0.8)
 
-min_rho <- 0.5; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99, 0.5-0.99)
+min_rho <- 0.55; max_rho <- 0.99; # Minimum and maximum correlation between the SNPs (0.5-0.7, 0.7-0.95, 0.95-0.99, 0.5-0.99)
 iter <- 50
 
 anneal <- c(1, 2, 10)
@@ -207,7 +207,7 @@ for(seed in sample(1:1e3,iter)){
 
   par(pty="m")
   
-  # plot(vec_w_part, main = "Weights attributed to each mode", xlab="Modes", ylab="Weigth", pch=20) # Plot the weights attributed to each mode
+  # plot(vec_w_part, main = "Weights attributed to each mode", xlab="Mode", ylab="Weight", pch=20) # Plot the weights attributed to each mode
   # boxplot(gam[,1:50], main="Probabilities of association", xlab="SNP", ylab="Probability of association") # Plot the boxplots of probabilities of association
   
   # plot(gam[,1], type='l',ylim=c(0,1), ylab="Probability of associaiton", main="Probability of association for each run of Averaged LOCUS") # Plot the modes yielded by the iterations

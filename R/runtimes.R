@@ -190,6 +190,6 @@ for(seed in sample(1:1e3,iter)){
 # Plot runtimes
 par(mfrow=c(1,1))
 
-boxplot(runtime_s, runtime_s_a, runtime_m, runtime_m_a, runtime_s_m,col=c("blue","green","orange","red", "mediumseagreen"),lend=1, main="Running times of the methods (in seconds)", xaxt='n',xlab="",ylab="Runtimes")
-axis(1,at=1:5,labels=c("LOCUS","Annealed \n LOCUS", "Averaged \n LOCUS","Averaged \n annealed \n LOCUS","Serial \n averaged \n LOCUS"), tick=F,pos=-0.4)
+boxplot(runtime_s, runtime_s_a, runtime_m, runtime_m_a, runtime_s_m,col=c("blue","green","orange","red", "mediumseagreen"),lend=1, main="Running times of the methods (in seconds)", xaxt='n',xlab="",ylab="Runtime", log = 'y')
+axis(1,at=1:5,labels=c("LOCUS","Annealed \n LOCUS", "Averaged \n LOCUS","Averaged \n annealed \n LOCUS","Serial \n averaged \n LOCUS"), tick=F,pos=0.023)
 
