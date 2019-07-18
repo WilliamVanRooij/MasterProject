@@ -447,9 +447,10 @@ Our ``averaged LOCUS'' method uses a weighted average over $100$ different initi
 
 With the original LOCUS method, the algorithm wrongly selects two SNPs and misses four SNPs simulated as associated with the response. This can be explained by the strong correlations in the block structure creating a highly multimodal posterior and misleading the algorithm.
 
-Our averaged variational inference algorithm (averaged LOCUS) does better; it identifies three of the five relevant SNPs. It also better conveys the block correlation structure in the probabilities of association as four SNPs of the middle block all have non null probabilities of association with the trait. 
+Our averaged variational inference algorithm (averaged LOCUS) does better; it identifies three of the five relevant SNPs. It also better conveys the block correlation structure in the probabilities of association as four SNPs of the middle block all have small but non null probabilities of association with the trait. 
 
-The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such.
+The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such. The two SNPs are highly correlated and their effect sizes are $\beta_{13} = 0.63$ and $\beta_{17} = -0.79$. The response $\boldsymbol{y}$ is related to the SNPs $\boldsymbol{X}$ with the model $\boldsymbol{y} \sim \boldsymbol{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$, with $\boldsymbol{\varepsilon}$ the error. As the two active SNPs are strongly correlated and ave opposite effect sizes, their effects ``cancels'' each other, as if they had small effect sizes.
+ 
 % This could be a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
 %
 %Figure \ref{fig:probablock} shows the probabilities of association of the second block of SNPs. The probabilities of association are not all null. One of the associated SNPs has a higher probability of being associated than the others. The uncertainty resulting from the high multimodality of the problem is represented here by the probabilities of association of the SNPs between the two associated SNPs that are all above zero. The algorithm couldn't determine which SNP was associated, the correlation between them being too strong.
@@ -459,6 +460,7 @@ The second correlation block should contain two associated SNPs, and both of the
 %\includegraphics[width=5in, bb=0 0 8in 4.5in]{images/proba_block.pdf}
 %\caption{\label{fig:probablock}Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}
 %\end{figure}
+
 However, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correlation in our situation is extremely high, but if we reduce it, the algorithm finds all the associated SNPs.
 
 \begin{figure}[h]
