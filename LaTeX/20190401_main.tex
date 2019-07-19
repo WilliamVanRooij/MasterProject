@@ -147,7 +147,7 @@ In our \textit{small n, large p, large q} situation, the computational cost of u
 \newpage
 \chapter{Hierarchical sparse regression for multiple responses}
 \section{Model}
-Let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be a centered design matrix, representing the candidate predictor SNPs, and let $\boldsymbol{y} = (y_1,\ldots,y_q)$ be a centered response matrix, representing the traits. We consider a hierarchical model, where each response $y_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\tau_t$, i.e.,
+Let $\boldsymbol{X }= (X_1,\ldots,X_p)$ be a centered design matrix, representing the candidate predictor SNPs, and let $\boldsymbol{y} = (y_1,\ldots,y_q)$ be a centered response matrix, representing the traits. We consider a hierarchical model, where each response $\boldsymbol{y}_t$ is linearly related with the predictors $\boldsymbol{X}$ and has a residual precision $\tau_t$, i.e.,
 \begin{equation*}
 \label{eq:model}
 \boldsymbol{y}_{n\times q} = \boldsymbol{X}_{n \times p}\;\boldsymbol{\beta}_{p \times q}+\boldsymbol{\epsilon}_{n \times q},\quad\boldsymbol{\epsilon}_t \sim \mathcal{N}(0,\tau_t^{-1}I_n),
@@ -449,7 +449,7 @@ With the original LOCUS method, the algorithm wrongly selects two SNPs and misse
 
 Our averaged variational inference algorithm (averaged LOCUS) does better; it identifies three of the five relevant SNPs. It also better conveys the block correlation structure in the probabilities of association as four SNPs of the middle block all have small but non null probabilities of association with the trait. 
 
-The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such. The two SNPs are highly correlated and their effect sizes are $\beta_{13} = 0.63$ and $\beta_{17} = -0.79$. The response $\boldsymbol{y}$ is related to the SNPs $\boldsymbol{X}$ with the model $\boldsymbol{y} \sim \boldsymbol{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$, with $\boldsymbol{\varepsilon}$ the error. As the two active SNPs are strongly correlated and ave opposite effect sizes, their effects ``cancels'' each other, as if they had small effect sizes.
+The second correlation block should contain two associated SNPs, and both of the methods seem to have failed to identify them as such. The two SNPs are highly correlated and their effect sizes are $\beta_{13} = 0.63$ and $\beta_{17} = -0.79$. The response $\boldsymbol{y}$ is related to the SNPs $\boldsymbol{X}$ with the model $\boldsymbol{y} \sim \boldsymbol{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$, with $\boldsymbol{\varepsilon}$ the error. As the two active SNPs are strongly correlated and have opposite effect sizes, they ``cancel'' each other, making it seem like they had small effect sizes.
  
 % This could be a scaling problem. As the averaged LOCUS yields two probabilities of association almost equal to one, the smaller probabilities of association seem negligible.
 %
@@ -461,7 +461,7 @@ The second correlation block should contain two associated SNPs, and both of the
 %\caption{\label{fig:probablock}Probabilities of association for the second block of SNPs, yielded by the averaged LOCUS method. The red crosses indicate the associated SNPs.}
 %\end{figure}
 
-However, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correlation in our situation is extremely high, but if we reduce it, the algorithm finds all the associated SNPs.
+Moreover, as we will see in Section \ref{sec:comparison}, when the correlations are too strong and the effect sizes are too small, our method can miss an associated SNP and compensate by adding more weight to the other SNPs. The correlation in our situation is extremely high, but if we reduce it, the algorithm finds all the associated SNPs.
 
 \begin{figure}[h]
 \centering
@@ -638,7 +638,7 @@ Our method, whether with simulated annealing or not, can be implemented in paral
 \centering
 \includegraphics[width=5in,bb= 0 0 7.24in 7.24in]{images/runtime.pdf}
 
-\caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores.}
+\caption{\label{fig:runtime} Running times, in seconds, of the methods: LOCUS (first), annealed LOCUS (second), averaged LOCUS (third), averaged annealed LOCUS (fourth), and $100$ iterations of LOCUS (fifth), computed on $300$ observations of $500$ SNPs. $15$ SNPs are associated with a single trait, and for the averaged versions, $100$ different initialisations, averaged over $50$ replications. The SNPs are correlated in blocks of ten with autocorrelation between $0.98$ and $0.99$. Up to $50\%$ of the response variance is explained by the SNPs. The times have been measured with an Intel Core i5, the methods computed in parallel used $4$ cores. The \textit{y}-axis has a logarithmic scale.}
 \end{figure}
 
 Figure \ref{fig:runtime} shows the running times of the methods, computed on $300$ observations of $500$ SNPs, $15$ SNPs associated with a single trait, and for the averaged versions, $100$ different initialisations, measured for $50$ replications. For comparison, the runtime of calculating $100$ times the LOCUS method before performing a weighted average is shown on the same figure (Serial LOCUS). The advantage of parallel implementation is highlighted, as it takes more than twice as much time to compute $100$ iterations of the LOCUS method, one after another, than to compute the averaged LOCUS method with four cores.

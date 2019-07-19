@@ -1,5 +1,6 @@
-library(parallel)
+# Plot probabilities of association of SNPs
 
+library(parallel)
 require(echoseq)
 require(locus)
 require(ROCR)
@@ -11,9 +12,9 @@ seed <- 167
 set.seed(seed);
 
 
-n <- 300; 
-p <- 500; p0 <- 5; 
-d <- 1; d0 <- 1
+n <- 300; # Nunmber of observations
+p <- 500; p0 <- 5; # Number of SNPs; Number of active SNPs
+d <- 1; d0 <- 1 # Number of traits; Number of active traits
 
 
 bool_anneal <- T
@@ -29,13 +30,13 @@ vec_rho <- runif(floor(p/10), min = 0.98, max = 0.99) # correlation coefficients
 
 nb_cpus <- 4;
 
-ind_d0 <-  sample(1:d, d0)
+ind_d0 <-  sample(1:d, d0) # active traits
 
-ind_p0 <- c(3,13,17,23,43)
+ind_p0 <- c(3,13,17,23,43) # Active SNPs
 
 p0_av <- 10
 
-vec_maf <- runif(p, 0.4, 0.5)
+vec_maf <- runif(p, 0.4, 0.5) # Frequency of minor allel
 
 vec_prob_sh <-  0.05 # proba that each SNP will be associated with another active phenotype
 

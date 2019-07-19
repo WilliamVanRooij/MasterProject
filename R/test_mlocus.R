@@ -1,3 +1,5 @@
+# Code used to test, not used to plot the images that are in the report. See other files for those.
+
 library(parallel)
 
 require(echoseq)
@@ -24,18 +26,6 @@ if(bool_anneal) {
 } else {
   anneal <- NULL
 }
-
-PROBA_ASSOCIATION <- TRUE
-ROCCURVES <- F
-RUNTIMES <- F
-
-
-
-# ================================================================================================================================================ #
-#                                                                                                                                                  #
-#                                                                  FUNCTIONS                                                                       #
-#                                                                                                                                                  #
-# ================================================================================================================================================ #
 
 
 log_sum_exp_ <- function(x) { # avoid numerical underflow or overflow

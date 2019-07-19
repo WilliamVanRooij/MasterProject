@@ -1,3 +1,5 @@
+# plot correlations of real data
+
 rm(list = ls())
 
 sim_data_dir <- "~/Documents/MasterProject/R/illustrations/"
